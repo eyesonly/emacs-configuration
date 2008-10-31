@@ -1,0 +1,70 @@
+# Once you've turned mod_proxy on in your environment, very important
+# to avoid inadvertantly being an open forward proxy!
+
+#LoadModule proxy_module modules/mod_proxy.so
+#LoadModule headers_module modules/mod_headers.so
+ExtendedStatus On
+
+<Location /server-status>
+  SetHandler server-status
+</Location>
+
+<Location /balancer-manager>
+  SetHandler balancer-manager
+</Location>
+
+ProxyRequests off
+
+<VirtualHost *:80>
+
+  ServerName birthdayjuggler.com
+  ServerAlias www.birthdayjuggler.com
+
+#    ProxyPass / http://127.0.0.1:8000/
+#    ProxyPassReverse / http://127.0.0.1:8000
+#    ProxyPreserveHost on
+  DocumentRoot /home/jonathan/code/jug_working_copy/juggler6
+  <Directory "/home/jonathan/code/jug_working_copy/juggler6">
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+  </Directory>
+
+  RewriteEngine On
+  <Proxy balancer://mongrel_cluster>
+    BalancerMember http://127.0.0.1:8000
+    BalancerMember http://127.0.0.1:8001
+    BalancerMember http://127.0.0.1:8002
+  </Proxy>
+
+  ProxyPass /balancer-manager !
+  ProxyPass /server-status !
+  ProxyPass / balancer://mongrel_cluster/
+  ProxyPassReverse / balancer://mongrel_cluster/
+
+  ErrorLog logs/birthdayjuggler_errors_log
+  CustomLog logs/birthdayjuggler_log combined
+
+# Check for maintenance file and redirect all requests
+  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+  RewriteRule ^.*$ /system/maintenance.html [L]
+
+# Rewrite index to check for static
+  RewriteRule ^/$ /index.html [QSA]
+
+# Rewrite to check for Rails cached page
+  RewriteRule ^([^.]+)$ $1.html [QSA]
+
+# Redirect all non-static requests to cluster
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/(.*)$ balancer://mongrel_cluster%{REQUEST_URI} [P,QSA,L]
+
+# Deflate
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/javascript text/css
+  BrowserMatch ^Mozilla/4 gzip-only-text/html
+  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+  BrowserMatch \\bMSIE !no-gzip !gzip-only-text/html
+
+ </VirtualHost>

@@ -1,0 +1,6 @@
+xterm*CursorColor: red
+xterm*Background: black
+xterm*Foreground: white
+xterm*ScrollBar: false
+xterm*SaveLines: 5000
+emacs*font:11x18

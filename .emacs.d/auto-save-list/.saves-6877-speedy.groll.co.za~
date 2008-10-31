@@ -1,0 +1,6 @@
+/var/log/Xorg.10.log
+/var/log/#Xorg.10.log#
+/var/log/syslog
+/var/log/#syslog#
+/var/log/Xorg.0.log
+/var/log/#Xorg.0.log#

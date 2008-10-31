@@ -1,0 +1,50 @@
+Activities:
+
+[X] Deliver Grove Letter
+[X] Phone Barclays
+[X] Cancel Joel
+
+
+[ ] Fix broken sound device
+[ ] do a reiserfsck on /dev/sda5
+
+[ ] Configure secure sending of mails?
+[ ] hobbix; design web shite
+
+[ ] Pay Rec of Rev
+[ ] Phone Lance
+[ ] Order USB skype device
+
+[ ] drop Steven a mail telling him you found the earphones
+
+PHONE
+[ ] put the rails2 pdf on the E61i
+[ ] put an example spreadsheet on the E61i
+
+
+
+Basic
+
+[x] add the extra fields onto the user model;
+    [X] get the active record migration to work
+[ ] need to investigate a "change" users page - the users may want to turn off all reminders
+[ ] integrate blurb into a 'start' page;
+[ ] don't forget to create an online form that creates a mail, should they need to log a complaint etc.
+[ ] develop landing page
+[ ] develop add contact page
+[ ] develop change contact page
+
+Intermediate
+[ ] Mailer support for mailing out reminders
+
+Advanced
+[ ] Add in CSS - basic
+[ ] CSS - Juggler graphic
+[ ] Text file export
+
+
+[ ] Deployment - QA server
+[ ] Deployment - Production
+
+[ ] AJAX ?? on landing / contact page
+[ ] export to PDF

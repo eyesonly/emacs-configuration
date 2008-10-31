@@ -1,0 +1,10 @@
+<p>Click on a composer's name to see all of that composer's works.</p>
+<ul>
+  <% @composers.each do |composer| %>
+  <li><%= link_to "#{composer.first_name} #{composer.last_name}",
+                  :controller => "composer",
+                  :action     => "show",
+                  :id         => composer.id %>
+  </li>
+  <% end %>
+</ul>

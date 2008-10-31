@@ -1,0 +1,583 @@
+;;----------------------------------------------------------------------------
+;; To detect which environment the .emacs is running in - aquamacs? linux?
+;;----------------------------------------------------------------------------
+(defvar aquamacs-p (string-match "Aquamacs" (version)))
+
+;;----------------------------------------------------------------------------
+;; Cut and paste interaction (not for aquamacs)
+;;----------------------------------------------------------------------------
+(cond
+ ((eq aquamacs-p 'nil)
+
+;; Cut and paste interaction
+'' (setq x-select-enable-clipboard t) ; as above
+'' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+
+;; turn off toolbar
+(tool-bar-mode 0)
+ )
+)
+
+;;----------------------------------------------------------------------------
+;; run emacs as a server so that emacsclient can connect
+;;----------------------------------------------------------------------------
+(server-start)
+
+;;----------------------------------------------------------------------------
+;; post mode for mail editing under mutt
+;;----------------------------------------------------------------------------
+(load "~/lisp/post-2.4/post")
+; (defadvice server-process-filter (after post-mode-message first activate)
+;    "If the buffer is in post mode, overwrite the server-edit
+;    message with a post-save-current-buffer-and-exit message."
+;    (if (eq major-mode 'post-mode)
+;        (message
+;         (substitute-command-keys "Type \\[describe-mode] for help composing; \\[post-save-current-buffer-and-exit] when done."))))
+;;; ; This is also needed to see the magic message.  Set to a higher
+;;; ; number if you have a faster computer or read slower than me.
+
+; (font-lock-verbose 1000)
+ (setq server-temp-file-regexp "mutt-")
+ (add-hook 'server-switch-hook
+         (function (lambda()
+                     (cond ((string-match "Post" mode-name)
+                            (post-goto-body))))))
+(add-to-list 'auto-mode-alist '("/mutt" . post-mode))
+
+;; Customize post mode a bit.
+(defun my-post-mode-hook ()
+  ;Add a key binding for ispell-buffer.
+  (local-set-key (kbd "C-c z") 'server-edit)
+  (local-set-key (kbd "C-c y") 'ispell-message)
+  (local-set-key (kbd "C-c x") 'ispell-buffer)
+;;   (auto-fill-mode)
+)
+(add-hook 'post-mode-hook 'my-post-mode-hook)
+
+;;----------------------------------------------------------------------------
+;; All of the code below from
+;; http://blog.katipo.co.nz/?p=38
+;;----------------------------------------------------------------------------
+
+;; turn off toolbar
+(tool-bar-mode 0)
+
+;;----------------------------------------------------------------------------
+;; Set up syntax highlighting (font-lock)
+;;----------------------------------------------------------------------------
+
+(cond ((fboundp 'global-font-lock-mode)
+       ;; Turn on font-lock in all modes that support it
+       (global-font-lock-mode t)
+       ;; Maximum colors
+       (setq font-lock-maximum-decoration t)))
+
+
+(add-hook 'text-mode-hook
+          (function
+           (lambda ()
+             (auto-fill-mode)
+             )))
+
+;; Set up frame position and coloring
+;; (setq default-frame-alist
+;;       '(
+;;        (background-color . "black")
+;;        (foreground-color . "green")
+;;         ))
+
+;;;
+;; css mode
+(setq cssm-indent-function 'cssm-c-style-indenter)
+
+;;;
+;; ruby mode
+(autoload 'ruby-mode "ruby-mode" "Load ruby-mode")
+(add-hook 'ruby-mode-hook 'turn-on-font-lock)
+
+;; associate ruby-mode with .rb files and .rjs files
+(add-to-list 'auto-mode-alist '(".rb$" . ruby-mode))
+(add-to-list 'auto-mode-alist '(".rjs$" . ruby-mode))
+(add-to-list 'auto-mode-alist '(".rake$" . ruby-mode))
+
+(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+                                     interpreter-mode-alist))
+
+;; Ruby-Interpreter:
+(autoload 'run-ruby "inf-ruby"
+  "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+  "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (inf-ruby-keys)
+             ))
+
+
+(require 'ruby-electric)
+(ruby-electric-mode t)
+
+;;{BEGIN Commented out for testing nxml mode
+;; ;;;
+;; ;; mmm mode for editing rhtml files
+;; (add-to-list 'load-path "~/lisp/mmm-mode-0.4.8/share/emacs/site-lisp")
+;; (require 'mmm-mode)
+;; (require 'mmm-auto)
+;; (setq mmm-global-mode 'maybe)
+;; (setq mmm-submode-decoration-level 2)
+;; ;; (set-face-background 'mmm-output-submode-face  "Black")
+;; ;; (set-face-background 'mmm-code-submode-face    "Black")
+;; ;; (set-face-background 'mmm-comment-submode-face "Black")
+;; ;; (set-face-foreground 'mmm-output-submode-face "Green")
+;; ;; (set-face-foreground 'mmm-code-submode-face "Green")
+;; ;; (set-face-foreground 'mmm-comment-submode-face "Red")
+;; (set-face-background 'mmm-output-submode-face  "Yellow")
+;; (set-face-background 'mmm-code-submode-face    "Yellow")
+;; (set-face-background 'mmm-comment-submode-face "Yellow")
+;; (set-face-foreground 'mmm-output-submode-face "Black")
+;; (set-face-foreground 'mmm-code-submode-face "Black")
+;; (set-face-foreground 'mmm-comment-submode-face "Black")
+;; (mmm-add-classes
+;;  '((erb-code
+;;     :submode ruby-mode
+;;     :match-face (("<%#" . mmm-comment-submode-face)
+;;                  ("<%=" . mmm-output-submode-face)
+;;                  ("<%"  . mmm-code-submode-face))
+;;     :front "<%[#=]?"
+;;     :back "-?%>"
+;;     :insert ((?% erb-code       nil @ "<%"  @ " " _ " " @ "%>" @)
+;;              (?# erb-comment    nil @ "<%#" @ " " _ " " @ "%>" @)
+;;              (?= erb-expression nil @ "<%=" @ " " _ " " @ "%>" @))
+;;     )))
+;; (add-hook 'html-mode-hook
+;;           (lambda ()
+;;             (setq mmm-classes '(erb-code))
+;;             (mmm-mode-on)))
+;; (global-set-key [f8] 'mmm-parse-buffer)
+;;}END
+
+;;----------------------------------------------------------------------------
+;; nxml mode - as per platypope and nxml mode, except I use nxhtml mode
+;;----------------------------------------------------------------------------
+;; Setup to get sane flyspell everywhere
+(require 'flyspell)
+
+(setq flyspell-mouse-map
+      (let ((map (make-sparse-keymap)))
+        (define-key map [down-mouse-3] #'flyspell-correct-word)
+        map))
+
+;; for now (add-hook 'font-lock-mode-hook 'flyspell-prog-mode)
+;;
+
+   (load "~/lisp/nxml/autostart.el")
+   (load "~/lisp/misc/xml-fragment.el")
+(require 'xml-fragment)
+
+(defvar nxml-mode-abbrev-table
+  (let (table)
+    (define-abbrev-table 'table ())
+    table)
+  "Abbrev table in use in ruby-mode buffers.")
+
+(add-hook 'nxml-mode-hook 'llasram/nxml-set-abbrev-table)
+(defun llasram/nxml-set-abbrev-table ()
+  (setq local-abbrev-table nxml-mode-abbrev-table))
+
+(add-hook 'nxml-mode-hook 'xml-fragment-mode-on-maybe)
+
+;;jonathan - to investigate where flyspell-prog-text-faces comes from
+(add-to-list 'flyspell-prog-text-faces 'nxml-text-face)
+
+(defun nxml-fontify-mode ()
+  (nxml-mode)
+  (mmm-mode-on)
+  (font-lock-fontify-buffer)
+  (nxml-fontify-buffer))
+
+;; Destroy!
+(setq magic-mode-alist
+      '(("%![^V]" . ps-mode)
+        ("# xmcd " . conf-unix-mode)))
+
+;; Key bindings
+(add-hook 'nxml-mode-hook 'llasram/nxml-extra-keys)
+(defun llasram/nxml-extra-keys ()
+  (define-key nxml-mode-map "\M-h" 'backward-kill-word)
+  (define-key nxml-mode-map "\C-m" 'newline-and-indent))
+
+
+;;----------------------------------------------------------------------------
+;; end of nxml mode
+;;----------------------------------------------------------------------------
+
+
+;;(add-to-list 'auto-mode-alist '("\\.rhtml$" . html-mode))
+
+
+;;extra additions for mmm mode from http://www.credmp.org/index.php/2006/11/28/ruby-on-rails-and-emacs/
+;; (set-face-background 'mmm-output-submode-face  "LightGrey")
+;; (set-face-background 'mmm-code-submode-face    "white")
+;; (set-face-background 'mmm-comment-submode-face "lightgrey")
+
+;; shortcut to reparse the buffer
+
+
+;;;
+ ;; yaml mode
+ (autoload 'yaml-mode "yaml-mode" "YAML" t)
+ (setq auto-mode-alist
+       (append '(("\\.yml$" . yaml-mode)) auto-mode-alist))
+
+;;;
+ ;; rails mode
+ (defun try-complete-abbrev (old)
+   (if (expand-abbrev) t nil))
+
+ (setq hippie-expand-try-functions-list
+       '(try-complete-abbrev
+         try-complete-file-name
+         try-expand-dabbrev))
+
+  (setq load-path (cons "~/lisp/snippet" load-path))
+  (setq load-path (cons "~/lisp/emacs-rails-0.5.99.5" load-path))
+  (setq load-path (cons "~/lisp/find-recursive" load-path))
+  (require 'rails)
+;;   (setq rails-use-mongrel t)
+
+ ;; make #! scripts executable after saving them
+ (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+;;----------------------------------------------------------------------------
+;; ECB and its dependancies - textmate-like sidebar
+;;----------------------------------------------------------------------------
+
+;; wordwrap when vertically seperated buffer
+(setq truncate-partial-width-windows nil)
+
+;; Load CEDET
+(load-file "~/lisp/cedet-1.0pre4/common/cedet.el")
+
+;; Enabling various SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
+;; Select one of the following:
+
+;; * This enables the database and idle reparse engines
+;;(semantic-load-enable-minimum-features)
+
+;; * This enables some tools useful for coding, such as summary mode
+;;   imenu support, and the semantic navigator
+(semantic-load-enable-code-helpers)
+
+;; * This enables even more coding tools such as the nascent intellisense mode
+;;   decoration mode, and stickyfunc mode (plus regular code helpers)
+;; (semantic-load-enable-guady-code-helpers)
+
+;; * This turns on which-func support (Plus all other code helpers)
+;; (semantic-load-enable-excessive-code-helpers)
+
+;; This turns on modes that aid in grammar writing and semantic tool
+;; development.  It does not enable any other features such as code
+;; helpers above.
+;; (semantic-load-enable-semantic-debugging-helpers)
+
+
+(add-to-list 'load-path "~/lisp/ecb-2.32")
+(require 'ecb)
+;; (ecb-activate)
+;;(ecb-deactivate)
+
+;; From: http://www.postsubmeta.net/MyConfig/Emacs
+;; subversion support
+(require 'vc-svn)
+
+;;----------------------------------------------------------------------------
+;; delete this block soon
+;;----------------------------------------------------------------------------
+;;;----Think this is wrong: turn on rails mode after ecb, according to: http://sodonnell.wordpress.com/2007/07/03/emacs-and-rails/
+;; (require 'snippet)
+;; (require 'find-recursive)
+;; (require 'rails)
+
+
+;;----------------------------------------------------------------------------
+;; to investigate when I have the time
+;;----------------------------------------------------------------------------
+;; tabs for buffers
+;;(require 'tabbar)
+;;(tabbar-mode)
+
+
+
+;;----------------------------------------------------------------------------
+;; From: http://wiki.rubyonrails.org/rails/pages/HowToUseEmacsWithRails
+;;----------------------------------------------------------------------------
+
+;;should pull in html mode
+(autoload 'ruby-mode "ruby-mode" "Ruby editing mode." t)
+(setq auto-mode-alist  (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '("\\.rhtml$" . html-mode) auto-mode-alist))
+
+(modify-coding-system-alist 'file "\\.rb$" 'utf-8)
+(modify-coding-system-alist 'file "\\.rhtml$" 'utf-8)
+
+;;still not sure of the value of the following:
+;; (add-hook 'ruby-mode-hook
+;;           (lambda()
+;;             (add-hook 'local-write-file-hooks
+;;                       '(lambda()
+;;                          (save-excursion
+;;                            (untabify (point-min) (point-max))
+;;                            (delete-trailing-whitespace)
+;;                            )))
+;;             (set (make-local-variable 'indent-tabs-mode) 'nil)
+;;             (set (make-local-variable 'tab-width) 2)
+;;             (imenu-add-to-menubar "IMENU")
+;;             (require 'ruby-electric)
+;;             (ruby-electric-mode t)
+;;             ))
+
+;;----------------------------------------------------------------------------
+;; ri docs
+;;----------------------------------------------------------------------------
+;; (setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
+;; (autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+;;(setq ri-ruby-script "~/lisp/ri_docs/ri-emacs.rb")
+;;(autoload 'ri "~/lisp/ri_docs/ri-ruby.el" nil t)
+(setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
+(autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+;; (autoload 'ri "ri-ruby.el" nil t)
+
+;; RI everywhere!
+(define-key help-map "r" 'ri)
+
+;;keybinds - F1/F4/M-C-i
+;;(add-hook 'ruby-mode-hook (lambda () (local-set-key (quote [f1]) (ri))
+;;                           ))
+
+;;   (add-hook 'ruby-mode-hook (lambda ()
+;;                               (local-set-key 'f1 'ri)
+;;                               (local-set-key "\M-\C-i" 'ri-ruby-complete-symbol)
+;;                               (local-set-key 'f4 'ri-ruby-show-args)
+;;                               ))
+
+;;----------------------------------------------------------------------------
+;; xmp as per Pragdave - Gotoken's xmp - C-c C-b
+;; http://raa.ruby-lang.org/project/xmp
+;;----------------------------------------------------------------------------
+;; PragDave -- This li'l beaut runs Gotoken's xmp processor on a region.
+;; This adds the results of evaluating each line to the end of that line.
+ (defun ruby-xmp-region (reg-start reg-end)
+     (interactive "r")
+     (shell-command-on-region reg-start reg-end
+              "ruby -r /usr/pkg/lib/ruby/1.8/irb/xmp.rb  -n -e 'xmp($_, \"%l\t\t# %r\n\")'" t))
+
+;;----------------------------------------------------------------------------
+;; xmpfilter as per platypope - mfp's xmpfilter - C-c C-a - not working under aquamacs
+;; http://raa.ruby-lang.org/project/xmpfilter/
+;;----------------------------------------------------------------------------
+;; Pipe the current buffer through mfp's xmpfilter
+(defun ruby-annotate-buffer ()
+  "Send the current current buffer to the annotation filter."
+  (interactive "*")
+  (let ((initial-line (count-lines (point-min) (point)))
+        (initial-char (- (point) (point-at-bol))))
+    (shell-command-on-region (point-min) (point-max) "ruby /Users/jonathan/lisp/xmpfilter-0.3.0/xmpfilter.rb -a" nil t)
+    (goto-line initial-line)
+    (forward-char initial-char)))
+
+;;----------------------------------------------------------------------------
+;; Some ruby-specific key-bindings
+;;----------------------------------------------------------------------------
+(add-hook 'ruby-mode-hook 'jjg/ruby-extra-keys)
+(defun jjg/ruby-extra-keys ()
+;;   (define-key ruby-mode-map "\C-m"      'newline-and-indent)
+;;   (define-key ruby-mode-map " "         'ruby-electric-space)
+;;   (define-key ruby-mode-map [backspace] 'ruby-electric-backspace)
+;;   (define-key ruby-mode-map "\C-h"      'ruby-electric-backspace)
+;;   (define-key ruby-mode-map [delete]    'ruby-electric-delete)
+;;   (define-key ruby-mode-map "\C-d"      'ruby-electric-delete)
+  (define-key ruby-mode-map "\C-c\C-b"  'ruby-xmp-region)
+  (define-key ruby-mode-map "\C-c\C-a"  'ruby-annotate-buffer))
+
+;;----------------------------------------------------------------------------
+;; Jonathan specific
+;;----------------------------------------------------------------------------
+
+;; Jonathan's custom keybinds
+(global-set-key [?\C-,] 'comment-region)
+(global-set-key [?\C-.] 'uncomment-region)
+(global-set-key (kbd "C-c e") 'ecb-activate)
+(global-set-key (kbd "C-c d") 'ecb-deactivate)
+
+;;kill ring popup
+(global-set-key "\C-cw" '(lambda ()
+                           (interactive)
+                           (popup-menu 'yank-menu)))
+
+;;I like to toggle autofill a lot replace (set-fill-column) with this binding
+;; (global-set-key [?\C-x f] 'auto-fill-mode)
+(global-set-key "\C-xf" 'auto-fill-mode)
+
+;;all backup files go into my .emacs.d directory instead of littering filesystem
+(defun make-backup-file-name (file)
+(concat "~/.emacs.d/" (file-name-nondirectory file) "~"))
+
+;;and instead of littering the filesystem with semantic.cache's
+;; from: http://blog.ox.cx/2006/04/25/getting-rid-of-semanticcaches/
+(setq semanticdb-default-save-directory "~/tmp/semantic.cache")
+
+;; replace switch buffer / open buffer with ido - be powerful
+;; (add-to-list 'load-path "~/lisp/ido")
+;; (require 'ido)
+;; (ido-mode t)
+
+;; from: http://www.dotfiles.com/files/6/466_dot-emacs
+;;Enable iswitchb buffer mode. I find it easier to use than the
+;;regular buffer switching. While we are messing with buffer
+;;movement, the second sexp hides all the buffers beginning
+;;with "*". The third and fourth sexp does some remapping.
+;;My instinct is to go left-right in a completion buffer, not C-s/C-r
+(iswitchb-mode 1)
+(defun iswitchb-local-keys ()
+  (mapc (lambda (K)
+          (let* ((key (car K)) (fun (cdr K)))
+            (define-key iswitchb-mode-map (edmacro-parse-keys key)
+fun)))
+        '(("<right>" . iswitchb-next-match)
+          ("<left>"  . iswitchb-prev-match)
+          ("<up>"    . ignore             )
+          ("<down>"  . ignore             ))))
+(add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys)
+
+;;;;Completion ignores filenames ending in any string in this list.
+(setq completion-ignored-extensions
+      '(".o" ".elc" ".class" "java~" ".ps" ".abs" ".mx" ".~jv" ))
+
+;;;;We can also get completion in the mini-buffer as well.
+(icomplete-mode t)
+
+
+;;from http://www.joegrossberg.com/archives/000182.html
+;; gives list of recently opened files (only GNUemacs)
+ (require 'recentf)
+;; (setq recentf-auto-cleanup 'never) ;;To protect tramp
+ (add-to-list 'recentf-keep 'file-remote-p) ;; as per Michael Albinus
+;; (recentf-mode 1)
+ (setq recentf-max-menu-items 25)
+ (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+ (add-hook 'desktop-save-hook 'tramp-cleanup-all-buffers) ;; per Michael Albinus again
+
+;;----------------------------------------------------------------------------
+;; Specific to envirnoment
+;;----------------------------------------------------------------------------
+
+;; ;; auto-activate ECB when running graphically - this is still not working
+(cond
+ ((eq window-system 'x)
+  (custom-set-variables '(ecb-auto-activate t))
+ )
+)
+
+
+;; specific to linux
+(cond
+ ((string-match "linux" system-configuration)
+;;   (setq initial-frame-alist
+;;       `((left . 0) (top . 0)
+;;         (width . 250) (height . 70)))
+
+;; from: http://www.emacswiki.org/cgi-bin/wiki/CopyAndPaste
+(global-set-key [(shift delete)]   'clipboard-kill-region)
+(global-set-key [(control insert)] 'clipboard-kill-ring-save)
+(global-set-key [(shift insert)]   'clipboard-yank)
+
+;; unfill region seems to be in aquamacs but not linux
+(defun unfill-paragraph ()
+  (interactive)
+  (let ((fill-column (point-max)))
+  (fill-paragraph nil)))
+
+;; my own invention to make GNU emacs under linux work like aquamacs
+(global-set-key (kbd "s-c") 'clipboard-kill-ring-save)
+(global-set-key (kbd "s-v") 'clipboard-yank)
+(global-set-key (kbd "s-x") 'clipboard-kill-region)
+
+;;select whole buffer - S-a
+(global-set-key (kbd "s-a") 'mark-whole-buffer)
+
+;; set a font that I like (linux only)
+(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
+
+  )
+)
+
+;; specific to sparc hardware
+(cond
+ ((string-match "sparc" system-configuration)
+
+;;    make alt the meta key - http://www.emacswiki.org/cgi-bin/wiki/MetaKeyProblems
+(setq x-alt-keysym 'meta)
+  )
+)
+
+;;----------------------------------------------------------------------------
+;; From: http://www.emacswiki.org/cgi-bin/wiki/TrampMode sudo find file as root
+;;----------------------------------------------------------------------------
+;; (defvar find-file-root-prefix (if (featurep 'xemacs) "/[sudo/root@localhost]" "/sudo:root@localhost:" )
+;;   "*The filename prefix used to open a file with `find-file-root'.")
+
+;; (defvar find-file-root-history nil
+;;   "History list for files found using `find-file-root'.")
+
+;; (defvar find-file-root-hook nil
+;;   "Normal hook for functions to run after finding a \"root\" file.")
+
+;; (defun find-file-root ()
+;;   "*Open a file as the root user.
+;;    Prepends `find-file-root-prefix' to the selected file name so that it
+;;    maybe accessed via the corresponding tramp method."
+
+;;   (interactive)
+;;   (require 'tramp)
+;;   (let* ( ;; We bind the variable `file-name-history' locally so we can
+;;          ;; use a separate history list for "root" files.
+;;          (file-name-history find-file-root-history)
+;;          (name (or buffer-file-name default-directory))
+;;          (tramp (and (tramp-tramp-file-p name)
+;;                      (tramp-dissect-file-name name)))
+;;          path dir file)
+
+;;     ;; If called from a "root" file, we need to fix up the path.
+;;     (when tramp
+;;       (setq path (tramp-file-name-path tramp)
+;;             dir (file-name-directory path)))
+
+;;     (when (setq file (read-file-name "Find file (UID = 0): " dir path))
+;;       (find-file (concat find-file-root-prefix file))
+;;       ;; If this all succeeded save our new history list.
+;;       (setq find-file-root-history file-name-history)
+;;       ;; allow some user customization
+;;       (run-hooks 'find-file-root-hook))))
+
+;; (global-set-key [(control x) (control y)] 'find-file-root)
+
+
+;;----------------------------------------------------------------------------
+;; Maximise window at start - fine under linux; too large under aquamacs
+;;----------------------------------------------------------------------------
+   (add-to-list 'load-path "~/lisp/maxframe")
+   (require 'maxframe)
+   (add-hook 'window-setup-hook 'maximize-frame t)
+
+;;----------------------------------------------------------------------------
+;; I keep customization in a separate file (aquamacs is different)
+;;----------------------------------------------------------------------------
+;;Load customization file
+(cond
+ ((eq aquamacs-p 'nil)
+
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load-file custom-file)
+
+))

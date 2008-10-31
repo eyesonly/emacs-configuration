@@ -1,0 +1,8 @@
+class AddUserFields < ActiveRecord::Migration
+  def self.up
+    add_column :reminder_owner, reminder_days
+  end
+
+  def self.down
+  end
+end

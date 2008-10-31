@@ -1,0 +1,4 @@
+/sudo:root@localhost:/etc/apache2/httpd.conf
+/tmp/#!sudo:root@localhost:!etc!apache2!httpd.conf#
+/sudo:root@localhost:/etc/hosts
+/tmp/#!sudo:root@localhost:!etc!hosts#

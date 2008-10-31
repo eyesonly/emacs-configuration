@@ -1,0 +1,19 @@
+Fields needed on *USERS*
+
+
+- Send email reminders to me about all my contacts birthdays         REMINDER_OWNER(0,1)
+- No thanks, I don't want reminders mails
+
+
+  - Further variation: Number of days before birthday to send mail     REMINDER_DAYS(INT)
+   (1-14)
+
+
+
+- Send a mail to each contact wishing them happy birthday from me    REMINDER_CONTACT(0,1)
+- No thanks, I will handle this in my own way
+
+ 
+
+
+Fields needed on *CONTACTS*

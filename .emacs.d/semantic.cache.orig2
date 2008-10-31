@@ -1,0 +1,15 @@
+;; Object .emacs.d/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file ".emacs.d/"
+  :tables (list 
+   (semanticdb-table "custom.el"
+    :major-mode 'emacs-lisp-mode
+    :tags '(("custom-set-variables" code nil nil [1 423]) ("custom-set-faces" code nil nil [424 667]))
+    :file "custom.el"
+    :pointmax 668
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

@@ -1,0 +1,25 @@
+#!/usr/bin/python
+# *** ZSI 2.0 ***
+import sys
+from optparse import OptionParser
+
+# Import the generated client code
+from SquareService_services import *
+
+op = OptionParser(usage="%prog [options]")
+op.add option("-u", "--url", help="service URL", metavar="URL")
+
+options, args = op.parse_args()
+
+service = SquareServiceLocator().getSquarePortType(url=options.url, trace-file=sys.stdout)
+
+print ’\nAccessing service SquareService, method getSquare...’
+while 1:
+    x = float(raw_input("Enter x: "))
+
+    request = getSquareRequest()
+    request._x = x
+
+    response = service.getSquare(request)
+
+    print "x**2 =", response._return

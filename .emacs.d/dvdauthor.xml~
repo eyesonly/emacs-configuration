@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<dvdauthor dest="/exports/temp/pans_labyrinth/work/DVD/">
+ <vmgm />
+ <titleset>
+   <titles>
+     <audio lang="en" />
+     <pgc>
+       <vob file="/exports/temp/pans_labyrinth/PansLabyrinth/fin2.mpeg2" chapters="0:0" />
+       <post>jump title 2;</post>
+     </pgc>
+     <pgc>
+       <vob file="/exports/temp/pans_labyrinth/PansLabyrinth/finb.mpeg2" chapters="0:0" pause="5" />
+     </pgc>
+   </titles>
+ </titleset>
+</dvdauthor>

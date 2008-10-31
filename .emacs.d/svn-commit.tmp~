@@ -1,0 +1,8 @@
+
+--This line, and those below, will be ignored--
+
+D    app/views/layouts/default.html
+M    app/views/layouts/start.html.erb
+M    log/development.log
+A    hosts
+A    httpd.conf

@@ -1,0 +1,22 @@
+--- post.el.orig        2005-12-15 23:04:03.000000000 -0500
++++ post.el     2005-12-15 23:09:49.000000000 -0500
+@@ -1083,15 +1083,14 @@
+   "Check if attach appears in the body."
+   (post-goto-body)
+
+-  ;; Aargh it's annoying that how-many returns a string,
+-  ;; "13 occurences" instead of a number, 13.
+-  (let ((total-attach (string-to-int (how-many post-attachment-regexp))))
++  ;; how-many apparently used to return a string but now it
++  ;; returns an int so we don't need string-to-int.
++  (let ((total-attach (how-many post-attachment-regexp)))
+     ;; And this mess is just to catch the unlikely false alarm of
+     ;; "attach" being in the signature, but not in the body.
+     (if (> total-attach 0)
+        (progn (post-goto-signature)
+-              (> total-attach (string-to-int (how-many
+-                                              post-attachment-regexp)))))))
++              (> total-attach (how-many post-attachment-regexp))))))
+
+ (defun post-prompt-for-attachment ()
+   "Prompt for an attachment."

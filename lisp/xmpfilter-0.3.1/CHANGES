@@ -1,0 +1,3 @@
+
+User-visible changes since 0.3.0 (2006-10-16)
+* xmpfilter.rb --spec works on win32 too

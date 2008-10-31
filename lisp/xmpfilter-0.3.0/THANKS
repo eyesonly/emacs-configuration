@@ -1,0 +1,5 @@
+Some names forgotten, tell me if you care :) -- mfp
+
+rubykitch
+* expanded xmp3.rb (a previous version of xmpfilter.rb) to support RSpec expectations
+* wrote the elisp magic to use xmpfilter.rb with emacs

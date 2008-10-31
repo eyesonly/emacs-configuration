@@ -1,0 +1,4 @@
+/home/jonathan/ 192.168.7.0/24(rw,no_root_squash)
+/exports/ 192.168.7.0/24(rw,no_root_squash)
+/exports/lightfoot 192.168.7.0/24(rw,no_root_squash)
+/var/cache/apt/archives/ 192.168.7.0/24(rw,no_root_squash)

@@ -1,0 +1,18 @@
+xterm*background: black
+xterm*foreground: white
+#xterm*cursorColor: red
+#xterm*Xcursor.theme: redglass
+#XTerm*highlightColor:red
+XTerm*scrollBar: on
+XTerm*saveLines: 50000
+XTerm*rightScrollBar: true
+xterm_color*background: black
+xterm_color*foreground: white
+XTerm*font: -misc-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*
+XTerm*boldFont: -misc-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*
+XTerm*boldMode: false
+XTerm*geometry: 80x24
+xterm*VT100.geometry: 80x24
+emacs*font: 11x18
+Emacs*font: 11x18
+

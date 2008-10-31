@@ -1,0 +1,22 @@
+;; Object semantic.cache/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semantic.cache/"
+  :tables (list 
+   (semanticdb-table "47ruby.el"
+    :major-mode 'emacs-lisp-mode
+    :tags '(("ruby-mode" include nil nil [64 84]) ("ruby-electric" include nil nil [85 109]) ("inf-ruby" include nil nil [110 129]) ("rubydb" include nil nil [130 147]) ("ri-emacs" include nil nil [148 167]) ("add-to-list" code nil nil [189 243]) ("add-to-list" code nil nil [244 314]) ("add-to-list" code nil nil [315 374]) ("add-to-list" code nil nil [375 434]) ("ruby-in-literal" function nil nil [472 711]) ("ruby-electric-backspace" function (:arguments ("arg")) nil [757 1087]) ("ruby-electric-delete" function (:arguments ("arg")) nil [1089 1420]) ("ruby-annotate-buffer" function (:user-visible-flag t) nil [1473 1834]) ("ruby-electric-code-at-point-p" function nil nil [1991 2199]) ("ruby-calculate-indent" function (:arguments ("after" "ruby-indent-continuation-lines" "activate")) nil [2267 2594]) ("add-to-list" code nil nil [2684 2780]) ("mmm-add-classes" code nil nil [2921 3368]) ("add-to-list" code nil nil [3485 3711]) ("add-to-list" code nil nil [3726 3911]) ("add-to-list" code nil nil [3912 4100]) ("snippet-with-abbrev-table" code nil nil [4114 4337]) ("add-hook" code nil nil [4374 4425]) ("llasram/ruby-extra-keys" function nil nil [4426 4904]) ("define-key" code nil nil [4924 4953]))
+    :file "47ruby.el"
+    :pointmax 4954
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "35nxml.el"
+    :major-mode 'emacs-lisp-mode
+    :tags '(("orequire" code nil nil [46 67]) ("xml-fragment" include nil nil [68 91]) ("nxml-mode-abbrev-table" variable (:default-value (let (table) (define-abbrev-table (quote table) nil) table)) nil [93 232]) ("add-hook" code nil nil [234 291]) ("llasram/nxml-set-abbrev-table" function nil nil [292 383]) ("add-hook" code nil nil [385 439]) ("add-to-list" code nil nil [441 496]) ("nxml-fontify-mode" function nil nil [498 609]) ("setq" code nil nil [623 713]) ("add-hook" code nil nil [731 782]) ("llasram/nxml-extra-keys" function nil nil [783 929]))
+    :file "35nxml.el"
+    :pointmax 949
+    )
+   )
+  :file "!home!jonathan!fruitcake!linux!emacs!platypope!dotemacs!.emacs.d!semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

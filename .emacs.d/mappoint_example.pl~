@@ -1,0 +1,30 @@
+use WebService::Mappoint;
+use MIME::Base64;
+
+my $render = new WebService::Mappoint::Render;
+
+my $map = $render->GetMap(
+        view => [
+                MapView => [
+                        CenterPoint => {
+                                Latitude => 52.1309,
+                                Longitude => 5.42743
+                        },
+                        Scale => 2000000
+                ],
+        ],
+        options => [
+                Format => [
+                        Width => 500,
+                        Height => 500
+                ],
+                GeoDataSource => [
+                        Name => 'MapPoint.EU'
+                ]
+        ]
+);
+
+my $image = decode_base64($map->result->{MapImage}{Image}{Bits});
+open(GIF, ">/tmp/image.gif");
+print(GIF $image);
+

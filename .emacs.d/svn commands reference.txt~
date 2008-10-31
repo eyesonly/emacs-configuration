@@ -1,0 +1,16 @@
+badapple:$ svnlook tree  /Users/jonathan/svn/
+
+svn import .emacs svn+ssh://jonathan@192.168.7.162/Users/jonathan/svn/emacs/trunk -m 'Initial import of .emacs from linux'
+jonathan@fruitcake:/export/samba/svn$ svnadmin create home_speedy
+
+jonathan@fruitcake:/export/samba/svn$ svnadmin create etc_speedy
+$ sudo svn import /etc svn+ssh://jonathan@192.168.7.157/export/samba/svn/etc_speedy/etc -m 'initial import of etc dir'
+
+svn import /etc svn+ssh://jonathan@192.168.9.6/export/samba/svn/etc_mail/etc -m 'linoide initial import of etc dir'
+
+
+/////
+ecb-tree-truncate-lines
+
+
+

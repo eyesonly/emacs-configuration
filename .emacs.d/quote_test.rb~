@@ -1,0 +1,18 @@
+
+  def quote_oscar(st)
+    puts st
+    if st?
+      st.sub(/oscar/i, "")
+      re = /#{st}/
+      found = []
+      self.oscar.foreach{ |e| push.found(e) if re.match(e)}
+      say.found[rand(found.size)] if found?
+      say "Sorry, no Oscar quote found" if !found
+    else
+    say self.next_oscar.to_s if config[:debug]
+    say "*yawn* Need botcoffee. And Oscar Wilde quote: "
+    say ('"' + self.oscar[rand(self.oscar.size)].to_s + '"')
+    self.next_oscar = self.next_oscar.tomorrow
+    say self.next_oscar.to_s if config[:debug]
+    end
+  end

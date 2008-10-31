@@ -1,0 +1,4 @@
+/sudo::/etc/exports
+/tmp/#!sudo::!etc!exports#
+/home/jonathan/Desktop/320GB geometry
+/home/jonathan/Desktop/#320GB geometry#

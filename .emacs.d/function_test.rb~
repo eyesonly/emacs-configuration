@@ -1,0 +1,7 @@
+def myfunc
+  puts "hello from myfunc"
+end
+
+
+myfunc
+myfunc

@@ -1,0 +1,4 @@
+## Medibuntu - Ubuntu 8.04 LTS "hardy heron"
+## Please report any bug on https://bugs.launchpad.net/medibuntu/
+deb http://packages.medibuntu.org/ hardy free non-free
+#deb-src http://packages.medibuntu.org/ hardy free non-free

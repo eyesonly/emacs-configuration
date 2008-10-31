@@ -1,0 +1,12 @@
+Hi
+
+I'm wasting some time this morning looking at *starting* to install an
+XI service. I've separated the disks that I inherited into different 'stacks' and am
+trying to make sense of the different groupings:
+
+(1) The most interesting are a pile in slim cases labeled
+ERP2005. Putting the first one in I see that it is Live Cache SPS07
+
+
+I have ignored the CRM, XI 2.0 (20021030), 4.5B (full set) disks, but
+if I've missed something that should be here, please let me know.

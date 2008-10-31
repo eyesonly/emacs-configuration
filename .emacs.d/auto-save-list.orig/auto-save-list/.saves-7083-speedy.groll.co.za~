@@ -1,0 +1,4 @@
+/etc/mtab
+/etc/#mtab#
+/boot/grub/menu.lst
+/boot/grub/#menu.lst#

@@ -1,0 +1,2 @@
+#!/usr/bin/ruby
+open('problemfile.txt').each { |x| p x }

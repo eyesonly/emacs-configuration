@@ -1,0 +1,10 @@
+<subpictures>
+          <stream>
+             <textsub filename="postx-pla.sub" characterset="ISO8859-1"
+                fontsize="28.0" font="Arial.ttf" horizontal-alignment="left"
+                vertical-alignment="bottom" left-margin="60" right-margin="60"
+                top-margin="20" bottom-margin="30" movie-width="720" movie-height="576"
+                force="yes"
+             />
+      </stream>
+ </subpictures>

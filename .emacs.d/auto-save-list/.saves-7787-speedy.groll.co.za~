@@ -1,0 +1,6 @@
+/sudo::/etc/fstab
+/tmp/#!sudo::!etc!fstab#
+/home/jonathan/.xmodmap
+/home/jonathan/#.xmodmap#
+/sudo::/etc/exports
+/tmp/#!sudo::!etc!exports#
