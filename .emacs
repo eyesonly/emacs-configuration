@@ -115,9 +115,9 @@
              (inf-ruby-keys)
              ))
 
-
-;; (require 'ruby-electric)
-;; (ruby-electric-mode t)
+;; If you get a failure loading ruby electric on Ubuntu, install the ruby-elisp pkg
+ (require 'ruby-electric)
+ (ruby-electric-mode t)
 
 ;;{BEGIN Commented out for testing nxml mode
 ;; ;;;
