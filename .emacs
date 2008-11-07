@@ -116,8 +116,8 @@
              ))
 
 
-(require 'ruby-electric)
-(ruby-electric-mode t)
+;; (require 'ruby-electric)
+;; (ruby-electric-mode t)
 
 ;;{BEGIN Commented out for testing nxml mode
 ;; ;;;
