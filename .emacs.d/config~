@@ -1,8 +1,11 @@
 [core]
-        repositoryformatversion = 0
-        filemode = true
-        bare = false
-        logallrefupdates = true
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
 [remote "origin"]
-	url = git@gitorious.org:irbie/repository.git
+	url = /home/jonathan/silencio/git/emacs/jonathan//.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master

@@ -63,15 +63,11 @@ timeout         10
 ## e.g. kopt=root=/dev/hda1 ro
 ##      kopt_2_6_8=root=/dev/hdc1 ro
 ##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
-# kopt=root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro
-
-## Setup crashdump menu entries
-## e.g. crashdump=1
-# crashdump=0
+# kopt=root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro
 
 ## default grub root device
 ## e.g. groot=(hd0,0)
-# groot=(hd0,1)
+# groot=8f20488b-0560-4c0d-821f-47d091953d55
 
 ## should update-grub create alternative automagic boot options
 ## e.g. alternative=true
@@ -127,30 +123,52 @@ timeout         10
 
 ## ## End Default Options ##
 
-title           Ubuntu 8.04.1, kernel 2.6.24-19-generic
-root            (hd0,1)
-kernel          /vmlinuz-2.6.24-19-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash apm=power_off
+title           Ubuntu 8.10, kernel 2.6.27-7-generic
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.27-7-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro quiet splash
+initrd          /initrd.img-2.6.27-7-generic
+quiet
+
+title           Ubuntu 8.10, kernel 2.6.27-7-generic (recovery mode)
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.27-7-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro  single
+initrd          /initrd.img-2.6.27-7-generic
+
+title           Ubuntu 8.10, kernel 2.6.24-21-generic
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.24-21-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro quiet splash
+initrd          /initrd.img-2.6.24-21-generic
+quiet
+
+title           Ubuntu 8.10, kernel 2.6.24-21-generic (recovery mode)
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.24-21-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro  single
+initrd          /initrd.img-2.6.24-21-generic
+
+title           Ubuntu 8.10, kernel 2.6.24-19-generic
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.24-19-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro quiet splash
 initrd          /initrd.img-2.6.24-19-generic
 quiet
 
-title           Ubuntu 8.04.1, kernel 2.6.24-19-generic (recovery mode)
-root            (hd0,1)
-kernel          /vmlinuz-2.6.24-19-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro single apm=power_off
+title           Ubuntu 8.10, kernel 2.6.24-19-generic (recovery mode)
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.24-19-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro  single
 initrd          /initrd.img-2.6.24-19-generic
 
-title           Ubuntu 8.04.1, kernel 2.6.22-14-generic
-root            (hd0,1)
-kernel          /vmlinuz-2.6.22-14-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash apm=power_off
+title           Ubuntu 8.10, kernel 2.6.22-14-generic
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.22-14-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro quiet splash
 initrd          /initrd.img-2.6.22-14-generic
 quiet
 
-title           Ubuntu 8.04.1, kernel 2.6.22-14-generic (recovery mode)
-root            (hd0,1)
-kernel          /vmlinuz-2.6.22-14-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro single apm=power_off
+title           Ubuntu 8.10, kernel 2.6.22-14-generic (recovery mode)
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /vmlinuz-2.6.22-14-generic root=UUID=0b80f750-7555-4256-bdb0-586282ae3e9c ro  single
 initrd          /initrd.img-2.6.22-14-generic
 
-title           Ubuntu 8.04.1, memtest86+
-root            (hd0,1)
+title           Ubuntu 8.10, memtest86+
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
 kernel          /memtest86+.bin
 quiet
 
@@ -170,63 +188,19 @@ savedefault
 makeactive
 chainloader     +1
 
-title           Ubuntu 8.04, kernel 2.6.24-19-generic
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-19-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash
-initrd          /boot/initrd.img-2.6.24-19-generic
+title           Hardy - Ubuntu 8.04.1, kernel 2.6.24-21-generic (on /dev/sda5)
+uuid            8f20488b-0560-4c0d-821f-47d091953d55
+kernel          /boot/vmlinuz-2.6.24-21-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash
+initrd          /boot/initrd.img-2.6.24-21-generic
 quiet
 
-title           Ubuntu 8.04, kernel 2.6.24-19-generic (recovery mode)
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-19-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro single
-initrd          /boot/initrd.img-2.6.24-19-generic
 
-title           Ubuntu 8.04, kernel 2.6.24-18-generic
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-18-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash
-initrd          /boot/initrd.img-2.6.24-18-generic
-quiet
 
-title           Ubuntu 8.04, kernel 2.6.24-18-generic (recovery mode)
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-18-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro single
-initrd          /boot/initrd.img-2.6.24-18-generic
-
-title           Ubuntu 8.04, kernel 2.6.24-17-generic
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-17-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash
-initrd          /boot/initrd.img-2.6.24-17-generic
-quiet
-
-title           Ubuntu 8.04, kernel 2.6.24-17-generic (recovery mode)
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-17-generic root=UUID=4176abe1-84b3-40a3-9fe7-c88c5d7817d1 ro single
-initrd          /boot/initrd.img-2.6.24-17-generic
-
-title           Ubuntu 8.04, kernel 2.6.24-16-generic
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-16-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash
-initrd          /boot/initrd.img-2.6.24-16-generic
-quiet
-
-title           Ubuntu 8.04, kernel 2.6.24-16-generic (recovery mode)
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.24-16-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro single
-initrd          /boot/initrd.img-2.6.24-16-generic
-
-title           Ubuntu 8.04, kernel 2.6.22-14-generic
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.22-14-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro quiet splash
-initrd          /boot/initrd.img-2.6.22-14-generic
-quiet
-
-title           Ubuntu 8.04, kernel 2.6.22-14-generic (recovery mode)
-root            (hd0,4)
-kernel          /boot/vmlinuz-2.6.22-14-generic root=UUID=453ad08b-6787-4112-93f0-420a39703eee ro single
-initrd          /boot/initrd.img-2.6.22-14-generic
-
-title           Ubuntu 8.04, memtest86+
-root            (hd0,4)
+# This entry automatically added by the Debian installer for an existing
+# linux installation on /dev/sda5.
+title           Ubuntu 8.04.1, memtest86+ (on /dev/sda5)
+root            (hd0,1)
 kernel          /boot/memtest86+.bin
-quiet
+savedefault
+boot
 

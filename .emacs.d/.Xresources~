@@ -13,6 +13,4 @@ XTerm*boldFont: -misc-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*
 XTerm*boldMode: false
 XTerm*geometry: 80x24
 xterm*VT100.geometry: 80x24
-emacs*font: 11x18
-Emacs*font: 11x18
 

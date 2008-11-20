@@ -1,5 +1,5 @@
 ;;----------------------------------------------------------------------------
-;; To detect which environment the .emacs is running in - aquamacs? linux?
+;; Are we an aquamacs emacs?
 ;;----------------------------------------------------------------------------
 (defvar aquamacs-p (string-match "Aquamacs" (version)))
 
@@ -19,6 +19,13 @@
 (tool-bar-mode 0)
  )
 )
+
+;;----------------------------------------------------------------------------
+;; Emacs 23, on Ubuntu still needs to load all the site packages as it is source
+;; built and does not load path.el
+;;----------------------------------------------------------------------------
+(if (string-match "23" (version))
+(setq load-path (cons "/usr/share/emacs22/site-lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
 
 ;;----------------------------------------------------------------------------
 ;; run emacs as a server so that emacsclient can connect
@@ -166,7 +173,7 @@
 
 (setq flyspell-mouse-map
       (let ((map (make-sparse-keymap)))
-        (define-key map [down-mouse-3] #'flyspell-correct-word)
+        (define-key map [down-mouse-3] 'flyspell-correct-word)
         map))
 
 ;; for now (add-hook 'font-lock-mode-hook 'flyspell-prog-mode)
@@ -565,12 +572,23 @@ fun)))
 ;; (global-set-key [(control x) (control y)] 'find-file-root)
 
 
+;;tramp header changes from Paul R. on help-gnu-emacs
+(defun my-tramp-header-line-function ()
+  (when (string-match "^/su\\(do\\)?:" default-directory)
+    (setq header-line-format
+          (format-mode-line "----- THIS BUFFER IS VISITED WITH ROOT PRIVILEGES -----"
+                            'font-lock-warning-face))))
+
+(add-hook 'find-file-hooks 'my-tramp-header-line-function)
+(add-hook 'dired-mode-hook 'my-tramp-header-line-function)
+
 ;;----------------------------------------------------------------------------
 ;; Maximise window at start - fine under linux; too large under aquamacs
 ;;----------------------------------------------------------------------------
    (add-to-list 'load-path "~/lisp/maxframe")
    (require 'maxframe)
    (add-hook 'window-setup-hook 'maximize-frame t)
+
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
