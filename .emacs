@@ -21,11 +21,14 @@
 )
 
 ;;----------------------------------------------------------------------------
-;; Emacs 23, on Ubuntu still needs to load all the site packages as it is source
-;; built and does not load path.el
+;; Emacs 23: will need ruby elisp packages to be loaded
+;; (Emacs 22 on Ubuntu doesn't need this as it gets it from path.el)
 ;;----------------------------------------------------------------------------
 (if (string-match "23" (version))
-(setq load-path (cons "/usr/share/emacs22/site-lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
+(setq load-path (cons "~/lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
+;;(setq load-path (cons "~usr/share/emacs22/site-lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
+
+(set-language-environment "utf-8")
 
 ;;----------------------------------------------------------------------------
 ;; run emacs as a server so that emacsclient can connect
@@ -390,7 +393,7 @@
   (interactive "*")
   (let ((initial-line (count-lines (point-min) (point)))
         (initial-char (- (point) (point-at-bol))))
-    (shell-command-on-region (point-min) (point-max) "ruby /Users/jonathan/lisp/xmpfilter-0.3.0/xmpfilter.rb -a" nil t)
+    (shell-command-on-region (point-min) (point-max) "ruby ~/lisp/xmpfilter-0.3.0/xmpfilter.rb -a" nil t)
     (goto-line initial-line)
     (forward-char initial-char)))
 
@@ -585,10 +588,12 @@ fun)))
 ;;----------------------------------------------------------------------------
 ;; Maximise window at start - fine under linux; too large under aquamacs
 ;;----------------------------------------------------------------------------
+(cond
+ ((eq aquamacs-p 'nil)
    (add-to-list 'load-path "~/lisp/maxframe")
    (require 'maxframe)
    (add-hook 'window-setup-hook 'maximize-frame t)
-
+))
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
@@ -601,3 +606,6 @@ fun)))
   (load-file custom-file)
 
 ))
+
+;; On apple hardware there is no overwrite key, only a help key
+(global-set-key [help] 'overwrite-mode)

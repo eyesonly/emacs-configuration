@@ -1,5 +1,5 @@
 ;;----------------------------------------------------------------------------
-;; To detect which environment the .emacs is running in - aquamacs? linux?
+;; Are we an aquamacs emacs?
 ;;----------------------------------------------------------------------------
 (defvar aquamacs-p (string-match "Aquamacs" (version)))
 
@@ -12,11 +12,21 @@
 ;; Cut and paste interaction
 '' (setq x-select-enable-clipboard t) ; as above
 '' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-
+;;  (setq x-select-enable-clipboard t) ; as above
+;;  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+;;  (menu-bar-enable-clipboard)
 ;; turn off toolbar
 (tool-bar-mode 0)
  )
 )
+
+;;----------------------------------------------------------------------------
+;; Emacs 23: will need ruby elisp packages to be loaded
+;; (Emacs 22 on Ubuntu doesn't need this as it gets it from path.el)
+;;----------------------------------------------------------------------------
+(if (string-match "23" (version))
+(setq load-path (cons "~/lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
+;;(setq load-path (cons "~usr/share/emacs22/site-lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
 
 ;;----------------------------------------------------------------------------
 ;; run emacs as a server so that emacsclient can connect
@@ -113,9 +123,9 @@
              (inf-ruby-keys)
              ))
 
-
-(require 'ruby-electric)
-(ruby-electric-mode t)
+;; If you get a failure loading ruby electric on Ubuntu, install the ruby-elisp pkg
+ (require 'ruby-electric)
+ (ruby-electric-mode t)
 
 ;;{BEGIN Commented out for testing nxml mode
 ;; ;;;
@@ -164,7 +174,7 @@
 
 (setq flyspell-mouse-map
       (let ((map (make-sparse-keymap)))
-        (define-key map [down-mouse-3] #'flyspell-correct-word)
+        (define-key map [down-mouse-3] 'flyspell-correct-word)
         map))
 
 ;; for now (add-hook 'font-lock-mode-hook 'flyspell-prog-mode)
@@ -381,7 +391,7 @@
   (interactive "*")
   (let ((initial-line (count-lines (point-min) (point)))
         (initial-char (- (point) (point-at-bol))))
-    (shell-command-on-region (point-min) (point-max) "ruby /Users/jonathan/lisp/xmpfilter-0.3.0/xmpfilter.rb -a" nil t)
+    (shell-command-on-region (point-min) (point-max) "ruby ~/lisp/xmpfilter-0.3.0/xmpfilter.rb -a" nil t)
     (goto-line initial-line)
     (forward-char initial-char)))
 
@@ -563,12 +573,23 @@ fun)))
 ;; (global-set-key [(control x) (control y)] 'find-file-root)
 
 
+;;tramp header changes from Paul R. on help-gnu-emacs
+(defun my-tramp-header-line-function ()
+  (when (string-match "^/su\\(do\\)?:" default-directory)
+    (setq header-line-format
+          (format-mode-line "----- THIS BUFFER IS VISITED WITH ROOT PRIVILEGES -----"
+                            'font-lock-warning-face))))
+
+(add-hook 'find-file-hooks 'my-tramp-header-line-function)
+(add-hook 'dired-mode-hook 'my-tramp-header-line-function)
+
 ;;----------------------------------------------------------------------------
 ;; Maximise window at start - fine under linux; too large under aquamacs
 ;;----------------------------------------------------------------------------
    (add-to-list 'load-path "~/lisp/maxframe")
    (require 'maxframe)
    (add-hook 'window-setup-hook 'maximize-frame t)
+
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
