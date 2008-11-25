@@ -62,7 +62,7 @@
   (local-set-key (kbd "C-c z") 'server-edit)
   (local-set-key (kbd "C-c y") 'ispell-message)
   (local-set-key (kbd "C-c x") 'ispell-buffer)
-;;   (auto-fill-mode)
+  (auto-fill-mode)
 )
 (add-hook 'post-mode-hook 'my-post-mode-hook)
 
@@ -300,7 +300,15 @@
 
 ;; From: http://www.postsubmeta.net/MyConfig/Emacs
 ;; subversion support
-(require 'vc-svn)
+;;(require 'vc-svn)
+
+
+;;From http://www.emacswiki.org/emacs/Git
+(require 'vc-git)
+(when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
+;;(require 'git)
+(autoload 'git-blame-mode "git-blame"
+           "Minor mode for incremental blame for Git." t)
 
 ;;----------------------------------------------------------------------------
 ;; delete this block soon

@@ -28,6 +28,8 @@
 (setq load-path (cons "~/lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
 ;;(setq load-path (cons "~usr/share/emacs22/site-lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
 
+(set-language-environment "utf-8")
+
 ;;----------------------------------------------------------------------------
 ;; run emacs as a server so that emacsclient can connect
 ;;----------------------------------------------------------------------------
@@ -60,7 +62,7 @@
   (local-set-key (kbd "C-c z") 'server-edit)
   (local-set-key (kbd "C-c y") 'ispell-message)
   (local-set-key (kbd "C-c x") 'ispell-buffer)
-;;   (auto-fill-mode)
+  (auto-fill-mode)
 )
 (add-hook 'post-mode-hook 'my-post-mode-hook)
 
@@ -298,7 +300,8 @@
 
 ;; From: http://www.postsubmeta.net/MyConfig/Emacs
 ;; subversion support
-(require 'vc-svn)
+;;(require 'vc-svn)
+(require 'vc-git)
 
 ;;----------------------------------------------------------------------------
 ;; delete this block soon
@@ -586,10 +589,12 @@ fun)))
 ;;----------------------------------------------------------------------------
 ;; Maximise window at start - fine under linux; too large under aquamacs
 ;;----------------------------------------------------------------------------
+(cond
+ ((eq aquamacs-p 'nil)
    (add-to-list 'load-path "~/lisp/maxframe")
    (require 'maxframe)
    (add-hook 'window-setup-hook 'maximize-frame t)
-
+))
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
@@ -602,3 +607,6 @@ fun)))
   (load-file custom-file)
 
 ))
+
+;; On apple hardware there is no overwrite key, only a help key
+(global-set-key [help] 'overwrite-mode)
