@@ -13,7 +13,7 @@
  '(ecb-truncate-long-names nil)
  '(ecb-vc-enable-support t)
  '(ecb-vc-supported-backends (quote ((ecb-vc-dir-managed-by-SVN . vc-state))))
- '(ecb-wget-setup (quote cons))
+ '(ecb-wget-setup (quote ("/usr/pkg/bin/wget" . other)))
  '(ecb-windows-width 0.2)
  '(inhibit-startup-screen t)
  '(iswitchb-prompt-newbuffer nil)

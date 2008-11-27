@@ -3,8 +3,9 @@
 	filemode = true
 	bare = false
 	logallrefupdates = true
+	ignorecase = true
 [remote "origin"]
-	url = /home/jonathan/silencio/git/emacs/jonathan//.git
+	url = git://github.com/jonathanjg/emacs-configuration.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
 [branch "master"]
 	remote = origin

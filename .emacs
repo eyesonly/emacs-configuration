@@ -300,15 +300,27 @@
 
 ;; From: http://www.postsubmeta.net/MyConfig/Emacs
 ;; subversion support
-;;(require 'vc-svn)
+(require 'vc-svn)
 
 
 ;;From http://www.emacswiki.org/emacs/Git
-(require 'vc-git)
-(when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
-;;(require 'git)
-(autoload 'git-blame-mode "git-blame"
-           "Minor mode for incremental blame for Git." t)
+;; (require 'vc-git)
+;; (when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
+;; ;;(require 'git)
+;; (autoload 'git-blame-mode "git-blame"
+;;            "Minor mode for incremental blame for Git." t)
+
+;;from http://paste.lisp.org/display/65631
+;; (defun ecb-vc-dir-managed-by-git (directory)
+;;     (let* ((cannon (file-truename directory))
+;;            (gitdir (concat cannon "/.git/")))
+;;       (if (eq cannon "/")
+;;           nil
+;;         (cond ((and (ecb-file-exists-p gitdir)
+;;                     (locate-library "vc-git"))
+;;                'git)
+;;               (t
+;;                (ecb-vc-dir-managed-by-git (concat cannon "/../")))))))
 
 ;;----------------------------------------------------------------------------
 ;; delete this block soon
@@ -616,4 +628,4 @@ fun)))
 ))
 
 ;; On apple hardware there is no overwrite key, only a help key
-(global-set-key [help] 'overwrite-mode)
+;;(global-set-key [help] 'overwrite-mode)
