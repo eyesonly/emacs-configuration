@@ -1,5 +1,0 @@
-    <ul>
-      <% @composers.each do |composer| %>
-        <li><%= link_to_composer(composer) %></li>
-      <% end %>
-    </ul>

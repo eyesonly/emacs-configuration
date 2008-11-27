@@ -1,6 +1,0 @@
-2008-05-21 09:22:18,783 DEBUG Logg - P-> OperationOne:126ms
-OperationTwo:0ms OperationThree:9ms OperationFour:4ms
-OperationFive:4ms OperationSix:2ms OperationSeven:7ms Total:210ms
-2008-05-21 09:22:18,783 DEBUG Logg - P-> OperationOne:126ms
-OperationTwo:0ms OperationThree:9ms OperationFour:4ms
-OperationFive:4ms OperationSix:2ms OperationSeven:7ms Total:210ms
