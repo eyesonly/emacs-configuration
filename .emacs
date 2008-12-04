@@ -434,17 +434,23 @@
 ;;----------------------------------------------------------------------------
 ;; Jonathan specific
 ;;----------------------------------------------------------------------------
-
 ;; Jonathan's custom keybinds
 (global-set-key [?\C-,] 'comment-region)
 (global-set-key [?\C-.] 'uncomment-region)
 (global-set-key (kbd "C-c e") 'ecb-activate)
 (global-set-key (kbd "C-c d") 'ecb-deactivate)
-
+(global-set-key (kbd "C-c o") 'other-window)
+;;(global-set-key (kbd "C-c ^") 'enlarge-ten)
+;; (global-set-key (kbd "C-c b") 'iswitchb-buffer-other-window)
+(global-set-key "\C-c^" '(lambda ()
+                          (interactive)
+                          (enlarge-window 10)
+                          ))
 ;;kill ring popup
 (global-set-key "\C-cw" '(lambda ()
                            (interactive)
                            (popup-menu 'yank-menu)))
+
 
 ;;I like to toggle autofill a lot replace (set-fill-column) with this binding
 ;; (global-set-key [?\C-x f] 'auto-fill-mode)
@@ -458,10 +464,40 @@
 ;; from: http://blog.ox.cx/2006/04/25/getting-rid-of-semanticcaches/
 (setq semanticdb-default-save-directory "~/tmp/semantic.cache")
 
-;; replace switch buffer / open buffer with ido - be powerful
-;; (add-to-list 'load-path "~/lisp/ido")
-;; (require 'ido)
-;; (ido-mode t)
+;; go to a specific column, useful in Macros
+;; From: http://communitygrids.blogspot.com/2007/11/emacs-goto-column-function.html
+(defun goto-column-number (number)
+"Untabify, and go to a column number within the current line (1 is beginning
+of the line)."
+(interactive "nColumn number ( - 1 == C) ? ")
+(beginning-of-line)
+(untabify (point-min) (point-max))
+(while (> number 1)
+ (if (eolp)
+     (insert ? )
+   (forward-char))
+ (setq number (1- number))))
+
+(global-set-key (kbd "C-c C-c C-c") 'goto-column-number)
+
+;;my own function to kill other buffer
+(defun kill-other-buffer ()
+  (interactive)
+  (other-window 1)
+  (kill-buffer (current-buffer))
+  (other-window 1)
+)
+(global-set-key (kbd "C-c k") 'kill-other-buffer)
+
+;;my own function to goto terminal
+(defun goto-terminal ()
+  (interactive)
+  (switch-to-buffer-other-window "term-first")
+;;  (other-window 1)               ;; move back to first window
+  (balance-windows)
+  (shrink-window 10)
+)
+(global-set-key (kbd "C-c t") 'goto-terminal)
 
 ;; from: http://www.dotfiles.com/files/6/466_dot-emacs
 ;;Enable iswitchb buffer mode. I find it easier to use than the
@@ -539,7 +575,7 @@ fun)))
 (global-set-key (kbd "s-a") 'mark-whole-buffer)
 
 ;; set a font that I like (linux only)
-(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
+;;(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
 
   )
 )
@@ -615,6 +651,35 @@ fun)))
    (add-hook 'window-setup-hook 'maximize-frame t)
 ))
 
+;; On apple hardware there is no overwrite key, only a help key
+;;(global-set-key [help] 'overwrite-mode)
+
+
+;;----------------------------------------------------------------------------
+;; STARTUP
+;; Open a shell upon startup
+;; based on: http://infolab.stanford.edu/~manku/dotemacs.html
+;;----------------------------------------------------------------------------
+
+(split-window-vertically)      ;; want two windows at startup
+;; (split-window-horizontally) ;; want two windows at startup
+(other-window 1)               ;; move to other window
+(term "/bin/bash")
+;;(shell)                      ;; start a shell
+(rename-buffer "term-first")   ;; rename it
+(other-window 1)               ;; move back to first window
+(enlarge-window 10)
+
+;;----------------------------------------------------------------------------
+;; from: http://www.emacswiki.org/emacs/buffer-move.el
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path "~/lisp/buffer-move")
+(require 'buffer-move)
+(global-set-key (kbd "<C-S-up>")     'buf-move-up)
+(global-set-key (kbd "<C-S-down>")   'buf-move-down)
+(global-set-key (kbd "<C-S-left>")   'buf-move-left)
+(global-set-key (kbd "<C-S-right>")  'buf-move-right)
+
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
 ;;----------------------------------------------------------------------------
@@ -627,5 +692,3 @@ fun)))
 
 ))
 
-;; On apple hardware there is no overwrite key, only a help key
-;;(global-set-key [help] 'overwrite-mode)
