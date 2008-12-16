@@ -10,8 +10,9 @@
  ((eq aquamacs-p 'nil)
 
 ;; Cut and paste interaction
-'' (setq x-select-enable-clipboard t) ; as above
-'' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+(setq x-select-enable-clipboard t)
+(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+
 ;;  (setq x-select-enable-clipboard t) ; as above
 ;;  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 ;;  (menu-bar-enable-clipboard)

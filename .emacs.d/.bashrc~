@@ -103,7 +103,7 @@ alias e="emacs -q -nw"
 export EDITOR="emacs -q -nw"
 #client
 #export KDEWM=/usr/bin/compiz-fusion
-export PATH=/home/jonathan/code/excel/wsfc_home/bin:/var/lib/gems/1.8/bin:$PATH
+export PATH=/home/jonathan/code/excel/wsfc_home/bin:/var/lib/gems/1.8/bin:/usr/pkg/bin:/usr/pkg/sbin:$PATH
 export WSFC_HOME=/home/jonathan/code/excel/wsfc_home
 export LD_LIBRARY_PATH=/var/lib/gems/1.8/bin
 #export LD_LIBRARY_PATH=/home/jonathan/code/excel/wso2-wsf-c-src-1.3.0/rampartc/src/core/.libs:/home/jonathan/code/excel/wsfc_home/client_repo/lib:/home/jonathan/code/excel/ws_ruby/wso2-wsf-ruby-src-1.1.0/samples/consumer/mtom:$LD_LIBRARY_PATH
