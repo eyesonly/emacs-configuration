@@ -10,9 +10,8 @@
  ((eq aquamacs-p 'nil)
 
 ;; Cut and paste interaction
-(setq x-select-enable-clipboard t)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-
+'' (setq x-select-enable-clipboard t) ; as above
+'' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 ;;  (setq x-select-enable-clipboard t) ; as above
 ;;  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 ;;  (menu-bar-enable-clipboard)
@@ -63,7 +62,7 @@
   (local-set-key (kbd "C-c z") 'server-edit)
   (local-set-key (kbd "C-c y") 'ispell-message)
   (local-set-key (kbd "C-c x") 'ispell-buffer)
-  (auto-fill-mode)
+  (auto-fill-mode 't)
 )
 (add-hook 'post-mode-hook 'my-post-mode-hook)
 
@@ -129,6 +128,19 @@
 ;; If you get a failure loading ruby electric on Ubuntu, install the ruby-elisp pkg
  (require 'ruby-electric)
  (ruby-electric-mode t)
+
+;;ruby block
+(add-to-list 'load-path "~/lisp/ruby-block")
+(require 'ruby-block)
+(ruby-block-mode t)
+
+;; do overlay
+(setq ruby-block-highlight-toggle 'overlay)
+;; display to minibuffer
+(setq ruby-block-highlight-toggle 'minibuffer)
+;; display to minibuffer and do overlay
+(setq ruby-block-highlight-toggle t)
+
 
 ;;{BEGIN Commented out for testing nxml mode
 ;; ;;;
@@ -372,19 +384,16 @@
 ;;----------------------------------------------------------------------------
 ;; ri docs
 ;;----------------------------------------------------------------------------
-;; (setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
-;; (autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
-;;(setq ri-ruby-script "~/lisp/ri_docs/ri-emacs.rb")
-;;(autoload 'ri "~/lisp/ri_docs/ri-ruby.el" nil t)
-(setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
-(autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+(setq ri-ruby-script "/Users/jonathan/lisp/ri_docs/ri-emacs.rb")
+(autoload 'ri "/Users/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+
 ;; (autoload 'ri "ri-ruby.el" nil t)
 
 ;; RI everywhere!
 (define-key help-map "r" 'ri)
 
 ;;keybinds - F1/F4/M-C-i
-;;(add-hook 'ruby-mode-hook (lambda () (local-set-key (quote [f1]) (ri))
+;; (add-hook 'ruby-mode-hook (lambda () (local-set-key (quote [f1]) (ri))
 ;;                           ))
 
 ;;   (add-hook 'ruby-mode-hook (lambda ()
@@ -581,15 +590,6 @@ fun)))
   )
 )
 
-;; specific to sparc hardware
-(cond
- ((string-match "sparc" system-configuration)
-
-;;    make alt the meta key - http://www.emacswiki.org/cgi-bin/wiki/MetaKeyProblems
-(setq x-alt-keysym 'meta)
-  )
-)
-
 ;;----------------------------------------------------------------------------
 ;; From: http://www.emacswiki.org/cgi-bin/wiki/TrampMode sudo find file as root
 ;;----------------------------------------------------------------------------
@@ -652,9 +652,27 @@ fun)))
    (add-hook 'window-setup-hook 'maximize-frame t)
 ))
 
+
+;;----------------------------------------------------------------------------
+;; Hardware specific keybindings
+;;----------------------------------------------------------------------------
 ;; On apple hardware there is no overwrite key, only a help key
 ;;(global-set-key [help] 'overwrite-mode)
 
+;; Cocoa emacs, for some bizarre reason DELETE key is bound to backward-delete-char-untabify
+(if (string-match "darwin" (version))
+( progn
+(global-set-key (kbd "<kp-delete>") 'delete-char)
+(global-set-key (kbd "<backspace>") 'backward-delete-char)
+
+;;from: http://d.hatena.ne.jp/papamitra/20060924/synergy
+;; (setq mac-command-modifier 'control)
+;; (setq mac-option-modifier 'meta)
+) )
+
+;; specific to sparc hardware - make alt the meta key - http://www.emacswiki.org/cgi-bin/wiki/MetaKeyProblems
+(cond ((string-match "sparc" system-configuration)
+    (setq x-alt-keysym 'meta)  ) )
 
 ;;----------------------------------------------------------------------------
 ;; STARTUP
