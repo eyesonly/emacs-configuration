@@ -129,17 +129,21 @@
  (require 'ruby-electric)
  (ruby-electric-mode t)
 
-;;ruby block
-(add-to-list 'load-path "~/lisp/ruby-block")
-(require 'ruby-block)
-(ruby-block-mode t)
+;;ruby block doesn't seem to do much C-M n to go forward a block in ruby.el is better?
+;; ;;ruby block
+;; (add-to-list 'load-path "~/lisp/ruby-block")
+;; (require 'ruby-block)
+;; (add-hook 'ruby-mode-hook
+;;           '(lambda ()
+;;              (ruby-block-mode t)
+;;              ))
 
-;; do overlay
-(setq ruby-block-highlight-toggle 'overlay)
-;; display to minibuffer
-(setq ruby-block-highlight-toggle 'minibuffer)
-;; display to minibuffer and do overlay
-(setq ruby-block-highlight-toggle t)
+;; ;; do overlay
+;; (setq ruby-block-highlight-toggle 'overlay)
+;; ;; display to minibuffer
+;; (setq ruby-block-highlight-toggle 'minibuffer)
+;; ;; display to minibuffer and do overlay
+;; (setq ruby-block-highlight-toggle t)
 
 
 ;;{BEGIN Commented out for testing nxml mode
