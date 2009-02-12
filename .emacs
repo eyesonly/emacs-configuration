@@ -664,10 +664,13 @@ fun)))
 ;;(global-set-key [help] 'overwrite-mode)
 
 ;; Cocoa emacs, for some bizarre reason DELETE key is bound to backward-delete-char-untabify
+;;and make home and end behave in a non-mac way!
 (if (string-match "darwin" (version))
 ( progn
 (global-set-key (kbd "<kp-delete>") 'delete-char)
 (global-set-key (kbd "<backspace>") 'backward-delete-char)
+(global-set-key (kbd "<home>") 'move-beginning-of-line)
+(global-set-key (kbd "<end>") 'move-end-of-line)
 
 ;;from: http://d.hatena.ne.jp/papamitra/20060924/synergy
 ;; (setq mac-command-modifier 'control)
