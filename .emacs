@@ -550,6 +550,20 @@ fun)))
 
  (add-hook 'desktop-save-hook 'tramp-cleanup-all-buffers) ;; per Michael Albinus again
 
+
+;;From Andreas Politz on help-gnu-emacs
+(defun vi-forward-word (arg)
+  (interactive "p")
+  (cond
+   ((< arg 0)
+    (forward-word arg))
+   ((> arg 0)
+    (if (looking-at "\\w")
+        (setq arg (1+ arg)))
+    (forward-word arg)
+    (backward-word))))
+(global-set-key (kbd "C-z") 'vi-forward-word)
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
