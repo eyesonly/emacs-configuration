@@ -130,20 +130,28 @@
  (ruby-electric-mode t)
 
 ;;ruby block doesn't seem to do much C-M n to go forward a block in ruby.el is better?
-;; ;;ruby block
-;; (add-to-list 'load-path "~/lisp/ruby-block")
-;; (require 'ruby-block)
-;; (add-hook 'ruby-mode-hook
-;;           '(lambda ()
-;;              (ruby-block-mode t)
-;;              ))
+;;ruby block
+(add-to-list 'load-path "~/lisp/ruby-block")
+(require 'ruby-block)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (ruby-block-mode t)
+             ))
 
-;; ;; do overlay
-;; (setq ruby-block-highlight-toggle 'overlay)
-;; ;; display to minibuffer
-;; (setq ruby-block-highlight-toggle 'minibuffer)
-;; ;; display to minibuffer and do overlay
-;; (setq ruby-block-highlight-toggle t)
+;; do overlay
+(setq ruby-block-highlight-toggle 'overlay)
+;; display to minibuffer
+(setq ruby-block-highlight-toggle 'minibuffer)
+;; display to minibuffer and do overlay
+(setq ruby-block-highlight-toggle t)
+
+;;ruby-debug (from: http://pragmaticdevnotes.wordpress.com/2008/11/25/emacs-on-windows-ruby-ruby-on-rails/ )
+(add-to-list 'load-path "~/lisp/rdebug")
+(autoload 'rdebug "rdebug" "Ruby debugging support." t)
+(global-set-key [f9] 'gud-step)
+(global-set-key [f10] 'gud-next)
+(global-set-key [f11] 'gud-cont)
+(global-set-key "\C-c\C-u" 'rdebug)
 
 
 ;;{BEGIN Commented out for testing nxml mode
