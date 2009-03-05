@@ -6,19 +6,19 @@
 ;;----------------------------------------------------------------------------
 ;; Cut and paste interaction (not for aquamacs)
 ;;----------------------------------------------------------------------------
-(cond
- ((eq aquamacs-p 'nil)
+;; (cond
+;;  ((eq aquamacs-p 'nil)
 
-;; Cut and paste interaction
-'' (setq x-select-enable-clipboard t) ; as above
-'' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-;;  (setq x-select-enable-clipboard t) ; as above
-;;  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-;;  (menu-bar-enable-clipboard)
-;; turn off toolbar
-(tool-bar-mode 0)
- )
-)
+;; ;; Cut and paste interaction
+;; '' (setq x-select-enable-clipboard t) ; as above
+;; '' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+;; ;;  (setq x-select-enable-clipboard t) ; as above
+;; ;;  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+;; ;;  (menu-bar-enable-clipboard)
+;; ;; turn off toolbar
+;; (tool-bar-mode 0)
+;;  )
+;; )
 
 ;;----------------------------------------------------------------------------
 ;; Emacs 23: will need ruby elisp packages to be loaded
@@ -72,7 +72,7 @@
 ;;----------------------------------------------------------------------------
 
 ;; turn off toolbar
-(tool-bar-mode 0)
+;;(tool-bar-mode 0)
 
 ;;----------------------------------------------------------------------------
 ;; Set up syntax highlighting (font-lock)
