@@ -454,6 +454,15 @@
   (define-key ruby-mode-map "\C-c\C-a"  'ruby-annotate-buffer))
 
 ;;----------------------------------------------------------------------------
+;; PYTHON
+;;----------------------------------------------------------------------------
+
+;;pydb - thank you Rocky Bernstein!
+(add-to-list 'load-path "~/lisp/pydb")
+(autoload 'pydb "pydb" "Run the python debugger." t)
+
+
+;;----------------------------------------------------------------------------
 ;; Jonathan specific
 ;;----------------------------------------------------------------------------
 ;; Jonathan's custom keybinds
@@ -585,7 +594,6 @@ fun)))
  )
 )
 
-
 ;; specific to linux
 (cond
  ((string-match "linux" system-configuration)
@@ -612,7 +620,7 @@ fun)))
 ;;select whole buffer - S-a
 (global-set-key (kbd "s-a") 'mark-whole-buffer)
 
-;; set a font that I like (linux only)
+;; set a font that I like (linux only) - No longer needed emacs 23 is pretty
 ;;(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
 
   )
