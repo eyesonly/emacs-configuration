@@ -583,6 +583,20 @@ fun)))
 ;;I don't use the American typist convention of a double space to mark the end of a sentence
 (setq sentence-end-double-space nil)
 
+;; find tag at point without the nagging
+;; from: http://blog.printf.net/articles/2007/10/15/productivity-a-year-on
+(defun find-tag-at-point ()
+  "*Find tag whose name contains TAGNAME.
+  Identical to `find-tag' but does not prompt for
+  tag when called interactively;  instead, uses
+  tag around or before point."
+    (interactive)
+      (find-tag (if current-prefix-arg
+                    (find-tag-tag "Find tag: "))
+                (find-tag (find-tag-default))))
+
+(global-set-key [f10] 'find-tag-at-point)
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
