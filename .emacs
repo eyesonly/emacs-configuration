@@ -66,6 +66,10 @@
 )
 (add-hook 'post-mode-hook 'my-post-mode-hook)
 
+
+;; "y or n" instead of "yes or no"
+(fset 'yes-or-no-p 'y-or-n-p)
+
 ;;----------------------------------------------------------------------------
 ;; All of the code below from
 ;; http://blog.katipo.co.nz/?p=38
