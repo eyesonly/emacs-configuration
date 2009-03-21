@@ -582,7 +582,7 @@ fun)))
         (setq arg (1+ arg)))
     (forward-word arg)
     (backward-word))))
-(global-set-key (kbd "C-z") 'vi-forward-word)
+(global-set-key (kbd "C-!") 'vi-forward-word)
 
 ;;I don't use the American typist convention of a double space to mark the end of a sentence
 (setq sentence-end-double-space nil)
