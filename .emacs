@@ -62,9 +62,13 @@
   (local-set-key (kbd "C-c z") 'server-edit)
   (local-set-key (kbd "C-c y") 'ispell-message)
   (local-set-key (kbd "C-c x") 'ispell-buffer)
-  (auto-fill-mode)
+  (auto-fill-mode 't)
 )
 (add-hook 'post-mode-hook 'my-post-mode-hook)
+
+
+;; "y or n" instead of "yes or no"
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;;----------------------------------------------------------------------------
 ;; All of the code below from
@@ -128,6 +132,31 @@
 ;; If you get a failure loading ruby electric on Ubuntu, install the ruby-elisp pkg
  (require 'ruby-electric)
  (ruby-electric-mode t)
+
+;;ruby block doesn't seem to do much C-M n to go forward a block in ruby.el is better?
+;;ruby block
+(add-to-list 'load-path "~/lisp/ruby-block")
+(require 'ruby-block)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (ruby-block-mode t)
+             ))
+
+;; do overlay
+(setq ruby-block-highlight-toggle 'overlay)
+;; display to minibuffer
+(setq ruby-block-highlight-toggle 'minibuffer)
+;; display to minibuffer and do overlay
+(setq ruby-block-highlight-toggle t)
+
+;;ruby-debug (from: http://pragmaticdevnotes.wordpress.com/2008/11/25/emacs-on-windows-ruby-ruby-on-rails/ )
+(add-to-list 'load-path "~/lisp/rdebug")
+(autoload 'rdebug "rdebug" "Ruby debugging support." t)
+(global-set-key [f9] 'gud-step)
+(global-set-key [f10] 'gud-next)
+(global-set-key [f11] 'gud-cont)
+(global-set-key "\C-c\C-u" 'rdebug)
+
 
 ;;{BEGIN Commented out for testing nxml mode
 ;; ;;;
@@ -371,19 +400,16 @@
 ;;----------------------------------------------------------------------------
 ;; ri docs
 ;;----------------------------------------------------------------------------
-;; (setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
-;; (autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
-;;(setq ri-ruby-script "~/lisp/ri_docs/ri-emacs.rb")
-;;(autoload 'ri "~/lisp/ri_docs/ri-ruby.el" nil t)
-(setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
-(autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+(setq ri-ruby-script "/Users/jonathan/lisp/ri_docs/ri-emacs.rb")
+(autoload 'ri "/Users/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+
 ;; (autoload 'ri "ri-ruby.el" nil t)
 
 ;; RI everywhere!
 (define-key help-map "r" 'ri)
 
 ;;keybinds - F1/F4/M-C-i
-;;(add-hook 'ruby-mode-hook (lambda () (local-set-key (quote [f1]) (ri))
+;; (add-hook 'ruby-mode-hook (lambda () (local-set-key (quote [f1]) (ri))
 ;;                           ))
 
 ;;   (add-hook 'ruby-mode-hook (lambda ()
@@ -430,6 +456,15 @@
 ;;   (define-key ruby-mode-map "\C-d"      'ruby-electric-delete)
   (define-key ruby-mode-map "\C-c\C-b"  'ruby-xmp-region)
   (define-key ruby-mode-map "\C-c\C-a"  'ruby-annotate-buffer))
+
+;;----------------------------------------------------------------------------
+;; PYTHON
+;;----------------------------------------------------------------------------
+
+;;pydb - thank you Rocky Bernstein!
+(add-to-list 'load-path "~/lisp/pydb")
+(autoload 'pydb "pydb" "Run the python debugger." t)
+
 
 ;;----------------------------------------------------------------------------
 ;; Jonathan specific
@@ -536,6 +571,36 @@ fun)))
 
  (add-hook 'desktop-save-hook 'tramp-cleanup-all-buffers) ;; per Michael Albinus again
 
+;;From Andreas Politz on help-gnu-emacs
+(defun vi-forward-word (arg)
+  (interactive "p")
+  (cond
+   ((< arg 0)
+    (forward-word arg))
+   ((> arg 0)
+    (if (looking-at "\\w")
+        (setq arg (1+ arg)))
+    (forward-word arg)
+    (backward-word))))
+(global-set-key (kbd "C-!") 'vi-forward-word)
+
+;;I don't use the American typist convention of a double space to mark the end of a sentence
+(setq sentence-end-double-space nil)
+
+;; find tag at point without the nagging
+;; from: http://blog.printf.net/articles/2007/10/15/productivity-a-year-on
+(defun find-tag-at-point ()
+  "*Find tag whose name contains TAGNAME.
+  Identical to `find-tag' but does not prompt for
+  tag when called interactively;  instead, uses
+  tag around or before point."
+    (interactive)
+      (find-tag (if current-prefix-arg
+                    (find-tag-tag "Find tag: "))
+                (find-tag (find-tag-default))))
+
+(global-set-key [f10] 'find-tag-at-point)
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
@@ -546,7 +611,6 @@ fun)))
   (custom-set-variables '(ecb-auto-activate t))
  )
 )
-
 
 ;; specific to linux
 (cond
@@ -574,18 +638,9 @@ fun)))
 ;;select whole buffer - S-a
 (global-set-key (kbd "s-a") 'mark-whole-buffer)
 
-;; set a font that I like (linux only)
+;; set a font that I like (linux only) - No longer needed emacs 23 is pretty
 ;;(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
 
-  )
-)
-
-;; specific to sparc hardware
-(cond
- ((string-match "sparc" system-configuration)
-
-;;    make alt the meta key - http://www.emacswiki.org/cgi-bin/wiki/MetaKeyProblems
-(setq x-alt-keysym 'meta)
   )
 )
 
@@ -651,9 +706,30 @@ fun)))
    (add-hook 'window-setup-hook 'maximize-frame t)
 ))
 
+
+;;----------------------------------------------------------------------------
+;; Hardware specific keybindings
+;;----------------------------------------------------------------------------
 ;; On apple hardware there is no overwrite key, only a help key
 ;;(global-set-key [help] 'overwrite-mode)
 
+;; Cocoa emacs, for some bizarre reason DELETE key is bound to backward-delete-char-untabify
+;;and make home and end behave in a non-mac way!
+(if (string-match "darwin" (version))
+( progn
+(global-set-key (kbd "<kp-delete>") 'delete-char)
+(global-set-key (kbd "<backspace>") 'backward-delete-char)
+(global-set-key (kbd "<home>") 'move-beginning-of-line)
+(global-set-key (kbd "<end>") 'move-end-of-line)
+
+;;from: http://d.hatena.ne.jp/papamitra/20060924/synergy
+;; (setq mac-command-modifier 'control)
+;; (setq mac-option-modifier 'meta)
+) )
+
+;; specific to sparc hardware - make alt the meta key - http://www.emacswiki.org/cgi-bin/wiki/MetaKeyProblems
+(cond ((string-match "sparc" system-configuration)
+    (setq x-alt-keysym 'meta)  ) )
 
 ;;----------------------------------------------------------------------------
 ;; STARTUP
