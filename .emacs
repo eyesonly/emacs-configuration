@@ -352,6 +352,14 @@
 ;;                (ecb-vc-dir-managed-by-git (concat cannon "/../")))))))
 
 ;;----------------------------------------------------------------------------
+;; NAV - looks like a lighter version of ECB
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path "~/lisp/nav34")
+(require 'nav)
+(global-set-key (kbd "C-c n") 'nav)
+(global-set-key (kbd "C-c C-n") 'nav-quit)
+
+;;----------------------------------------------------------------------------
 ;; delete this block soon
 ;;----------------------------------------------------------------------------
 ;;;----Think this is wrong: turn on rails mode after ecb, according to: http://sodonnell.wordpress.com/2007/07/03/emacs-and-rails/
