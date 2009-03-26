@@ -599,7 +599,12 @@ fun)))
                     (find-tag-tag "Find tag: "))
                 (find-tag (find-tag-default))))
 
-(global-set-key [f10] 'find-tag-at-point)
+(global-set-key [f9] 'find-tag-at-point)
+
+;;jabber
+(add-to-list 'load-path "~/lisp/jabber")
+(require 'jabber-autoloads)
+
 
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment

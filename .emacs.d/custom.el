@@ -18,6 +18,7 @@
  '(inhibit-startup-screen t)
  '(iswitchb-prompt-newbuffer nil)
  '(iswitchb-use-virtual-buffers t nil (recentf))
+ '(jabber-account-list (quote (("jonathangroll@jabber.com" (:network-server . "jabber.com")))))
  '(nxhtml-global-minor-mode t)
  '(pydb-many-windows t)
  '(rails-tags-command "ctags-exuberant -e -a --Ruby-kinds=-f -o %s -R %s --etags-include=/var/lib/gems/1.8/TAGS")
