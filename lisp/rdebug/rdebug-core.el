@@ -4,7 +4,7 @@
 ;; Copyright (C) 2006, 2007, 2008 Rocky Bernstein (rocky@gnu.org)
 ;; Copyright (C) 2007, 2008 Anders Lindgren
 
-;; $Id: rdebug-core.el 786 2008-04-02 00:50:27Z rockyb $
+;; $Id: rdebug-core.el 909 2009-03-11 18:57:08Z rockyb $
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -338,7 +338,7 @@ buffer."
     (pop-to-buffer (setq rdebug-cmd-buffer
 			 (apply 'make-comint rdebug-buffer-name program nil
 				args))))
-    
+  
   ;; Since comint clobbered the mode, we don't set it until now.
   (gud-mode)
   (set (make-local-variable 'gud-target-name) target-name)
@@ -347,8 +347,11 @@ buffer."
   (set (make-local-variable 'gud-last-frame) nil)
   (set (make-local-variable 'gud-last-last-frame) nil)
 
-  (set-process-filter (get-buffer-process (current-buffer)) 'gud-filter)
-  (set-process-sentinel (get-buffer-process (current-buffer)) 'gud-sentinel)
+  (let ((buffer-process (get-buffer-process (current-buffer))))
+    (if buffer-process
+	(progn 
+	  (set-process-filter buffer-process 'gud-filter)
+	  (set-process-sentinel buffer-process 'gud-sentinel))))
   (gud-set-buffer))
 
 ;;;###autoload

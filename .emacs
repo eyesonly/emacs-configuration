@@ -152,9 +152,9 @@
 ;;ruby-debug (from: http://pragmaticdevnotes.wordpress.com/2008/11/25/emacs-on-windows-ruby-ruby-on-rails/ )
 (add-to-list 'load-path "~/lisp/rdebug")
 (autoload 'rdebug "rdebug" "Ruby debugging support." t)
-(global-set-key [f9] 'gud-step)
-(global-set-key [f10] 'gud-next)
-(global-set-key [f11] 'gud-cont)
+;; (global-set-key [f5] 'gud-step)
+;; (global-set-key [f6] 'gud-next)
+;; (global-set-key [f8] 'gud-cont)
 (global-set-key "\C-c\C-u" 'rdebug)
 
 
@@ -352,7 +352,7 @@
 ;;                (ecb-vc-dir-managed-by-git (concat cannon "/../")))))))
 
 ;;----------------------------------------------------------------------------
-;; NAV - looks like a lighter version of ECB
+;; NAV - looks like a lighter version of ECB that is maintained
 ;;----------------------------------------------------------------------------
 (add-to-list 'load-path "~/lisp/nav34")
 (require 'nav)
@@ -567,7 +567,6 @@ fun)))
 ;;;;We can also get completion in the mini-buffer as well.
 (icomplete-mode t)
 
-
 ;;from http://www.joegrossberg.com/archives/000182.html
 ;; gives list of recently opened files (only GNUemacs)
  (require 'recentf)
@@ -613,6 +612,12 @@ fun)))
 (add-to-list 'load-path "~/lisp/jabber")
 (require 'jabber-autoloads)
 
+;;shell-toggle - thierry.volpiatto recommended esh-toggle on help-gnu-emacs and I googled for this one
+(add-to-list 'load-path "~/lisp/shell-toggle")
+(autoload 'shell-toggle "shell-toggle"  "Toggles between the *shell* buffer and whatever buffer you are editing."  t)
+(autoload 'shell-toggle-cd "shell-toggle"  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
+(global-set-key (kbd "C-=") 'shell-toggle)
+(global-set-key (kbd "C-+") 'shell-toggle-cd)
 
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
@@ -755,7 +760,8 @@ fun)))
 (other-window 1)               ;; move to other window
 (term "/bin/bash")
 ;;(shell)                      ;; start a shell
-(rename-buffer "term-first")   ;; rename it
+;; (rename-buffer "term-first")   ;; rename it
+(rename-buffer "*shell*")   ;; rename it - so that it'll work with shell-toggle
 (other-window 1)               ;; move back to first window
 (enlarge-window 10)
 

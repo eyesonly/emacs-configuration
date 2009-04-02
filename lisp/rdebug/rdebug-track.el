@@ -1,5 +1,5 @@
 ;;; rdebug-track.el --- Tracking the Ruby debugger from a shell
-;; $Id: rdebug-track.el 822 2008-04-27 08:28:29Z rockyb $
+;; $Id: rdebug-track.el 909 2009-03-11 18:57:08Z rockyb $
 
 ;; Copyright (C) 2006, 2007, 2008 Rocky Bernstein (rocky@gnu.org)
 ;; Copyright (C) 2007, 2008 Anders Lindgren
@@ -365,7 +365,7 @@ window layout is used."
     
     (rdebug-populate-common-keys (current-local-map))
     (rdebug-populate-debugger-menu (current-local-map))
-      
+    
     (set (make-local-variable 'comint-prompt-regexp) (concat "^" rdebug-input-prompt-regexp))
     (setq paragraph-start comint-prompt-regexp)
 
