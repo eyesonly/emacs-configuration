@@ -480,8 +480,10 @@
 ;; Jonathan specific
 ;;----------------------------------------------------------------------------
 ;; Jonathan's custom keybinds
-(global-set-key [?\C-,] 'comment-region)
-(global-set-key [?\C-.] 'uncomment-region)
+;; (global-set-key [?\C-,] 'comment-region)
+;; (global-set-key [?\C-.] 'uncomment-region)
+(global-set-key (kbd "C-<") 'comment-region)
+(global-set-key (kbd "C->") 'uncomment-region)
 (global-set-key (kbd "C-c e") 'ecb-activate)
 (global-set-key (kbd "C-c d") 'ecb-deactivate)
 (global-set-key (kbd "C-c o") 'other-window)
