@@ -247,6 +247,8 @@
   (define-key nxml-mode-map "\M-h" 'backward-kill-word)
   (define-key nxml-mode-map "\C-m" 'newline-and-indent))
 
+;;Print using web browser option: see http://www.emacswiki.org/emacs/PrintWithWebBrowser
+(require 'hfyview)
 
 ;;----------------------------------------------------------------------------
 ;; end of nxml mode
@@ -323,7 +325,7 @@
 
 
 (add-to-list 'load-path "~/lisp/ecb-2.32")
-(require 'ecb)
+(require 'ecb-autoloads)
 ;; (ecb-activate)
 ;;(ecb-deactivate)
 
@@ -618,6 +620,10 @@ fun)))
 (autoload 'shell-toggle-cd "shell-toggle"  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
 (global-set-key (kbd "C-=") 'shell-toggle)
 (global-set-key (kbd "C-+") 'shell-toggle-cd)
+
+
+;;recommended by Drew Adams on help-gnu-emacs - Delete Selection mode lets you treat an Emacs region much like a typical selection outside of Emacs: You can replace the region just by typing text, and kill the selected text just by hitting the Backspace key (‘DEL’).
+(delete-selection-mode 1)
 
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
