@@ -30,6 +30,14 @@
 
 (set-language-environment "utf-8")
 
+;;TODO automate path load state
+;; loadpath; this will recursivel add all dirs in 'elisp-path' to load-path
+;; (defconst elisp-path '("~/.emacs.d/elisp/")) ;; my elisp directories
+;; (mapcar '(lambda(p)
+;;            (add-to-list 'load-path p)
+;;            (cd p) (normal-top-level-add-subdirs-to-load-path)) elisp-path)
+
+
 ;;----------------------------------------------------------------------------
 ;; run emacs as a server so that emacsclient can connect
 ;;----------------------------------------------------------------------------
@@ -627,6 +635,20 @@ fun)))
 ;;recommended by Drew Adams on help-gnu-emacs - Delete Selection mode lets you treat an Emacs region much like a typical selection outside of Emacs: You can replace the region just by typing text, and kill the selected text just by hitting the Backspace key (‘DEL’).
 (delete-selection-mode 1)
 
+;;; show the full path and filename in the message area (from: http://www.emacswiki.org/emacs/McMahanEmacsMacros)
+(defun path ()
+  (interactive "*")
+  (message "%s" buffer-file-name))
+
+;;my own hooks for term mode arrow key bindings
+(defun jjg-term-arrows ()
+(local-set-key (kbd "<up>") 'term-send-up)
+(local-set-key (kbd "<down>") 'term-send-down)
+)
+(add-hook 'term-mode-hook 'jjg-term-arrows)
+
+
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
@@ -723,7 +745,7 @@ fun)))
 (add-hook 'dired-mode-hook 'my-tramp-header-line-function)
 
 ;;----------------------------------------------------------------------------
-;; Maximise window at start - fine under linux; too large under aquamacs
+;; Maximise "frame" at start - fine under linux; too large under aquamacs
 ;;----------------------------------------------------------------------------
 (cond
  ((eq aquamacs-p 'nil)
@@ -732,6 +754,13 @@ fun)))
    (add-hook 'window-setup-hook 'maximize-frame t)
 ))
 
+;;maximize frame function for darwin - by Nurullah Akkaya on help-gnu-emacs
+(defun na-resize-frame-big ()
+  "Set size"
+  (interactive)
+  (set-frame-width (selected-frame) 178)
+  (set-frame-height (selected-frame) 50 )
+  (set-frame-position (selected-frame) 0 1))
 
 ;;----------------------------------------------------------------------------
 ;; Hardware specific keybindings
@@ -748,6 +777,8 @@ fun)))
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>") 'move-end-of-line)
 
+;;maximize frame on darwin
+(na-resize-frame-big)
 ;;from: http://d.hatena.ne.jp/papamitra/20060924/synergy
 ;; (setq mac-command-modifier 'control)
 ;; (setq mac-option-modifier 'meta)
@@ -768,8 +799,8 @@ fun)))
 (other-window 1)               ;; move to other window
 (term "/bin/bash")
 ;;(shell)                      ;; start a shell
-;; (rename-buffer "term-first")   ;; rename it
-(rename-buffer "*shell*")   ;; rename it - so that it'll work with shell-toggle
+(rename-buffer "term-first")   ;; rename it
+;;(rename-buffer "*shell*")   ;; rename it - so that it'll work with shell-toggle
 (other-window 1)               ;; move back to first window
 (enlarge-window 10)
 
