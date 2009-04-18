@@ -625,11 +625,11 @@ fun)))
 (require 'jabber-autoloads)
 
 ;;shell-toggle - thierry.volpiatto recommended esh-toggle on help-gnu-emacs and I googled for this one
-(add-to-list 'load-path "~/lisp/shell-toggle")
-(autoload 'shell-toggle "shell-toggle"  "Toggles between the *shell* buffer and whatever buffer you are editing."  t)
-(autoload 'shell-toggle-cd "shell-toggle"  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
-(global-set-key (kbd "C-=") 'shell-toggle)
-(global-set-key (kbd "C-+") 'shell-toggle-cd)
+;; (add-to-list 'load-path "~/lisp/shell-toggle")
+;; (autoload 'shell-toggle "shell-toggle"  "Toggles between the *shell* buffer and whatever buffer you are editing."  t)
+;; (autoload 'shell-toggle-cd "shell-toggle"  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
+;; (global-set-key (kbd "C-=") 'shell-toggle)
+;; (global-set-key (kbd "C-+") 'shell-toggle-cd)
 
 
 ;;recommended by Drew Adams on help-gnu-emacs - Delete Selection mode lets you treat an Emacs region much like a typical selection outside of Emacs: You can replace the region just by typing text, and kill the selected text just by hitting the Backspace key (‘DEL’).
