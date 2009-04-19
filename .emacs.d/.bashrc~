@@ -1,2 +1,0 @@
-alias ec=emacsclient
-alias e="emacs -nw"
