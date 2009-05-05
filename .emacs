@@ -418,8 +418,8 @@
 ;;----------------------------------------------------------------------------
 ;; ri docs
 ;;----------------------------------------------------------------------------
-(setq ri-ruby-script "/Users/jonathan/lisp/ri_docs/ri-emacs.rb")
-(autoload 'ri "/Users/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+(setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
+(autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
 
 ;; (autoload 'ri "ri-ruby.el" nil t)
 
@@ -647,7 +647,9 @@ fun)))
 )
 (add-hook 'term-mode-hook 'jjg-term-arrows)
 
-
+;;TRAMP: To allow sudo access on specific hosts (still perfecting, need to tweak it with a good regex)
+     ;; (add-to-list 'tramp-default-proxies-alist
+     ;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
 
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
