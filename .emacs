@@ -647,6 +647,10 @@ fun)))
 )
 (add-hook 'term-mode-hook 'jjg-term-arrows)
 
+;;windows numbering mode
+(add-to-list 'load-path "~/lisp/window-numbering")
+(require 'window-numbering)
+(window-numbering-mode 1)
 
 
 ;;----------------------------------------------------------------------------
