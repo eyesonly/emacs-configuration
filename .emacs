@@ -78,14 +78,16 @@
 ;; "y or n" instead of "yes or no"
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;;----------------------------------------------------------------------------
-;; All of the code below from
-;; http://blog.katipo.co.nz/?p=38
-;;----------------------------------------------------------------------------
+;; turn off toolbar (Cannot be turned off for emacs-nox!)
+(if (string-match "linux" (version))
+( progn
+(if (string-match "GTK" (version))
+(tool-bar-mode 0)
+)))
 
-;; turn off toolbar
-;;(tool-bar-mode 0)
-
+;;----------------------------------------------------------------------------
+;;   All of the code below from
+;;   http://blog.katipo.co.nz/?p=38
 ;;----------------------------------------------------------------------------
 ;; Set up syntax highlighting (font-lock)
 ;;----------------------------------------------------------------------------
