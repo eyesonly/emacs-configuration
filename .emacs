@@ -84,7 +84,7 @@
 ;;----------------------------------------------------------------------------
 
 ;; turn off toolbar
-(tool-bar-mode 0)
+;;(tool-bar-mode 0)
 
 ;;----------------------------------------------------------------------------
 ;; Set up syntax highlighting (font-lock)
@@ -418,8 +418,8 @@
 ;;----------------------------------------------------------------------------
 ;; ri docs
 ;;----------------------------------------------------------------------------
-(setq ri-ruby-script "/Users/jonathan/lisp/ri_docs/ri-emacs.rb")
-(autoload 'ri "/Users/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+(setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
+(autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
 
 ;; (autoload 'ri "ri-ruby.el" nil t)
 
@@ -652,6 +652,9 @@ fun)))
 (require 'window-numbering)
 (window-numbering-mode 1)
 
+;;TRAMP: To allow sudo access on specific hosts (still perfecting, need to tweak it with a good regex)
+     ;; (add-to-list 'tramp-default-proxies-alist
+     ;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
 
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
