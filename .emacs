@@ -78,12 +78,9 @@
 ;; "y or n" instead of "yes or no"
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; turn off toolbar (Cannot be turned off for emacs-nox!)
-(if (string-match "linux" (version))
-( progn
-(if (string-match "GTK" (version))
-(tool-bar-mode 0)
-)))
+;; turn off toolbar (Only defined for graphical emacs)
+(if (not window-system)
+(tool-bar-mode 0))
 
 ;;----------------------------------------------------------------------------
 ;;   All of the code below from
