@@ -655,6 +655,10 @@ fun)))
  ;; (add-to-list 'tramp-default-proxies-alist
  ;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
 
+;;tail files
+(add-to-list 'load-path "~/lisp/tail")
+(require 'tail)
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
