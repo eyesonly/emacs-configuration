@@ -24,7 +24,8 @@
  '(rails-tags-command "ctags-exuberant -e -a --Ruby-kinds=-f -o %s -R %s --etags-include=/var/lib/gems/1.8/TAGS")
  '(rails-ws:default-server-type "webrick")
  '(rdebug-many-windows nil)
- '(ruby-electric-expand-delimiters-list nil))
+ '(ruby-electric-expand-delimiters-list nil)
+ '(tramp-default-proxies-alist (quote (("\"192.168.7.166\"" "\"\\\\`root\\\\'\"" "\"/ssh:%h:\"")))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.

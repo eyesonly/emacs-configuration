@@ -655,8 +655,8 @@ fun)))
 (window-numbering-mode 1)
 
 ;;TRAMP: To allow sudo access on specific hosts (still perfecting, need to tweak it with a good regex)
-     ;; (add-to-list 'tramp-default-proxies-alist
-     ;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
+ ;; (add-to-list 'tramp-default-proxies-alist
+ ;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
 
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
