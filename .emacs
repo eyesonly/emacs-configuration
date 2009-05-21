@@ -652,8 +652,12 @@ fun)))
 (window-numbering-mode 1)
 
 ;;TRAMP: To allow sudo access on specific hosts (still perfecting, need to tweak it with a good regex)
+ (require 'tramp)
  ;; (add-to-list 'tramp-default-proxies-alist
- ;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
+ ;;              '("192.168.7.166" "jonathan" "/ssh:%h:"))
+
+ (add-to-list 'tramp-default-proxies-alist
+              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
 
 ;;tail files
 (add-to-list 'load-path "~/lisp/tail")
