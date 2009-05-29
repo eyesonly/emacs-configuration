@@ -82,6 +82,9 @@
 (if (not window-system)
 (tool-bar-mode 0))
 
+(if (string-match "GTK+" (version))
+(tool-bar-mode 0))
+
 ;;----------------------------------------------------------------------------
 ;;   All of the code below from
 ;;   http://blog.katipo.co.nz/?p=38
