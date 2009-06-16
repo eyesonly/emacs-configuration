@@ -659,8 +659,8 @@ fun)))
  ;; (add-to-list 'tramp-default-proxies-alist
  ;;              '("192.168.7.166" "jonathan" "/ssh:%h:"))
 
- (add-to-list 'tramp-default-proxies-alist
-              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
+;; (add-to-list 'tramp-default-proxies-alist
+;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
 
 ;;tail files
 (add-to-list 'load-path "~/lisp/tail")
@@ -793,6 +793,10 @@ fun)))
 (global-set-key (kbd "<backspace>") 'backward-delete-char)
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>") 'move-end-of-line)
+
+;;tramp >su (to sudoer = jjg2) >sudo
+(add-to-list 'tramp-default-proxies-alist
+                  '("\\`localhost\\'" "\\`root\\'" "/su:jjg2@%h:"))
 
 ;;maximize frame on darwin
 (na-resize-frame-big)
