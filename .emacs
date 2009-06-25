@@ -494,9 +494,13 @@
 ;; (global-set-key [?\C-.] 'uncomment-region)
 (global-set-key (kbd "C-<") 'comment-region)
 (global-set-key (kbd "C->") 'uncomment-region)
+(global-set-key (kbd "C-c c") 'comment-region)
+(global-set-key (kbd "C-c u") 'uncomment-region)
 (global-set-key (kbd "C-c e") 'ecb-activate)
 (global-set-key (kbd "C-c d") 'ecb-deactivate)
 (global-set-key (kbd "C-c o") 'other-window)
+(global-set-key (kbd "C-c r") 'revert-buffer)
+
 ;;(global-set-key (kbd "C-c ^") 'enlarge-ten)
 ;; (global-set-key (kbd "C-c b") 'iswitchb-buffer-other-window)
 (global-set-key "\C-c^" '(lambda ()
