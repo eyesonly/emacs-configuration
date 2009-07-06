@@ -20,6 +20,7 @@
  '(iswitchb-use-virtual-buffers t nil (recentf))
  '(jabber-account-list (quote (("jonathangroll@jabber.com" (:network-server . "jabber.com")) ("jonathanjgster@gmail.com" (:network-server . "talk.google.com") (:port . 5222) (:connection-type . ssl)))))
  '(nxhtml-global-minor-mode t)
+ '(org-agenda-files (quote ("~/org/")))
  '(pydb-many-windows t)
  '(rails-tags-command "ctags-exuberant -e -a --Ruby-kinds=-f -o %s -R %s --etags-include=/var/lib/gems/1.8/TAGS")
  '(rails-ws:default-server-type "webrick")
