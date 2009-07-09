@@ -211,9 +211,12 @@
 ;;----------------------------------------------------------------------------
 ;;perl mode
 ;;----------------------------------------------------------------------------
-(add-hook 'perl-mode-hook
-          (lambda ()
-             (global-set-key [f1] 'cperl-perldoc-at-point)))
+;; (add-hook 'perl-mode-hook
+;;           (lambda ()
+;;              (global-set-key [f1] 'cperl-perldoc-at-point)))
+;;; cperl-mode is preferred to perl-mode
+;;; "Brevity is the soul of wit" <foo at acm.org>
+(defalias 'perl-mode 'cperl-mode)
 
 ;;----------------------------------------------------------------------------
 ;; nxml mode - as per platypope and nxml mode, except I use nxhtml mode
@@ -566,7 +569,7 @@ of the line)."
   (balance-windows)
   (shrink-window 10)
 )
-(global-set-key (kbd "C-c t") 'goto-terminal)
+;; (global-set-key (kbd "C-c t") 'goto-terminal)
 
 ;; from: http://www.dotfiles.com/files/6/466_dot-emacs
 ;;Enable iswitchb buffer mode. I find it easier to use than the
@@ -677,6 +680,10 @@ fun)))
 ;;tail files
 (add-to-list 'load-path "~/lisp/tail")
 (require 'tail)
+
+;;emacs-w3m
+(require 'w3m-load)
+;;(require 'mime-w3m)
 
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
@@ -861,3 +868,5 @@ fun)))
 
 
 (put 'upcase-region 'disabled nil)
+
+(put 'downcase-region 'disabled nil)
