@@ -569,6 +569,7 @@ of the line)."
   (balance-windows)
   (shrink-window 10)
 )
+
 ;; (global-set-key (kbd "C-c t") 'goto-terminal)
 
 ;; from: http://www.dotfiles.com/files/6/466_dot-emacs
@@ -685,6 +686,13 @@ fun)))
 ;;(require 'w3m-load)
 ;;(require 'mime-w3m)
 
+;;org mode
+(require 'org-install)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
@@ -724,6 +732,10 @@ fun)))
 
 ;; set a font that I like (linux only) - No longer needed emacs 23 is pretty
 ;;(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
+
+(setq org-agenda-files (list "~/org/activesap.org"
+                             "~/org/housekeeping.org"
+                             "~/org/ruby.org"))
 
   )
 )
@@ -779,6 +791,7 @@ fun)))
 
 (add-hook 'find-file-hooks 'my-tramp-header-line-function)
 (add-hook 'dired-mode-hook 'my-tramp-header-line-function)
+
 
 ;;----------------------------------------------------------------------------
 ;; Maximise "frame" at start - fine under linux; too large under aquamacs
