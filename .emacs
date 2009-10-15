@@ -693,6 +693,14 @@ fun)))
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 
+;; from a google; written by Andreas Röhler
+(defun goto-column (column)
+" "
+(interactive "nColumn: ")
+(if (< (current-column) column)
+(forward-char (- column (current-column)))
+(forward-char (apply '- (list (- (current-column) column))))))
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
