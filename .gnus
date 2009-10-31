@@ -39,9 +39,17 @@
       'gnus-gather-threads-by-subject)
 
 ;;From Richard Riley's .gnu
+;; (add-to-list 'gnus-secondary-select-methods
+;;               '(nntp "wa"
+;;                        (nntp-address "news.wa.co.za")
+;;                        (nntp-port-number 119)
+;;                        )
+;;               )
+
 (add-to-list 'gnus-secondary-select-methods
-              '(nntp "wa"
-                       (nntp-address "news.wa.co.za")
+              '(nntp "usenetbinaries"
+                       (nntp-authinfo-file "~/.authinfo")
+                       (nntp-address "news.usenetbinaries.com")
                        (nntp-port-number 119)
                        )
               )
