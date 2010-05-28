@@ -6,19 +6,19 @@
 ;;----------------------------------------------------------------------------
 ;; Cut and paste interaction (not for aquamacs)
 ;;----------------------------------------------------------------------------
-(cond
- ((eq aquamacs-p 'nil)
+;; (cond
+;;  ((eq aquamacs-p 'nil)
 
-;; Cut and paste interaction
-'' (setq x-select-enable-clipboard t) ; as above
-'' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-;;  (setq x-select-enable-clipboard t) ; as above
-;;  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-;;  (menu-bar-enable-clipboard)
-;; turn off toolbar
-(tool-bar-mode 0)
- )
-)
+;; ;; Cut and paste interaction
+;; '' (setq x-select-enable-clipboard t) ; as above
+;; '' (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+;; ;;  (setq x-select-enable-clipboard t) ; as above
+;; ;;  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+;; ;;  (menu-bar-enable-clipboard)
+;; ;; turn off toolbar
+;; (tool-bar-mode 0)
+;;  )
+;; )
 
 ;;----------------------------------------------------------------------------
 ;; Emacs 23: will need ruby elisp packages to be loaded
@@ -29,6 +29,14 @@
 ;;(setq load-path (cons "~usr/share/emacs22/site-lisp/ruby1.8-elisp" load-path) byte-compile-warnings nil))
 
 (set-language-environment "utf-8")
+
+;;TODO automate path load state
+;; loadpath; this will recursivel add all dirs in 'elisp-path' to load-path
+;; (defconst elisp-path '("~/.emacs.d/elisp/")) ;; my elisp directories
+;; (mapcar '(lambda(p)
+;;            (add-to-list 'load-path p)
+;;            (cd p) (normal-top-level-add-subdirs-to-load-path)) elisp-path)
+
 
 ;;----------------------------------------------------------------------------
 ;; run emacs as a server so that emacsclient can connect
@@ -62,18 +70,24 @@
   (local-set-key (kbd "C-c z") 'server-edit)
   (local-set-key (kbd "C-c y") 'ispell-message)
   (local-set-key (kbd "C-c x") 'ispell-buffer)
-  (auto-fill-mode)
+  (auto-fill-mode 't)
 )
 (add-hook 'post-mode-hook 'my-post-mode-hook)
 
-;;----------------------------------------------------------------------------
-;; All of the code below from
-;; http://blog.katipo.co.nz/?p=38
-;;----------------------------------------------------------------------------
 
-;; turn off toolbar
-(tool-bar-mode 0)
+;; "y or n" instead of "yes or no"
+(fset 'yes-or-no-p 'y-or-n-p)
 
+;; turn off toolbar (Only defined for graphical emacs)
+(if (not window-system)
+(tool-bar-mode 0))
+
+(if (string-match "GTK+" (version))
+(tool-bar-mode 0))
+
+;;----------------------------------------------------------------------------
+;;   All of the code below from
+;;   http://blog.katipo.co.nz/?p=38
 ;;----------------------------------------------------------------------------
 ;; Set up syntax highlighting (font-lock)
 ;;----------------------------------------------------------------------------
@@ -129,6 +143,31 @@
  (require 'ruby-electric)
  (ruby-electric-mode t)
 
+;;ruby block doesn't seem to do much C-M n to go forward a block in ruby.el is better?
+;;ruby block
+(add-to-list 'load-path "~/lisp/ruby-block")
+(require 'ruby-block)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (ruby-block-mode t)
+             ))
+
+;; do overlay
+(setq ruby-block-highlight-toggle 'overlay)
+;; display to minibuffer
+(setq ruby-block-highlight-toggle 'minibuffer)
+;; display to minibuffer and do overlay
+(setq ruby-block-highlight-toggle t)
+
+;;ruby-debug (from: http://pragmaticdevnotes.wordpress.com/2008/11/25/emacs-on-windows-ruby-ruby-on-rails/ )
+(add-to-list 'load-path "~/lisp/rdebug")
+(autoload 'rdebug "rdebug" "Ruby debugging support." t)
+;; (global-set-key [f5] 'gud-step)
+;; (global-set-key [f6] 'gud-next)
+;; (global-set-key [f8] 'gud-cont)
+(global-set-key "\C-c\C-u" 'rdebug)
+
+
 ;;{BEGIN Commented out for testing nxml mode
 ;; ;;;
 ;; ;; mmm mode for editing rhtml files
@@ -167,6 +206,17 @@
 ;;             (mmm-mode-on)))
 ;; (global-set-key [f8] 'mmm-parse-buffer)
 ;;}END
+
+
+;;----------------------------------------------------------------------------
+;;perl mode
+;;----------------------------------------------------------------------------
+;; (add-hook 'perl-mode-hook
+;;           (lambda ()
+;;              (global-set-key [f1] 'cperl-perldoc-at-point)))
+;;; cperl-mode is preferred to perl-mode
+;;; "Brevity is the soul of wit" <foo at acm.org>
+(defalias 'perl-mode 'cperl-mode)
 
 ;;----------------------------------------------------------------------------
 ;; nxml mode - as per platypope and nxml mode, except I use nxhtml mode
@@ -218,6 +268,8 @@
   (define-key nxml-mode-map "\M-h" 'backward-kill-word)
   (define-key nxml-mode-map "\C-m" 'newline-and-indent))
 
+;;Print using web browser option: see http://www.emacswiki.org/emacs/PrintWithWebBrowser
+(require 'hfyview)
 
 ;;----------------------------------------------------------------------------
 ;; end of nxml mode
@@ -294,7 +346,7 @@
 
 
 (add-to-list 'load-path "~/lisp/ecb-2.32")
-(require 'ecb)
+(require 'ecb-autoloads)
 ;; (ecb-activate)
 ;;(ecb-deactivate)
 
@@ -311,16 +363,24 @@
 ;;            "Minor mode for incremental blame for Git." t)
 
 ;;from http://paste.lisp.org/display/65631
-(defun ecb-vc-dir-managed-by-git (directory)
-    (let* ((cannon (file-truename directory))
-           (gitdir (concat cannon "/.git/")))
-      (if (eq cannon "/")
-          nil
-        (cond ((and (ecb-file-exists-p gitdir)
-                    (locate-library "vc-git"))
-               'git)
-              (t
-               (ecb-vc-dir-managed-by-git (concat cannon "/../")))))))
+;; (defun ecb-vc-dir-managed-by-git (directory)
+;;     (let* ((cannon (file-truename directory))
+;;            (gitdir (concat cannon "/.git/")))
+;;       (if (eq cannon "/")
+;;           nil
+;;         (cond ((and (ecb-file-exists-p gitdir)
+;;                     (locate-library "vc-git"))
+;;                'git)
+;;               (t
+;;                (ecb-vc-dir-managed-by-git (concat cannon "/../")))))))
+
+;;----------------------------------------------------------------------------
+;; NAV - looks like a lighter version of ECB that is maintained
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path "~/lisp/nav34")
+(require 'nav)
+(global-set-key (kbd "C-c n") 'nav)
+(global-set-key (kbd "C-c C-n") 'nav-quit)
 
 ;;----------------------------------------------------------------------------
 ;; delete this block soon
@@ -371,19 +431,16 @@
 ;;----------------------------------------------------------------------------
 ;; ri docs
 ;;----------------------------------------------------------------------------
-;; (setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
-;; (autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
-;;(setq ri-ruby-script "~/lisp/ri_docs/ri-emacs.rb")
-;;(autoload 'ri "~/lisp/ri_docs/ri-ruby.el" nil t)
 (setq ri-ruby-script "/home/jonathan/lisp/ri_docs/ri-emacs.rb")
 (autoload 'ri "/home/jonathan/lisp/ri_docs/ri-ruby.el" nil t)
+
 ;; (autoload 'ri "ri-ruby.el" nil t)
 
 ;; RI everywhere!
 (define-key help-map "r" 'ri)
 
 ;;keybinds - F1/F4/M-C-i
-;;(add-hook 'ruby-mode-hook (lambda () (local-set-key (quote [f1]) (ri))
+;; (add-hook 'ruby-mode-hook (lambda () (local-set-key (quote [f1]) (ri))
 ;;                           ))
 
 ;;   (add-hook 'ruby-mode-hook (lambda ()
@@ -432,19 +489,40 @@
   (define-key ruby-mode-map "\C-c\C-a"  'ruby-annotate-buffer))
 
 ;;----------------------------------------------------------------------------
-;; Jonathan specific
+;; PYTHON
 ;;----------------------------------------------------------------------------
 
+;;pydb - thank you Rocky Bernstein!
+(add-to-list 'load-path "~/lisp/pydb")
+(autoload 'pydb "pydb" "Run the python debugger." t)
+
+
+;;----------------------------------------------------------------------------
+;; Jonathan specific
+;;----------------------------------------------------------------------------
 ;; Jonathan's custom keybinds
-(global-set-key [?\C-,] 'comment-region)
-(global-set-key [?\C-.] 'uncomment-region)
+;; (global-set-key [?\C-,] 'comment-region)
+;; (global-set-key [?\C-.] 'uncomment-region)
+(global-set-key (kbd "C-<") 'comment-region)
+(global-set-key (kbd "C->") 'uncomment-region)
+(global-set-key (kbd "C-c c") 'comment-region)
+(global-set-key (kbd "C-c u") 'uncomment-region)
 (global-set-key (kbd "C-c e") 'ecb-activate)
 (global-set-key (kbd "C-c d") 'ecb-deactivate)
+(global-set-key (kbd "C-c o") 'other-window)
+(global-set-key (kbd "C-c r") 'revert-buffer)
 
+;;(global-set-key (kbd "C-c ^") 'enlarge-ten)
+;; (global-set-key (kbd "C-c b") 'iswitchb-buffer-other-window)
+(global-set-key "\C-c^" '(lambda ()
+                          (interactive)
+                          (enlarge-window 10)
+                          ))
 ;;kill ring popup
 (global-set-key "\C-cw" '(lambda ()
                            (interactive)
                            (popup-menu 'yank-menu)))
+
 
 ;;I like to toggle autofill a lot replace (set-fill-column) with this binding
 ;; (global-set-key [?\C-x f] 'auto-fill-mode)
@@ -458,10 +536,41 @@
 ;; from: http://blog.ox.cx/2006/04/25/getting-rid-of-semanticcaches/
 (setq semanticdb-default-save-directory "~/tmp/semantic.cache")
 
-;; replace switch buffer / open buffer with ido - be powerful
-;; (add-to-list 'load-path "~/lisp/ido")
-;; (require 'ido)
-;; (ido-mode t)
+;; go to a specific column, useful in Macros
+;; From: http://communitygrids.blogspot.com/2007/11/emacs-goto-column-function.html
+(defun goto-column-number (number)
+"Untabify, and go to a column number within the current line (1 is beginning
+of the line)."
+(interactive "nColumn number ( - 1 == C) ? ")
+(beginning-of-line)
+(untabify (point-min) (point-max))
+(while (> number 1)
+ (if (eolp)
+     (insert ? )
+   (forward-char))
+ (setq number (1- number))))
+
+(global-set-key (kbd "C-c C-c C-c") 'goto-column-number)
+
+;;my own function to kill other buffer
+(defun kill-other-buffer ()
+  (interactive)
+  (other-window 1)
+  (kill-buffer (current-buffer))
+  (other-window 1)
+)
+(global-set-key (kbd "C-c k") 'kill-other-buffer)
+
+;;my own function to goto terminal
+(defun goto-terminal ()
+  (interactive)
+  (switch-to-buffer-other-window "term-first")
+;;  (other-window 1)               ;; move back to first window
+  (balance-windows)
+  (shrink-window 10)
+)
+
+;; (global-set-key (kbd "C-c t") 'goto-terminal)
 
 ;; from: http://www.dotfiles.com/files/6/466_dot-emacs
 ;;Enable iswitchb buffer mode. I find it easier to use than the
@@ -488,7 +597,6 @@ fun)))
 ;;;;We can also get completion in the mini-buffer as well.
 (icomplete-mode t)
 
-
 ;;from http://www.joegrossberg.com/archives/000182.html
 ;; gives list of recently opened files (only GNUemacs)
  (require 'recentf)
@@ -500,6 +608,99 @@ fun)))
 
  (add-hook 'desktop-save-hook 'tramp-cleanup-all-buffers) ;; per Michael Albinus again
 
+;;From Andreas Politz on help-gnu-emacs
+(defun vi-forward-word (arg)
+  (interactive "p")
+  (cond
+   ((< arg 0)
+    (forward-word arg))
+   ((> arg 0)
+    (if (looking-at "\\w")
+        (setq arg (1+ arg)))
+    (forward-word arg)
+    (backward-word))))
+(global-set-key (kbd "C-!") 'vi-forward-word)
+
+;;I don't use the American typist convention of a double space to mark the end of a sentence
+(setq sentence-end-double-space nil)
+
+;; find tag at point without the nagging
+;; from: http://blog.printf.net/articles/2007/10/15/productivity-a-year-on
+(defun find-tag-at-point ()
+  "*Find tag whose name contains TAGNAME.
+  Identical to `find-tag' but does not prompt for
+  tag when called interactively;  instead, uses
+  tag around or before point."
+    (interactive)
+      (find-tag (if current-prefix-arg
+                    (find-tag-tag "Find tag: "))
+                (find-tag (find-tag-default))))
+
+(global-set-key [f9] 'find-tag-at-point)
+
+;;jabber
+(add-to-list 'load-path "~/lisp/jabber")
+(require 'jabber-autoloads)
+
+;;shell-toggle - thierry.volpiatto recommended esh-toggle on help-gnu-emacs and I googled for this one
+;; (add-to-list 'load-path "~/lisp/shell-toggle")
+;; (autoload 'shell-toggle "shell-toggle"  "Toggles between the *shell* buffer and whatever buffer you are editing."  t)
+;; (autoload 'shell-toggle-cd "shell-toggle"  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
+;; (global-set-key (kbd "C-=") 'shell-toggle)
+;; (global-set-key (kbd "C-+") 'shell-toggle-cd)
+
+
+;;recommended by Drew Adams on help-gnu-emacs - Delete Selection mode lets you treat an Emacs region much like a typical selection outside of Emacs: You can replace the region just by typing text, and kill the selected text just by hitting the Backspace key (‘DEL’).
+(delete-selection-mode 1)
+
+;;; show the full path and filename in the message area (from: http://www.emacswiki.org/emacs/McMahanEmacsMacros)
+(defun path ()
+  (interactive "*")
+  (message "%s" buffer-file-name))
+
+;;my own hooks for term mode arrow key bindings
+(defun jjg-term-arrows ()
+(local-set-key (kbd "<up>") 'term-send-up)
+(local-set-key (kbd "<down>") 'term-send-down)
+)
+(add-hook 'term-mode-hook 'jjg-term-arrows)
+
+;;windows numbering mode
+(add-to-list 'load-path "~/lisp/window-numbering")
+(require 'window-numbering)
+(window-numbering-mode 1)
+
+;;TRAMP: To allow sudo access on specific hosts (still perfecting, need to tweak it with a good regex)
+ (require 'tramp)
+ ;; (add-to-list 'tramp-default-proxies-alist
+ ;;              '("192.168.7.166" "jonathan" "/ssh:%h:"))
+
+;; (add-to-list 'tramp-default-proxies-alist
+;;              '("192.168.7.166" "\\`root\\'" "/ssh:%h:"))
+
+;;tail files
+(add-to-list 'load-path "~/lisp/tail")
+(require 'tail)
+
+;;emacs-w3m
+(require 'w3m-load)
+;; (require 'mime-w3m)
+
+;;org mode
+(require 'org-install)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+;; from a google; written by Andreas Röhler
+(defun goto-column (column)
+" "
+(interactive "nColumn: ")
+(if (< (current-column) column)
+(forward-char (- column (current-column)))
+(forward-char (apply '- (list (- (current-column) column))))))
+
 ;;----------------------------------------------------------------------------
 ;; Specific to envirnoment
 ;;----------------------------------------------------------------------------
@@ -510,7 +711,6 @@ fun)))
   (custom-set-variables '(ecb-auto-activate t))
  )
 )
-
 
 ;; specific to linux
 (cond
@@ -538,18 +738,13 @@ fun)))
 ;;select whole buffer - S-a
 (global-set-key (kbd "s-a") 'mark-whole-buffer)
 
-;; set a font that I like (linux only)
-(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
+;; set a font that I like (linux only) - No longer needed emacs 23 is pretty
+;;(set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
 
-  )
-)
+(setq org-agenda-files (list "~/org/activesap.org"
+                             "~/org/housekeeping.org"
+                             "~/org/ruby.org"))
 
-;; specific to sparc hardware
-(cond
- ((string-match "sparc" system-configuration)
-
-;;    make alt the meta key - http://www.emacswiki.org/cgi-bin/wiki/MetaKeyProblems
-(setq x-alt-keysym 'meta)
   )
 )
 
@@ -605,8 +800,9 @@ fun)))
 (add-hook 'find-file-hooks 'my-tramp-header-line-function)
 (add-hook 'dired-mode-hook 'my-tramp-header-line-function)
 
+
 ;;----------------------------------------------------------------------------
-;; Maximise window at start - fine under linux; too large under aquamacs
+;; Maximise "frame" at start - fine under linux; too large under aquamacs
 ;;----------------------------------------------------------------------------
 (cond
  ((eq aquamacs-p 'nil)
@@ -614,6 +810,70 @@ fun)))
    (require 'maxframe)
    (add-hook 'window-setup-hook 'maximize-frame t)
 ))
+
+;;maximize frame function for darwin - by Nurullah Akkaya on help-gnu-emacs
+(defun na-resize-frame-big ()
+  "Set size"
+  (interactive)
+  (set-frame-width (selected-frame) 178)
+  (set-frame-height (selected-frame) 50 )
+  (set-frame-position (selected-frame) 0 1))
+
+;;----------------------------------------------------------------------------
+;; Hardware specific keybindings
+;;----------------------------------------------------------------------------
+;; On apple hardware there is no overwrite key, only a help key
+;;(global-set-key [help] 'overwrite-mode)
+
+;; Cocoa emacs, for some bizarre reason DELETE key is bound to backward-delete-char-untabify
+;;and make home and end behave in a non-mac way!
+(if (string-match "darwin" (version))
+( progn
+(global-set-key (kbd "<kp-delete>") 'delete-char)
+(global-set-key (kbd "<backspace>") 'backward-delete-char)
+(global-set-key (kbd "<home>") 'move-beginning-of-line)
+(global-set-key (kbd "<end>") 'move-end-of-line)
+
+;;tramp >su (to sudoer = jjg2) >sudo
+(add-to-list 'tramp-default-proxies-alist
+                  '("\\`localhost\\'" "\\`root\\'" "/su:jjg2@%h:"))
+
+;;maximize frame on darwin
+(na-resize-frame-big)
+;;from: http://d.hatena.ne.jp/papamitra/20060924/synergy
+;; (setq mac-command-modifier 'control)
+;; (setq mac-option-modifier 'meta)
+) )
+
+;; specific to sparc hardware - make alt the meta key - http://www.emacswiki.org/cgi-bin/wiki/MetaKeyProblems
+(cond ((string-match "sparc" system-configuration)
+    (setq x-alt-keysym 'meta)  ) )
+
+;;----------------------------------------------------------------------------
+;; STARTUP
+;; Open a shell upon startup
+;; based on: http://infolab.stanford.edu/~manku/dotemacs.html
+;;----------------------------------------------------------------------------
+
+(split-window-vertically)      ;; want two windows at startup
+;; (split-window-horizontally) ;; want two windows at startup
+(other-window 1)               ;; move to other window
+(term "/bin/bash")
+;;(shell)                      ;; start a shell
+(rename-buffer "term-first")   ;; rename it
+;;(rename-buffer "*shell*")   ;; rename it - so that it'll work with shell-toggle
+(other-window 1)               ;; move back to first window
+(enlarge-window 10)
+
+;;----------------------------------------------------------------------------
+;; from: http://www.emacswiki.org/emacs/buffer-move.el
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path "~/lisp/buffer-move")
+(require 'buffer-move)
+(global-set-key (kbd "<C-S-up>")     'buf-move-up)
+(global-set-key (kbd "<C-S-down>")   'buf-move-down)
+(global-set-key (kbd "<C-S-left>")   'buf-move-left)
+(global-set-key (kbd "<C-S-right>")  'buf-move-right)
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
@@ -627,5 +887,7 @@ fun)))
 
 ))
 
-;; On apple hardware there is no overwrite key, only a help key
-(global-set-key [help] 'overwrite-mode)
+
+(put 'upcase-region 'disabled nil)
+
+(put 'downcase-region 'disabled nil)

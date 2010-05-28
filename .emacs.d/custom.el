@@ -21,8 +21,15 @@
  '(jabber-account-list (quote (("jonathangroll@jabber.com" (:network-server . "jabber.com")) ("jonathanjgster@gmail.com" (:network-server . "talk.google.com") (:port . 5222) (:connection-type . ssl)))))
  '(nxhtml-global-minor-mode t)
  '(org-agenda-files (quote ("~/org/")))
+ '(org-log-done nil)
  '(pydb-many-windows t)
  '(rails-tags-command "ctags-exuberant -e -a --Ruby-kinds=-f -o %s -R %s --etags-include=/var/lib/gems/1.8/TAGS")
  '(rails-ws:default-server-type "webrick")
  '(rdebug-many-windows nil)
  '(ruby-electric-expand-delimiters-list nil))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
