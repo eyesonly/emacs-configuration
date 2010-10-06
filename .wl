@@ -7,7 +7,7 @@
   )
 (add-hook 'mail-mode-hook 'my-mail-mode-hook)
 
-(setq 
+(setq
 
  ;; Cache settings - I read mail as IMAP on the server itself
  wl-plugged t
@@ -20,10 +20,10 @@
 
  ;; Settings mostly from emacs-fu, or inspired by the post at:
  ;; http://emacs-fu.blogspot.com/2009/06/e-mail-with-wanderlust.html
- wl-folder-window-width 25            
+ wl-folder-window-width 25
  wl-fcc "%sent"                       ;; sent msgs go to the "sent"-folder
- wl-fcc-force-as-read t               ;; mark sent messages as read 
- wl-default-folder "%inbox"           ;; my main inbox 
+ wl-fcc-force-as-read t               ;; mark sent messages as read
+ wl-default-folder "%inbox"           ;; my main inbox
 
 
  ;;still no biff joy, when I get the time...
@@ -73,14 +73,14 @@
 ;; just the author
 (setq wl-draft-reply-without-argument-list
       '(("Reply-To" ("Reply-To") nil nil)
-	("Mail-Reply-To" ("Mail-Reply-To") nil nil)
-	("From" ("From") nil nil)))
+        ("Mail-Reply-To" ("Mail-Reply-To") nil nil)
+        ("From" ("From") nil nil)))
 
 (setq wl-draft-reply-with-argument-list
       '(("Followup-To" nil nil ("Followup-To"))
-	("Mail-Followup-To" ("Mail-Followup-To") nil ("Newsgroups"))
-	("Reply-To" ("Reply-To") ("To" "Cc" "From") ("Newsgroups"))
-	("From" ("From") ("To" "Cc") ("Newsgroups"))))
+        ("Mail-Followup-To" ("Mail-Followup-To") nil ("Newsgroups"))
+        ("Reply-To" ("Reply-To") ("To" "Cc" "From") ("Newsgroups"))
+        ("From" ("From") ("To" "Cc") ("Newsgroups"))))
 
 
 ;;from http://www.emacswiki.org/emacs/WlFaq
@@ -114,7 +114,7 @@
     ;; Add support for (signature . "filename")
     (unless (assq 'signature wl-draft-config-sub-func-alist)
       (wl-append wl-draft-config-sub-func-alist
-		 '((signature . wl-draft-config-sub-signature))))
+                 '((signature . wl-draft-config-sub-signature))))
 
     (defun mime-edit-insert-signature (&optional arg)
       "Redefine to insert a signature file directly, not as a tag."
@@ -125,7 +125,7 @@
 (defun wl-draft-config-sub-signature (content)
   "Insert the signature at the end of the MIME message."
   (let ((signature-insert-at-eof nil)
-	(signature-file-name content))
+        (signature-file-name content))
     (goto-char (mime-edit-content-end))
     (insert-signature)))
 ;;}
@@ -138,7 +138,7 @@
 (defun djcb-wl-draft-subject-check ()
   "check whether the message has a subject before sending"
   (if (and (< (length (std11-field-body "Subject")) 1)
-	   (null (y-or-n-p "No subject! Send current draft?")))
+           (null (y-or-n-p "No subject! Send current draft?")))
       (error "Abort.")))
 
 ;; note, this check could cause some false positives; anyway, better
@@ -149,34 +149,34 @@
     (goto-char 0)
     (unless ;; don't we have an attachment?
 
-	(re-search-forward "^Content-Disposition: attachment" nil t)
+        (re-search-forward "^Content-Disposition: attachment" nil t)
       (when ;; no attachment; did we mention an attachment?
-	  (re-search-forward "attach" nil t)
-	(unless (y-or-n-p "Possibly misssibly missing an attachment. Send current draft?")
-	  (error "Abort."))))))
+          (re-search-forward "attach" nil t)
+        (unless (y-or-n-p "Possibly misssibly missing an attachment. Send current draft?")
+          (error "Abort."))))))
 
 (add-hook 'wl-mail-send-pre-hook 'djcb-wl-draft-subject-check)
 (add-hook 'wl-mail-send-pre-hook 'djcb-wl-draft-attachment-check)
 
-					;Auto add signature on draft edit
+                                        ;Auto add signature on draft edit
 (remove-hook 'wl-draft-send-hook 'wl-draft-config-exec)
 (add-hook 'wl-mail-setup-hook 'wl-draft-config-exec)
 (setq wl-draft-config-alist
       '(((string-match "1" "1")
-	 (bottom . "\nCheers,\nJJG\n--\n") 
-	 ;;(bottom . "\n--\n") 
-	 (bottom-file . ".signature")
-	 )
-	))
+         (bottom . "\nCheers,\nJJG\n--\n")
+         ;;(bottom . "\n--\n")
+         (bottom-file . ".signature")
+         )
+        ))
 
-					;Stop mime errors when sending to AOL/others?
-					; osdir.com/ml/mail.wanderlust.general/2006-10/msg00007.html
-					;(setq-default mime-transfer-level 8)
+                                        ;Stop mime errors when sending to AOL/others?
+                                        ; osdir.com/ml/mail.wanderlust.general/2006-10/msg00007.html
+                                        ;(setq-default mime-transfer-level 8)
 ;; activate line below only if needed
 ;;(setq smtp-use-8bitmime nil)
 
 ;; The occasional UTF8 issue:
-;; an incoming mail has 
+;; an incoming mail has
 ;; From: "=?utf-8?B?QWxsaWFuY2UgRnJhbsOnYWlzZSBvZiBDYXBlIFRvd24=?=" <culture.cpt@alliance.org.za>
 ;; causing the summary buffer to not decode the above UTF string in the From: field
 ;; the mail displays fine in the message buffer
@@ -202,13 +202,13 @@
 ;; Reading/writing fill flowed
 (autoload 'fill-flowed "flow-fill")
 (add-hook 'mime-display-text/plain-hook
-	  (lambda ()
-	    ;; (when (string= "flowed"
-	    ;; 		     (cdr (assoc "format"
-	    ;; 				        (mime-content-type-parameters
-	    ;; 					 (mime-entity-content-type entity)))))
-	    (visual-line-mode)
-	    (fill-flowed)))
+          (lambda ()
+            ;; (when (string= "flowed"
+            ;;               (cdr (assoc "format"
+            ;;                                  (mime-content-type-parameters
+            ;;                                   (mime-entity-content-type entity)))))
+            (visual-line-mode)
+            (fill-flowed)))
 ;; (mime-edit-insert-tag "text" "plain" "; format=flowed")
 
 
@@ -223,8 +223,8 @@
   ;; `wl-folder-get-next-folder' is broken in my version of WL: it
   ;; wouldn't accept folder names, so we have to rely on IDs.
   (let (folder-list
-	(id 1)
-	(entity (wl-folder-get-folder-name-by-id 1)))
+        (id 1)
+        (entity (wl-folder-get-folder-name-by-id 1)))
     (setq folder-list (list entity))
     (setq entity (wl-folder-get-next-folder id))
     (while entity
@@ -243,7 +243,7 @@
 (defun my-wl-biff ()
   "Set up biff on all WL folders."
   (setq wl-biff-check-folder-list (my-wl-folder-name-list)
-	wl-biff-check-interval 40)
+        wl-biff-check-interval 40)
   ;;  (add-hook 'wl-biff-notify-hook 'my-mail-notify)
   (wl-biff-start))
 
@@ -256,7 +256,7 @@
 (defadvice wl-biff-check-folders (around my-disable-exists-test activate)
   "Disable `elmo-folder-exists-p' and make it return t."
   (let ((real-elmo-folder-exists-p
-	 (symbol-function 'elmo-folder-exists-p)))
+         (symbol-function 'elmo-folder-exists-p)))
     (fset 'elmo-folder-exists-p (symbol-function 'my-elmo-folder-exists-p))
     ad-do-it
     (fset 'elmo-folder-exists-p real-elmo-folder-exists-p)))
@@ -274,3 +274,4 @@
 
 ;; Wide window for draft buffer.
 (setq wl-draft-reply-buffer-style 'full)
+(setq wl-message-id-domain "groll.co.za")

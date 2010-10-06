@@ -79,13 +79,13 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; turn off toolbar (Only defined for graphical emacs)
-(cond (not window-system)
-(tool-bar-mode 0)
-(scroll-bar-mode -1))
-(menu-bar-mode -1))
-(global-set-key "\C-cs"  'help-command)
-(define-key global-map "\C-h" 'backward-delete-char)
-)
+;; (cond (not (window-system))
+;; (tool-bar-mode 0)
+;; (scroll-bar-mode -1))
+;; (menu-bar-mode -1))
+;; (global-set-key "\C-cs"  'help-command)
+;; (define-key global-map "\C-h" 'backward-delete-char)
+;; )
 
 (if (string-match "GTK+" (version))
 (tool-bar-mode 0))
@@ -901,6 +901,7 @@ fun)))
 ;; (setq wl-smtp-posting-user "mattofransen")
 ;; (setq wl-smtp-posting-server "smtp.gmail.com")
 (setq wl-local-domain "groll.co.za")
+(setq wl-message-id-domain "groll.co.za")
 
 (setq wl-default-folder "%INBOX")
 (setq wl-default-spec "%")
@@ -923,6 +924,7 @@ fun)))
       'mail-send-hook))
 
 ;; BBDB used for address management with Wanderlust
+(setq
 bbdb-use-pop-up nil  ;; don't waste any precious screen real estate on BBDB
 bbdb-offer-save 1 ;; 1 means save-without-asking
 ;;bbdb-use-pop-up t ;; allow popups for addresses
