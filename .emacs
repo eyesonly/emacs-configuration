@@ -78,14 +78,17 @@
 ;; "y or n" instead of "yes or no"
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; turn off toolbar (Only defined for graphical emacs)
-;; (cond (not (window-system))
-;; (tool-bar-mode 0)
-;; (scroll-bar-mode -1))
-;; (menu-bar-mode -1))
-;; (global-set-key "\C-cs"  'help-command)
-;; (define-key global-map "\C-h" 'backward-delete-char)
-;; )
+;; turn off toolbar/menu/scroll - non graphical
+(if (equal (window-system) nil)
+  (progn
+    (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+    (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+    (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+    (defvar jjgnox "t")
+    (global-set-key "\C-cs"  'help-command)
+;;  (define-key global-map "\C-h" 'backward-delete-char)
+  )
+)
 
 (if (string-match "GTK+" (version))
 (tool-bar-mode 0))
@@ -860,15 +863,17 @@ fun)))
 ;; based on: http://infolab.stanford.edu/~manku/dotemacs.html
 ;;----------------------------------------------------------------------------
 
-(split-window-vertically)      ;; want two windows at startup
-;; (split-window-horizontally) ;; want two windows at startup
-(other-window 1)               ;; move to other window
-(term "/bin/bash")
-;;(shell)                      ;; start a shell
-(rename-buffer "term-first")   ;; rename it
-;;(rename-buffer "*shell*")   ;; rename it - so that it'll work with shell-toggle
-(other-window 1)               ;; move back to first window
-(enlarge-window 10)
+;;only want shell if running graphically -non graphically want all the space
+;;and want rapid shutdown
+(cond
+ ((eq jjgnox 'nil)
+   (split-window-vertically)      ;; want two windows at startup
+   (other-window 1)               ;; move to other window
+   (term "/bin/bash")
+   (rename-buffer "term-first")   ;; rename it
+   (other-window 1)               ;; move back to first window
+   (enlarge-window 10)
+))
 
 ;;----------------------------------------------------------------------------
 ;; from: http://www.emacswiki.org/emacs/buffer-move.el
@@ -901,7 +906,7 @@ fun)))
 ;; (setq wl-smtp-posting-user "mattofransen")
 ;; (setq wl-smtp-posting-server "smtp.gmail.com")
 (setq wl-local-domain "groll.co.za")
-(setq wl-message-id-domain "groll.co.za")
+;;(setq wl-message-id-domain "groll.co.za")
 
 (setq wl-default-folder "%INBOX")
 (setq wl-default-spec "%")
