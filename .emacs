@@ -910,7 +910,7 @@ fun)))
 ;; (setq wl-smtp-posting-user "mattofransen")
 ;; (setq wl-smtp-posting-server "smtp.gmail.com")
 (setq wl-local-domain "groll.co.za")
-;;(setq wl-message-id-domain "groll.co.za")
+(setq wl-message-id-domain "groll.co.za!!")
 
 (setq wl-default-folder "%INBOX")
 (setq wl-default-spec "%")
