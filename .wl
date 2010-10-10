@@ -240,14 +240,14 @@
 ;; (defun my-mail-notify ()
 ;;   "Notify through Ratpoison that new mail has arrived."
 ;;   (ratpoison-command "echo New mail"))
-(defun my-wl-biff ()
-  "Set up biff on all WL folders."
-  (setq wl-biff-check-folder-list (my-wl-folder-name-list)
-        wl-biff-check-interval 40)
-  ;;  (add-hook 'wl-biff-notify-hook 'my-mail-notify)
-  (wl-biff-start))
+;; (defun my-wl-biff ()
+;;   "Set up biff on all WL folders."
+;;   (setq wl-biff-check-folder-list (my-wl-folder-name-list)
+;;         wl-biff-check-interval 40)
+;;   ;;  (add-hook 'wl-biff-notify-hook 'my-mail-notify)
+;;   (wl-biff-start))
 
-(my-wl-biff)
+;; (my-wl-biff)
 
 ;; My IMAP server (Dovecot) interprets the call to
 ;; `elmo-folder-exists-p' as a client query that should unmark new

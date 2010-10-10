@@ -91,7 +91,10 @@
 )
 
 (if (string-match "GTK+" (version))
-(tool-bar-mode 0))
+ (progn
+  (tool-bar-mode 0)
+  (defvar jjgnox "f")
+ ))
 
 ;;----------------------------------------------------------------------------
 ;;   All of the code below from
@@ -866,7 +869,8 @@ fun)))
 ;;only want shell if running graphically -non graphically want all the space
 ;;and want rapid shutdown
 (cond
- ((eq jjgnox 'nil)
+ ((string-match "f" jjgnox)
+;; ((eq jjgnox 'nil)
    (split-window-vertically)      ;; want two windows at startup
    (other-window 1)               ;; move to other window
    (term "/bin/bash")
@@ -906,7 +910,7 @@ fun)))
 ;; (setq wl-smtp-posting-user "mattofransen")
 ;; (setq wl-smtp-posting-server "smtp.gmail.com")
 (setq wl-local-domain "groll.co.za")
-;;(setq wl-message-id-domain "groll.co.za")
+(setq wl-message-id-domain "groll.co.za!!")
 
 (setq wl-default-folder "%INBOX")
 (setq wl-default-spec "%")
