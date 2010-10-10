@@ -694,8 +694,9 @@ fun)))
 (require 'tail)
 
 ;;emacs-w3m
-;;(require 'w3m-load)
-;; (require 'mime-w3m)
+(add-to-list 'load-path "/home/jonathan/lisp/w3m-cvs/share/emacs/site-lisp/w3m/")
+(require 'w3m-load)
+(require 'mime-w3m)
 
 ;;org mode
 (require 'org-install)
