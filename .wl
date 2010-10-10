@@ -92,7 +92,7 @@
 ;;-----------------------------------
 (setq wl-summary-line-format "%n%T%P %D/%M %h:%m %t%[%20(%c %f%) %] %s")
 ;;(setq wl-summary-line-format "%n%T%P %D/%M (%W) %h:%m %t%[%25(%c %f%) %] %s")
-(setq wl-summary-width 150)
+(setq wl-summary-width 80)
 
 ;;(add-to-list 'load-path "/usr/share/emacs23/site-lisp/mu-cite/")
 (require 'mu-cite)
