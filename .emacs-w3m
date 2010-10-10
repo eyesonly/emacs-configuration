@@ -1,0 +1,353 @@
+;-*- Mode: Emacs-Lisp -*-
+; .emacs-w3m -- for me
+; Copyright       : http://www.fsf.org/copyleft/gpl.html
+; Author          : Dan Jacobson http://jidanni.org/
+; Created On      : Sat Apr 12 07:58:18 2008
+; Last Modified On: Sun Jun 27 12:10:46 2010
+; Update Count    : 125
+(defun jidanni-proxy-toggle nil
+  "Toggle my proxy settings"
+    (interactive)
+    (if w3m-command-arguments-alist
+        (setq w3m-command-arguments-alist nil)
+      (setq w3m-command-arguments-alist
+            '(("^http://\\(?:[^/]*\\.\\)*\\(jidanni\\|transgender-taiwan\\)\\.org\\(?:/\\|$\\)"
+               "-no-proxy"))))
+    (message (concat "w3m-command-arguments-alist now " (prin1-to-string w3m-command-arguments-alist))))
+
+(setq
+ w3m-doc-view-content-types nil
+ w3m-use-symbol nil
+ ;;w3m-session-file nil
+ w3m-do-cleanup-temp-files t
+ w3m-filter-google-use-ruled-line nil
+ mm-w3m-safe-url-regexp nil
+ w3m-session-crash-recovery nil
+ w3m-session-deleted-keep-number 0
+ w3m-session-automatic-keep-number 0
+ w3m-session-autosave nil
+ w3m-verbose t
+ w3m-form-input-textarea-buffer-lines 99
+ w3m-enable-google-feeling-lucky nil
+ w3m-use-favicon nil
+ w3m-default-coding-system 'utf-8
+ w3m-coding-system-priority-list (list w3m-default-coding-system)
+ w3m-use-cookies t
+ w3m-treat-image-size nil;; [emacs-w3m:10567] vertically worded webpages
+ w3m-home-page "http://localhost:8080/index/lasttime?sort=mtime"
+ w3m-use-title-buffer-name t
+ w3m-toggle-inline-images-permanently nil
+ w3m-confirm-leaving-secure-page nil
+ w3m-default-directory "~/"
+ w3m-local-find-file-regexps '(nil . "\\.\\(?:[sx]?html?\\|txt\\)\\'")
+ )
+(let ((d "/music/torrents/"))
+  (setq w3m-default-save-directory
+        (or(and(file-directory-p d)d)
+           w3m-default-directory)))
+(dolist(vars(list
+             'w3m-bookmark-file-coding-system
+             'w3m-coding-system
+             'w3m-file-coding-system
+             'w3m-file-name-coding-system
+             'w3m-terminal-coding-system))
+  (set vars w3m-default-coding-system))
+(dolist (modemap (list w3m-mode-map w3m-minor-mode-map))
+  (define-key modemap "\C-c\C-c" 'undefined);four C-c's from form dangerous
+  (define-key modemap "\M-d" 'kill-word);restore emacs default
+  (define-key modemap [up] 'previous-line)
+  (define-key modemap [down] 'next-line)
+  (define-key modemap [left] 'backward-char)
+  (define-key modemap [right] 'forward-char)
+  (define-key modemap "b" 'w3m-view-previous-page))
+
+(add-hook
+ 'w3m-fontify-after-hook
+ (lambda nil
+   (let ((inhibit-read-only t))
+     (save-excursion
+     (goto-char (point-min))
+     (while (re-search-forward " +$" nil t)
+       (delete-region (match-beginning 0) (match-end 0)))))))
+
+(add-hook
+ 'minibuffer-setup-hook
+ (lambda ()
+   (if(string-match "TEXT: \\| search: " (minibuffer-prompt))
+       (flyspell-mode 1))))
+
+(setq w3m-search-default-engine "google-tw")
+(eval-after-load "w3m-search"
+  '(progn
+     (add-to-list 'w3m-search-engine-alist
+                  '("google-tw" "http://www.google.com.tw/search?q=%s&ie=utf-8&oe=utf-8" nil))
+     (add-to-list 'w3m-search-engine-alist
+                  '("zh.wikipedia" "http://zh.wikipedia.org/wiki/Special:Search?search=%s" utf-8))
+;;     (add-to-list 'w3m-uri-replace-alist
+;;                '("\\`my:" w3m-search-uri-replace "My engine"))
+     ))
+
+(autoload 'wikipedia-mode "wikipedia-mode.el")
+(add-hook
+ 'w3m-form-input-textarea-mode-hook
+ (lambda nil
+   (turn-off-auto-fill)
+   (wikipedia-mode)
+   (longlines-mode 0)
+   (define-key wikipedia-mode-map "\C-c\C-c" 'w3m-form-input-textarea-set)
+   (define-key wikipedia-mode-map "\M-u" 'upcase-word)
+   ))
+
+
+(custom-set-faces '(w3m-italic ((t (:underline t)))))
+
+(defun jidanni-w3m-next-anchor-and-view (arg)
+  "Jumps to the next arg anchor and views it."
+  (interactive "p")
+  (w3m-next-anchor arg)
+  (w3m-view-this-url))
+
+(defun jidanni-w3m-previous-anchor-and-view (arg)
+  "Jumps to the previous arg anchor and views it."
+  (interactive "p")
+  (w3m-previous-anchor arg)
+  (w3m-view-this-url))
+
+(define-key w3m-mode-map "n" 'jidanni-w3m-next-anchor-and-view)
+(define-key w3m-mode-map "p" 'jidanni-w3m-previous-anchor-and-view)
+;(setq w3m-display-ins-del 'fontify)
+
+;; ;Subject: Re: [emacs-w3m:10518] move to next/previous submit button
+;; (defun w3m-goto-form-with-type-sub (type f)
+;;   (let ((current (point))
+;;      (moved (list (point)))
+;;      (regexp (format "/type=%s/" type)))
+;;     (unless (catch 'loop
+;;            (while t
+;;              (funcall f)
+;;              (let ((p (point))
+;;                    field)
+;;                (if (memq p moved)
+;;                    (throw 'loop nil)
+;;                  (if (and (setq field (get-text-property p
+;;                                                          'w3m-form-field-id))
+;;                           (string-match regexp
+;;                                         field))
+;;                      (throw 'loop p)
+;;                    (setq moved (cons p moved)))))))
+;;       (goto-char current))
+;;     (or (w3m-print-this-url)
+;;      (w3m-message ""))))
+
+;; (defvar w3m-form-types
+;;   '("submit" "image" "reset" "hidden" "password"
+;;     "radio" "checkbox" "select" "textarea" "file" "text"))
+
+;; (defun w3m-next-form-with-type (&optional type)
+;;   (interactive)
+;;   (w3m-goto-form-with-type-sub (or type
+;;                                 (completing-read "type: " w3m-form-types))
+;;                             'w3m-next-form))
+
+;; (defun w3m-previous-form-with-type (&optional type)
+;;   (interactive)
+;;   (w3m-goto-form-with-type-sub (or type
+;;                                 (completing-read "type: " w3m-form-types))
+;;                             'w3m-previous-form))
+
+;; (defun w3m-next-submit ()
+;;   (interactive)
+;;   (w3m-next-form-with-type "submit"))
+
+;; (defun w3m-previous-submit ()
+;;   (interactive)
+;;   (w3m-previous-form-with-type "submit"))
+
+;; ;; or more hacking solution
+;; ;; (defalias 'w3m-next-submit 'widget-forward)
+;; ;; (defalias 'w3m-previous-submit 'widget-backward)
+;; (define-key w3m-mode-map "]" 'w3m-next-submit)
+;; (define-key w3m-mode-map "[" 'w3m-previous-submit)
+
+;;[emacs-w3m:10602] Re: emacs-lynx
+(add-hook 'w3m-mode-hook
+          (lambda ()
+;;          (whitespace-mode 1)
+            (define-key w3m-mode-map "\M-t" 'w3m-redisplay-invert-render-table)
+            (define-key w3m-mode-map "\M-T" 'w3m-redisplay-toggle-render-table)
+            (define-key w3m-mode-map "\C-cw" 'jidanni-w3m-wordpress-comment-who-filler)))
+(defvar w3m-no-render-table nil
+  "*If non-nil, do not render any table tag.")
+(defun w3m-redisplay-invert-render-table (&optional arg)
+  (interactive "P")
+  (let ((w3m-no-render-table (not w3m-no-render-table)))
+    (w3m-redisplay-this-page arg)
+    (message (format "Display with%s rendering table"
+                     (if w3m-no-render-table " NO" "")))))
+
+(defun w3m-redisplay-toggle-render-table (&optional arg)
+  (interactive "P")
+  (setq w3m-no-render-table (not w3m-no-render-table))
+  (w3m-redisplay-this-page arg)
+  (message (format "Change redering table to %s"
+                   (if w3m-no-render-table "nil" "TRUE"))))
+
+(eval-after-load "w3m-filter"
+  '(nconc w3m-filter-rules '((".*" w3m-filter-no-render-table))))
+
+(defun w3m-filter-no-render-table (&optional url)
+  (when w3m-no-render-table
+    (let ((case-fold-search t))
+      (goto-char (point-min))
+      (while (re-search-forward "</?\\(table\\)[ \t\r\f\n>]" nil t)
+        (goto-char (match-beginning 1))
+        (insert "NO_"))
+      (goto-char (point-min))
+      (while (re-search-forward "<\\(tr\\)[ \t\r\f\n>]" nil t)
+        (goto-char (match-beginning 1))
+        (insert "NO_")
+        (goto-char (match-beginning 0))
+        (insert "<br>"))
+      (goto-char (point-min))
+      (while (re-search-forward "</\\(tr\\)>" nil t)
+        (goto-char (match-beginning 1))
+        (insert "NO_")))))
+
+(require 'w3m-form)
+(defun jidanni-w3m-wordpress-comment-who-filler()
+  "Fill in WordPress etc. comment form headers with my personal
+information. Run this when the next entry field on the page is the
+first we want to fill in. Only needed on sites that don't already have
+your cookies..."
+    (interactive)
+    (dolist (i (list "jidanni" "jidanni@jidanni.org" "http://jidanni.org/"))
+      (w3m-next-form)
+      (let* ((act (get-text-property (point) 'w3m-action))
+             (form (cadr act))
+             (id (caddr act))
+             (name (cadddr act))
+             (input i))
+        (w3m-form-put form id name input)
+        (w3m-form-replace input)))
+    (w3m-next-form))
+
+(define-key w3m-mode-map [mouse-2] 'w3m-mouse-view-this-url-new-session)
+
+(defadvice mouse-drag-track (after replace-mouse-2-event activate)
+  "Replace mounse-2 event with the key for `w3m-view-this-url' command.
+This will be done only when mouse-1 is clicked in an emacs-w3m buffer
+and `mouse-1-click-follows-link' is non-nil."
+  (let ((keys (this-command-keys)))
+    (if (and (vectorp keys)
+             (eq (car-safe (aref keys 0)) 'down-mouse-1)
+             (eq (car-safe (car unread-command-events)) 'mouse-2)
+             (with-current-buffer
+                 (window-buffer
+                  (posn-window (event-start (car unread-command-events))))
+               (eq major-mode 'w3m-mode)))
+        (setcar unread-command-events
+                (aref (car (where-is-internal 'w3m-view-this-url
+                                              w3m-mode-map))
+                      0)))))
+
+;;http://mid.gmane.org/20090303.134440.74809157.shirai.hideyuki@meadowy.org
+(setq w3m-use-filter t)
+(eval-after-load "w3m-filter"
+  '(nconc w3m-filter-rules
+          '((".*" w3m-filter-tables-always-border))))
+(defun w3m-filter-tables-always-border (url)
+  (w3m-filter-replace-regexp url "<table" "<table border=\"1\""))
+
+;; [emacs-w3m:11025] can't jump to HTML 5 anchors!
+
+(eval-after-load "w3m-filter"
+  '(nconc w3m-filter-rules
+          '((".*" w3m-filter-unsupport-tags))))
+
+(defun w3m-filter-unsupport-tags (url)
+  (let ((case-fold-search t)
+        pos)
+    ;; <button
+    (w3m-filter-replace-regexp url "<button[\r\t\n ]" "<input ")
+    ;; <option disabled
+    (goto-char (point-min))
+    (while (re-search-forward "<option\\([^>]+\\)disabled[^>]*>" nil t)
+      (goto-char (match-end 0))
+      (insert "[disabled] "))
+    ;; <input type="search" name="search" />
+    (goto-char (point-min))
+    (while (re-search-forward "<input [^>]*type=\"\\(search\\)\"[^>]*>" nil t)
+      (goto-char (match-beginning 1))
+      (delete-region (match-beginning 1) (match-end 1))
+      (insert "text"))
+    ;; <dfn id="xxxx">
+    (goto-char (point-min))
+    (while (re-search-forward "<dfn[^>]+id=\\([^>\r\t\n ]+\\)" nil t)
+      (replace-match "<a id=\\1" nil nil)
+      (unless (looking-at ">")
+        (setq pos (point))
+        (when (search-forward ">" nil t)
+          (delete-region pos (match-beginning 0))))
+      (when (search-forward "</dfn>" nil t)
+        (replace-match "</a>" nil nil)))
+    ;; <span id="xxxx">
+    (goto-char (point-min))
+    (while (re-search-forward "<span[^>]+id=\\([^>\r\t\n ]+\\)" nil t)
+      (replace-match "<a id=\\1" nil nil)
+      (unless (looking-at ">")
+        (setq pos (point))
+        (when (search-forward ">" nil t)
+          (delete-region pos (match-beginning 0))))
+      (when (search-forward "</span>" nil t)
+        (replace-match "</a>" nil nil)))))
+
+(add-hook 'w3m-form-input-select-mode-hook 'my-w3m-form-select)
+
+(defun my-w3m-form-select ()
+  (let ((buffer-read-only nil))
+    (save-excursion
+      (goto-char (point-min))
+      (while (not (eobp))
+        (if (looking-at "^\\[disabled\\] ")
+            (progn
+              (put-text-property (match-end 0)
+                                 (line-end-position)
+                                 'face 'w3m-strike-through)
+              (add-text-properties (max (point-min) (1- (line-beginning-position)))
+                                 (min (point-max) (1+ (line-end-position)))
+                                 '(intangible t point-entered
+                                              (lambda (x y) (beginning-of-line)))))
+          (put-text-property (line-beginning-position)
+                             (line-end-position)
+                             'face 'w3m-anchor))
+        (forward-line 1))
+      (setq goal-column 0)
+      (set-buffer-modified-p nil))))
+
+(define-key w3m-minor-mode-map "M"
+  'w3m-view-url-with-external-browser);maybe in 2011 will be bound by default?
+
+;;(info "(emacs-w3m) Gnus")
+(defun gnus-summary-w3m-safe-toggle-inline-images (&optional arg)
+  "Toggle displaying of all images in the article buffer.
+          If the prefix arg is given, force displaying of images."
+  (interactive "P")
+  (with-current-buffer gnus-article-buffer
+    (let ((st (point-min))
+          (nd (point-max))
+          (w3m-async-exec w3m-async-exec))
+      (save-restriction
+        (widen)
+        (if (or (> st (point-min)) (< nd (point-max)))
+            (setq w3m-async-exec nil))
+        (article-goto-body)
+        (goto-char (or (text-property-not-all (point) (point-max)
+                                              'w3m-safe-url-regexp nil)
+                       (point)))
+        (if (interactive-p)
+            (call-interactively 'w3m-toggle-inline-images)
+          (w3m-toggle-inline-images arg))))))
+
+(eval-after-load "gnus-sum"
+  '(define-key gnus-summary-mode-map
+     "\C-i" 'gnus-summary-w3m-safe-toggle-inline-images))
