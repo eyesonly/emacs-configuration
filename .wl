@@ -60,7 +60,19 @@
 
  ;; need to work on wl-ignored-forwarded-headers
 ;;  wl-ignored-forwarded-headers   `\\(received\\|return-path\\|x-uidl\\|X-\\|Delivered-To|DKIM-Signature\\|DomainKey-Signature\\|Message-ID\\|References\\|MIME-Version\\|Content-Type\\|In-Reply-To\\|User-Agent\\)'
-
+;;wl-ignored-forwarded-headers "(\\received\\|return-path\\|x-uidl\\)"
+wl-ignored-forwarded-headers (concat
+                        "\\(Delivered-To*\\|X-Original-To*\\)" ; type specs; there can be no
+;;                        "\\(Delivered-To*\\)" ; type specs; there can be no
+;;                        "\\(Delivered-To*\\)" ; type specs; there can be no
+;;"\\(X-Original-To*\\)"
+;;                        "^"                ; beginning of line is required
+                        ;; "^\\(received\\)" ; there may be a "template <...>"
+                        ;; "^\\(return-path\\)" ; type specs; there can be no
+                        ;; "^\\(X-Original-To\\)" ; type specs; there can be no
+                        ;; "^\\(Delivered-To\\)" ; type specs; there can be no
+                        ;; "^\\(User-Agent\\)" ; type specs; there can be no
+                        )
 
  )
 
