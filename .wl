@@ -59,12 +59,13 @@
  wl-forward-subject-prefix "Fwd: "   ;; use "Fwd: " not "Forward: "
 
  ;; need to work on wl-ignored-forwarded-headers
- ;;  wl-ignored-forwarded-headers   `\\(received\\|return-path\\|x-uidl\\|X-\\|Delivered-To|DKIM-Signature\\|DomainKey-Signature\\|Message-ID\\|References\\|MIME-Version\\|Content-Type\\|In-Reply-To\\|User-Agent\\)'
+;;  wl-ignored-forwarded-headers   `\\(received\\|return-path\\|x-uidl\\|X-\\|Delivered-To|DKIM-Signature\\|DomainKey-Signature\\|Message-ID\\|References\\|MIME-Version\\|Content-Type\\|In-Reply-To\\|User-Agent\\)'
+
 
  )
 
 
-;; When I want to reply to someone, I don't need to CC myself, but I did like the previous mailing list reply behaviour
+;; When I want to reply to someone, I don't need to CC myself, but I did like the previous mailing list reply behaviour:
 ;;
 ;; from a WL-mailinglist post by David Bremner
 ;; May want to uncomment code in the next couple of blocks for replying to mailing lists.
@@ -95,18 +96,18 @@
 (setq wl-summary-width 80)
 
 ;;(add-to-list 'load-path "/usr/share/emacs23/site-lisp/mu-cite/")
-(require 'mu-cite)
-(add-hook 'mail-citation-hook 'mu-cite-original)
-(setq mu-cite-top-format
-      '("On " date "," full-name " wrote:\n"))
+;; (require 'mu-cite)
+;; (add-hook 'mail-citation-hook 'mu-cite-original)
+;; (setq mu-cite-top-format
+;;       '("On " date "," full-name " wrote:\n"))
 
 ;;{This code seems to have been written by James Shuttleworth to drop his .sig at the bottom of replies
 
-(setq signature-file-name ".signature"
-      signature-insert-at-eof t
-      signature-delete-blank-lines-at-eof t
-      mu-cite-prefix-format (quote (">")) ; default to >, no questions asked, rather than name
-      )
+;; (setq signature-file-name ".signature"
+;;       signature-insert-at-eof t
+;;       signature-delete-blank-lines-at-eof t
+;;       mu-cite-prefix-format (quote (">")) ; default to >, no questions asked, rather than name
+;;       )
 
 (add-hook
  'wl-init-hook
