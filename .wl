@@ -39,7 +39,7 @@
    "^Subject:"
    "^\\(From\\|Reply-To\\):"
    "^Organization:"
-   "^Message-Id:"
+   "^User-Agent:"
    "^\\(Posted\\|Date\\):"
    )
  wl-message-sort-field-list
@@ -62,7 +62,7 @@
 ;;  wl-ignored-forwarded-headers   `\\(received\\|return-path\\|x-uidl\\|X-\\|Delivered-To|DKIM-Signature\\|DomainKey-Signature\\|Message-ID\\|References\\|MIME-Version\\|Content-Type\\|In-Reply-To\\|User-Agent\\)'
 ;;wl-ignored-forwarded-headers "(\\received\\|return-path\\|x-uidl\\)"
 wl-ignored-forwarded-headers (concat
-                        "\\(Delivered-To*\\|X-Original-To*\\)" ; type specs; there can be no
+                        "\\(Delivered-To*\\|X-Original-To*\\|received*\\|X-*\\|return-path*\\|User-Agent*\\|Message-Id*\\)" ; type specs; there can be no
 ;;                        "\\(Delivered-To*\\)" ; type specs; there can be no
 ;;                        "\\(Delivered-To*\\)" ; type specs; there can be no
 ;;"\\(X-Original-To*\\)"
@@ -105,7 +105,15 @@ wl-ignored-forwarded-headers (concat
 ;;-----------------------------------
 (setq wl-summary-line-format "%n%T%P %D/%M %h:%m %t%[%20(%c %f%) %] %s")
 ;;(setq wl-summary-line-format "%n%T%P %D/%M (%W) %h:%m %t%[%25(%c %f%) %] %s")
-(setq wl-summary-width 80)
+(setq wl-summary-width 79)
+
+;; from http://osdir.com/ml/mail.wanderlust.general/2008-05/msg00005.html
+(autoload 'mu-cite-original "mu-cite" nil t)
+(add-hook 'mail-citation-hook 'mu-cite-original)
+(setq mu-cite-prefix-format '("> "))
+(setq mu-cite-cited-prefix-regexp nil)
+(setq mu-cite-top-format '("On " date "," from " wrote:\n\n"))
+
 
 ;;(add-to-list 'load-path "/usr/share/emacs23/site-lisp/mu-cite/")
 ;; (require 'mu-cite)
