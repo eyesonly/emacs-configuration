@@ -254,6 +254,10 @@ wl-ignored-forwarded-headers (concat
       (setq entity (wl-folder-get-next-folder id)))
     folder-list))
 
+
+
+
+
 ;; XXX: The doc is wrong, `wl-biff-check-folder-list' cannot hold
 ;; regexps meaningfully. We have to list all our folders. However,
 ;; this can only be done once WL is started, so we leave it to the
@@ -296,3 +300,17 @@ wl-ignored-forwarded-headers (concat
 ;; Wide window for draft buffer.
 (setq wl-draft-reply-buffer-style 'full)
 (setq wl-message-id-domain "groll.co.za")
+
+;;Cobbled together from posts by Erik Hetzner & Harald Judt to wl-en@lists.airs.net
+(defun mime-edit-insert-multiple-files ()
+  "Insert MIME parts from multiple files."
+  (interactive)
+  (let ((dir default-directory))
+    (let ((next-file (expand-file-name
+                      (read-file-name "Insert file as MIME message: " dir))))
+      (setq file-list (file-expand-wildcards next-file))
+      (while (car file-list)
+        (mime-edit-insert-file (car file-list))
+        (setq file-list (cdr file-list))))))
+
+(global-set-key "\C-c\C-x\C-a" 'mime-edit-insert-multiple-files)
