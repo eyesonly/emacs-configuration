@@ -314,3 +314,4 @@ wl-ignored-forwarded-headers (concat
         (setq file-list (cdr file-list))))))
 
 (global-set-key "\C-c\C-x\C-a" 'mime-edit-insert-multiple-files)
+

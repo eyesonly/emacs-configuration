@@ -904,6 +904,26 @@ fun)))
 (setq elmo-imap4-default-port '993)
 (setq elmo-imap4-default-stream-type 'ssl)
 
+;; emacs-fu wl iii:
+;;from http://emacs-fu.blogspot.com/2010/02/i-have-been-using-wanderlust-e-mail.html
+(setq mel-b-ccl-module nil)
+(setq mel-q-ccl-module nil)
+(setq base64-external-encoder '("mimencode"))
+(setq base64-external-decoder '("mimencode" "-u"))
+(setq base64-external-decoder-option-to-specify-file '("-o"))
+(setq quoted-printable-external-encoder '("mimencode" "-q"))
+(setq quoted-printable-external-decoder '("mimencode" "-q" "-u"))
+(setq quoted-printable-external-decoder-option-to-specify-file '("-o"))
+(setq base64-internal-decoding-limit 0)
+(setq base64-internal-encoding-limit 0)
+(setq quoted-printable-internal-decoding-limit 0)
+(setq quoted-printable-internal-encoding-limit 0)
+
+(setq-default mime-transfer-level 8)
+(setq mime-header-accept-quoted-encoded-words t)
+
+
+
 ;; Use sendmail, so didn't define SMTP
 ;; (setq wl-smtp-connection-type 'starttls)
 ;; (setq wl-smtp-posting-port 587)
