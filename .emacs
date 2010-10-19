@@ -361,8 +361,17 @@
 
 ;; (add-to-list 'load-path "~/lisp/ecb-2.32")
 ;; (require 'ecb-autoloads)
-(add-to-list 'load-path "~/lisp/ecb-snap")
-(require 'ecb)
+
+;;only want ECB if running graphically -non graphically want speedy start up
+
+(cond
+ ((string-match "f" jjgnox)
+
+  (add-to-list 'load-path "~/lisp/ecb-snap")
+  (require 'ecb)
+
+  ))
+
 ;; (ecb-activate)
 ;;(ecb-deactivate)
 
