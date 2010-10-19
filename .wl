@@ -62,7 +62,11 @@
 ;;  wl-ignored-forwarded-headers   `\\(received\\|return-path\\|x-uidl\\|X-\\|Delivered-To|DKIM-Signature\\|DomainKey-Signature\\|Message-ID\\|References\\|MIME-Version\\|Content-Type\\|In-Reply-To\\|User-Agent\\)'
 ;;wl-ignored-forwarded-headers "(\\received\\|return-path\\|x-uidl\\)"
 wl-ignored-forwarded-headers (concat
-                        "\\(Delivered-To*\\|X-Original-To*\\|received*\\|X-*\\|return-path*\\|User-Agent*\\|Message-Id*\\)" ; type specs; there can be no
+                        "\\(Delivered-To*\\|X-Original-To*\\|received*\\|X-*\\|return-path*\\|User-Agent*\\|Message-Id*\\|DKIM-Signature*\\|DomainKey-Signature*\\|MIME-Version*\\|In-Reply-To*\\|References:*\\|X-BeenThere*\\|X-Mailman-Version*\\|Precedence:*\\|Reply-To*\\|List-Id*\\|List-Unsubscribe*\\|List-Archive*\\|List-Post*\\|List-Help*\\|List-Subscribe*\\|Content-Type*\\|Content-Transfer-Encoding*\\|Errors-To*\\)"
+
+
+
+; type specs; there can be no
 ;;                        "\\(Delivered-To*\\)" ; type specs; there can be no
 ;;                        "\\(Delivered-To*\\)" ; type specs; there can be no
 ;;"\\(X-Original-To*\\)"
