@@ -370,15 +370,15 @@
   (add-to-list 'load-path "~/lisp/ecb-snap")
   (require 'ecb)
 
+;; From: http://www.postsubmeta.net/MyConfig/Emacs
+;; subversion support
+  (require 'vc-svn)
+
+
   ))
 
 ;; (ecb-activate)
 ;;(ecb-deactivate)
-
-;; From: http://www.postsubmeta.net/MyConfig/Emacs
-;; subversion support
-(require 'vc-svn)
-
 
 ;;From http://www.emacswiki.org/emacs/Git
 ;; (require 'vc-git)

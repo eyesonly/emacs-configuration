@@ -64,7 +64,7 @@
 wl-ignored-forwarded-headers (concat
                         "\\(Delivered-To*\\|X-Original-To*\\|received*\\|X-*\\|return-path*\\|User-Agent*\\|Message-Id*\\|DKIM-Signature*\\|DomainKey-Signature*\\|MIME-Version*\\|In-Reply-To*\\|References:*\\|X-BeenThere*\\|X-Mailman-Version*\\|Precedence:*\\|Reply-To*\\|List-Id*\\|List-Unsubscribe*\\|List-Archive*\\|List-Post*\\|List-Help*\\|List-Subscribe*\\|Content-Type*\\|Content-Transfer-Encoding*\\|Errors-To*\\)"
 
-
+;;wl-draft-elide-ellipsis "[... original message snipped ...]"
 
 ; type specs; there can be no
 ;;                        "\\(Delivered-To*\\)" ; type specs; there can be no
