@@ -331,7 +331,10 @@
 (setq truncate-partial-width-windows nil)
 
 ;; Load CEDET
-(load-file "~/lisp/cedet-1.0pre4/common/cedet.el")
+;;(load-file "~/lisp/cedet-1.0pre4/common/cedet.el")
+(global-ede-mode 1)
+(semantic-mode 1)
+
 
 ;; Enabling various SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
 ;; Select one of the following:
@@ -341,7 +344,7 @@
 
 ;; * This enables some tools useful for coding, such as summary mode
 ;;   imenu support, and the semantic navigator
-(semantic-load-enable-code-helpers)
+;;(semantic-load-enable-code-helpers)
 
 ;; * This enables even more coding tools such as the nascent intellisense mode
 ;;   decoration mode, and stickyfunc mode (plus regular code helpers)
@@ -356,8 +359,10 @@
 ;; (semantic-load-enable-semantic-debugging-helpers)
 
 
-(add-to-list 'load-path "~/lisp/ecb-2.32")
-(require 'ecb-autoloads)
+;; (add-to-list 'load-path "~/lisp/ecb-2.32")
+;; (require 'ecb-autoloads)
+(add-to-list 'load-path "~/lisp/ecb-snap")
+(require 'ecb)
 ;; (ecb-activate)
 ;;(ecb-deactivate)
 
