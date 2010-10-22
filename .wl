@@ -112,7 +112,6 @@ wl-ignored-forwarded-headers (concat
 ;;;;(setq wl-summary-line-format "%n%T%P %D/%M (%W) %h:%m %t%[%25(%c %f%) %] %s")
 (setq wl-summary-width 79)
 
-(setq wl-summary-showto-folder-regexp "^\\%sent$")
 ;; from http://osdir.com/ml/mail.wanderlust.general/2008-05/msg00005.html
 (autoload 'mu-cite-original "mu-cite" nil t)
 (add-hook 'mail-citation-hook 'mu-cite-original)
@@ -323,3 +322,6 @@ wl-ignored-forwarded-headers (concat
 ;;(define-key wl-draft-mode-map (kbd "<C-tab>") 'bbdb-complete-name)
 (global-set-key  (kbd "C-c C-x t") 'bbdb-complete-name)
 
+
+;;See who I sent mail to when looking at the sent folder
+(setq wl-summary-showto-folder-regexp "^\\%sent$")
