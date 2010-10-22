@@ -316,8 +316,10 @@ wl-ignored-forwarded-headers (concat
                       (read-file-name "Insert file as MIME message: " dir))))
       (setq file-list (file-expand-wildcards next-file))
       (while (car file-list)
-        (mime-edit-insert-file (car file-list))
+        (mime-edit-insert-file (car file-list) base64)
         (setq file-list (cdr file-list))))))
 
 (global-set-key "\C-c\C-x\C-a" 'mime-edit-insert-multiple-files)
+;;(define-key wl-draft-mode-map (kbd "<C-tab>") 'bbdb-complete-name)
+(global-set-key  (kbd "C-c C-x t") 'bbdb-complete-name)
 
