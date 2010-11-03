@@ -36,7 +36,7 @@
  w3m-treat-image-size nil;; [emacs-w3m:10567] vertically worded webpages
  w3m-home-page "http://localhost:8080/index/lasttime?sort=mtime"
  w3m-use-title-buffer-name t
- w3m-toggle-inline-images-permanently nil
+;; w3m-toggle-inline-images-permanently nil
  w3m-confirm-leaving-secure-page nil
  w3m-default-directory "~/"
  w3m-local-find-file-regexps '(nil . "\\.\\(?:[sx]?html?\\|txt\\)\\'")

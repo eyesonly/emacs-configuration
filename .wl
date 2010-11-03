@@ -325,3 +325,9 @@ wl-ignored-forwarded-headers (concat
 
 ;;See who I sent mail to when looking at the sent folder
 (setq wl-summary-showto-folder-regexp "^\\%sent$")
+
+;;For Ubuntu 10.10 - can't get GNUTLS to talk to my dovecot imapd
+(setq ssl-program-name "openssl")
+(setq ssl-program-arguments '("s_client" "-host" host "-port" service "-verify"
+                             "0" "-CApath" "/usr/lib/ssl/certs" "-quiet"))
+

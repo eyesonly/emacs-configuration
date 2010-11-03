@@ -332,8 +332,10 @@
 
 ;; Load CEDET
 ;;(load-file "~/lisp/cedet-1.0pre4/common/cedet.el")
-(global-ede-mode 1)
-(semantic-mode 1)
+
+;; Commented out on Ubuntu 10.10 at the moment
+;;(global-ede-mode 1)
+;;(semantic-mode 1)
 
 
 ;; Enabling various SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
@@ -367,8 +369,9 @@
 (cond
  ((string-match "f" jjgnox)
 
-  (add-to-list 'load-path "~/lisp/ecb-snap")
-  (require 'ecb)
+;; Commented out Ubuntu 10.10
+;;  (add-to-list 'load-path "~/lisp/ecb-snap")
+;;  (require 'ecb)
 
 ;; From: http://www.postsubmeta.net/MyConfig/Emacs
 ;; subversion support
