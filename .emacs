@@ -593,9 +593,9 @@ of the line)."
 (defun goto-terminal ()
   (interactive)
   (switch-to-buffer-other-window "term-first")
-;;  (other-window 1)               ;; move back to first window
-  (balance-windows)
-  (shrink-window 10)
+ (other-window 1)               ;; move back to first window
+ (balance-windows)
+ (shrink-window 10)
 )
 
 ;; (global-set-key (kbd "C-c t") 'goto-terminal)
@@ -888,13 +888,13 @@ fun)))
 ;;and want rapid shutdown
 (cond
  ((string-match "f" jjgnox)
-;; ((eq jjgnox 'nil)
-   (split-window-vertically)      ;; want two windows at startup
-   (other-window 1)               ;; move to other window
+;; (split-window-vertically)      ;; want two windows at startup
+;; (other-window 1)               ;; move to other window
    (term "/bin/bash")
    (rename-buffer "term-first")   ;; rename it
-   (other-window 1)               ;; move back to first window
-   (enlarge-window 10)
+   (switch-to-buffer "*scratch*")
+;; (other-window 1)               ;; move back to first window
+;; (enlarge-window 10)
 ))
 
 ;;----------------------------------------------------------------------------
@@ -939,6 +939,8 @@ fun)))
 (setq-default mime-transfer-level 8)
 (setq mime-header-accept-quoted-encoded-words t)
 
+(setq user-full-name "Jonathan Groll")
+;;for sending mails from home only - home is with an X windows emacs
 (cond
  ((string-match "f" jjgnox)
 (setq wl-smtp-connection-type 'starttls)
@@ -946,7 +948,6 @@ fun)))
 (setq wl-smtp-authenticate-type "plain")
 (setq wl-smtp-posting-user "jjg")
 (setq wl-smtp-posting-server "mail.groll.co.za")
-(setq user-full-name "Jonathan Groll")
 (setq wl-local-domain "groll.co.za")
 (setq wl-message-id-domain "groll.co.za!!")
 (setq user-mail-address (concat wl-smtp-posting-user "@" wl-local-domain))
@@ -955,11 +956,6 @@ fun)))
 (setq wl-default-folder "%INBOX")
 (setq wl-default-spec "%")
 (setq wl-folder-check-async t)
-
-(setq
-;; Tell Emacs my name and e-mail address:
-      user-full-name "Jonathan Groll"
-)
 
 (autoload 'wl-user-agent-compose "wl-draft" nil t)
 (if (boundp 'mail-user-agent)
