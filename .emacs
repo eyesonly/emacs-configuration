@@ -939,16 +939,18 @@ fun)))
 (setq-default mime-transfer-level 8)
 (setq mime-header-accept-quoted-encoded-words t)
 
-
-
-;; Use sendmail, so didn't define SMTP
-;; (setq wl-smtp-connection-type 'starttls)
-;; (setq wl-smtp-posting-port 587)
-;; (setq wl-smtp-authenticate-type "plain")
-;; (setq wl-smtp-posting-user "mattofransen")
-;; (setq wl-smtp-posting-server "smtp.gmail.com")
+(cond
+ ((string-match "f" jjgnox)
+(setq wl-smtp-connection-type 'starttls)
+(setq wl-smtp-posting-port 25)
+(setq wl-smtp-authenticate-type "plain")
+(setq wl-smtp-posting-user "jjg")
+(setq wl-smtp-posting-server "mail.groll.co.za")
+(setq user-full-name "Jonathan Groll")
 (setq wl-local-domain "groll.co.za")
 (setq wl-message-id-domain "groll.co.za!!")
+(setq user-mail-address (concat wl-smtp-posting-user "@" wl-local-domain))
+))
 
 (setq wl-default-folder "%INBOX")
 (setq wl-default-spec "%")
