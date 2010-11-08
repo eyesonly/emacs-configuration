@@ -187,14 +187,6 @@ wl-ignored-forwarded-headers (concat
                                         ;Auto add signature on draft edit
 (remove-hook 'wl-draft-send-hook 'wl-draft-config-exec)
 (add-hook 'wl-mail-setup-hook 'wl-draft-config-exec)
-(setq wl-draft-config-alist
-      '(((string-match "1" "1")
-         (bottom . "\nCheers,\nJJG\n--\n")
-         ;;(bottom . "\n--\n")
-         (bottom-file . ".signature")
-         )
-        ))
-
                                         ;Stop mime errors when sending to AOL/others?
                                         ; osdir.com/ml/mail.wanderlust.general/2006-10/msg00007.html
                                         ;(setq-default mime-transfer-level 8)
@@ -331,3 +323,91 @@ wl-ignored-forwarded-headers (concat
 (setq ssl-program-arguments '("s_client" "-host" host "-port" service "-verify"
                              "0" "-CApath" "/usr/lib/ssl/certs" "-quiet"))
 
+;;templates for different accounts
+
+;; Templates - I use three different email accounts
+  (setq wl-template-alist
+  '(
+    ("g"
+     (wl-smtp-posting-user . "jjg")
+     (user-mail-address . (concat wl-smtp-posting-user "@" wl-local-domain))
+     (wl-from . (concat user-full-name  " <" user-mail-address ">"))
+     ("From" . wl-from)
+     ("Mail-Reply-To" . user-mail-address)
+     (wl-fcc . "%sent")
+    )
+    ("l"
+     (wl-smtp-posting-user . "lists")
+     (user-mail-address . (concat wl-smtp-posting-user "@" wl-local-domain))
+     (wl-from . (concat user-full-name  " <" user-mail-address ">"))
+     ("From" . wl-from)
+     ("Mail-Reply-To" . user-mail-address)
+     (wl-fcc . "%sent")
+    )
+    ("j"
+     (wl-smtp-posting-user . "jonathan")
+     (user-mail-address . (concat wl-smtp-posting-user "@" wl-local-domain))
+     (wl-from . (concat user-full-name  " <" user-mail-address ">"))
+     ("From" . wl-from)
+     ("Mail-Reply-To" . user-mail-address)
+     (wl-fcc . "%sent")
+    )
+    ))
+
+;; Automatically select the correct template (account) based on which folder I'm visiting
+(setq wl-draft-config-matchone t)
+(setq wl-draft-config-alist
+       '(
+          (
+           ( and (string-match "%*hivemind" wl-draft-parent-folder) )
+            (template . "l")
+            (bottom . "\nCheers,\nJonathan\n--\n")
+            (bottom-file . ".signature")
+            )
+
+          (
+           ( not ( and (string-match "%*hivemind" wl-draft-parent-folder) ) )
+            (template . "j")
+            (bottom . "\nCheers,\nJonathan\n--\n")
+            (bottom-file . ".signature")
+            )
+
+          (
+           ( not ( and (string-match "%*hivemind" wl-draft-parent-folder) ) )
+            (template . "j")
+            (bottom . "\nCheers,\nJonathan\n--\n")
+            (bottom-file . ".signature")
+            )
+
+
+       ;; '((string-match "%*INBOX" wl-draft-parent-folder)
+       ;;    (template . "j")
+       ;;    (bottom . "\nCheers,\nJJG\n--\n")
+       ;;    (bottom-file . ".signature")
+       ;;    )
+))
+
+
+
+;; (setq wl-draft-config-alist
+;;       '(
+;;      ( ; If I start a draft from my work e-mail folder and I'm using my
+;;                                      ; personal computer (from home) use the template "Work-From-Home". I
+;;                                      ; use a two different templates for my work E-Mail because I don't
+;;                                      ; have access to the smtp server of my work when I'm at home. But
+;;                                      ; since I can ssh to it i redirect a port to be able to sent e-mail
+;;                                      ; from home though the smtp server of my work
+;;       ;;  (and (string-match ".*WORK" wl-draft-parent-folder) (string-match "dtripathi" system-name))
+;;       ;; (template . "Work-From-Home")
+;;       ;; )
+;;       ;;  ( ; If I start a draft from my work e-mail folder and I'm using my
+;;                                      ; work computer, use the "Work" template
+
+;;       (and (string-match ".*OTHERS.*\\|.*Managers.*\\|.*Team.*" wl-draft-parent-folder) )
+;;       (template . "Work")
+;;            )
+;;      ( ;; If I start a draft from any other folder, use the "gmail" template.
+;;       (not (string-match ".*OTHERS.*\\|.*Managers.*\\|.*Team.*" wl-draft-parent-folder))
+;;       (template . "gmail")
+;;       )
+;;      ))
