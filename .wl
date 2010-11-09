@@ -23,7 +23,7 @@
  wl-folder-window-width 25
  wl-fcc "%sent"                       ;; sent msgs go to the "sent"-folder
  wl-fcc-force-as-read t               ;; mark sent messages as read
- wl-default-folder "%inbox"           ;; my main inbox
+ wl-default-folder "%inbox_jon"       ;; my main inbox
 
 
  ;;still no biff joy, when I get the time...
@@ -307,7 +307,7 @@ wl-ignored-forwarded-headers (concat
                       (read-file-name "Insert file as MIME message: " dir))))
       (setq file-list (file-expand-wildcards next-file))
       (while (car file-list)
-        (mime-edit-insert-file (car file-list) base64)
+        (mime-edit-insert-file (car file-list) )
         (setq file-list (cdr file-list))))))
 
 (global-set-key "\C-c\C-x\C-a" 'mime-edit-insert-multiple-files)
@@ -323,8 +323,6 @@ wl-ignored-forwarded-headers (concat
 (setq ssl-program-arguments '("s_client" "-host" host "-port" service "-verify"
                              "0" "-CApath" "/usr/lib/ssl/certs" "-quiet"))
 
-;;templates for different accounts
-
 ;; Templates - I use three different email accounts
   (setq wl-template-alist
   '(
@@ -334,7 +332,7 @@ wl-ignored-forwarded-headers (concat
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
      ("Mail-Reply-To" . user-mail-address)
-     (wl-fcc . "%sent")
+     (wl-fcc . "%sent_jjg")
     )
     ("l"
      (wl-smtp-posting-user . "lists")
@@ -342,7 +340,7 @@ wl-ignored-forwarded-headers (concat
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
      ("Mail-Reply-To" . user-mail-address)
-     (wl-fcc . "%sent")
+     ("Fcc" . "%sent_l")
     )
     ("j"
      (wl-smtp-posting-user . "jonathan")
@@ -359,55 +357,26 @@ wl-ignored-forwarded-headers (concat
 (setq wl-draft-config-alist
        '(
           (
-           ( and (string-match "%*hivemind" wl-draft-parent-folder) )
+
+           ( and (string-match ".*hivemind.*\\|.*lists.*\\|.*spam" wl-draft-parent-folder) )
+;;           ( and (string-match ".*hivemind.*\\|.*lists.*\\|.*spam.*" wl-draft-parent-folder) )
             (template . "l")
             (bottom . "\nCheers,\nJonathan\n--\n")
             (bottom-file . ".signature")
             )
 
           (
-           ( not ( and (string-match "%*hivemind" wl-draft-parent-folder) ) )
-            (template . "j")
+           (  and (string-match "%*jjg" wl-draft-parent-folder) )
+            (template . "g")
             (bottom . "\nCheers,\nJonathan\n--\n")
             (bottom-file . ".signature")
             )
 
+          ;;default
           (
-           ( not ( and (string-match "%*hivemind" wl-draft-parent-folder) ) )
+           (  and (string-match "1" "1") )
             (template . "j")
-            (bottom . "\nCheers,\nJonathan\n--\n")
+            (bottom . "\nCheers,\nJJG\n--\n")
             (bottom-file . ".signature")
             )
-
-
-       ;; '((string-match "%*INBOX" wl-draft-parent-folder)
-       ;;    (template . "j")
-       ;;    (bottom . "\nCheers,\nJJG\n--\n")
-       ;;    (bottom-file . ".signature")
-       ;;    )
 ))
-
-
-
-;; (setq wl-draft-config-alist
-;;       '(
-;;      ( ; If I start a draft from my work e-mail folder and I'm using my
-;;                                      ; personal computer (from home) use the template "Work-From-Home". I
-;;                                      ; use a two different templates for my work E-Mail because I don't
-;;                                      ; have access to the smtp server of my work when I'm at home. But
-;;                                      ; since I can ssh to it i redirect a port to be able to sent e-mail
-;;                                      ; from home though the smtp server of my work
-;;       ;;  (and (string-match ".*WORK" wl-draft-parent-folder) (string-match "dtripathi" system-name))
-;;       ;; (template . "Work-From-Home")
-;;       ;; )
-;;       ;;  ( ; If I start a draft from my work e-mail folder and I'm using my
-;;                                      ; work computer, use the "Work" template
-
-;;       (and (string-match ".*OTHERS.*\\|.*Managers.*\\|.*Team.*" wl-draft-parent-folder) )
-;;       (template . "Work")
-;;            )
-;;      ( ;; If I start a draft from any other folder, use the "gmail" template.
-;;       (not (string-match ".*OTHERS.*\\|.*Managers.*\\|.*Team.*" wl-draft-parent-folder))
-;;       (template . "gmail")
-;;       )
-;;      ))

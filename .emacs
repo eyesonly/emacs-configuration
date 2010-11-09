@@ -940,6 +940,9 @@ fun)))
 (setq mime-header-accept-quoted-encoded-words t)
 
 (setq user-full-name "Jonathan Groll")
+(setq wl-local-domain "groll.co.za")
+(setq wl-message-id-domain "groll.co.za!!")
+
 ;;for sending mails from home only - home is with an X windows emacs
 (cond
  ((string-match "f" jjgnox)
@@ -948,12 +951,11 @@ fun)))
 (setq wl-smtp-authenticate-type "plain")
 (setq wl-smtp-posting-user "jjg")
 (setq wl-smtp-posting-server "mail.groll.co.za")
-(setq wl-local-domain "groll.co.za")
-(setq wl-message-id-domain "groll.co.za!!")
 (setq user-mail-address (concat wl-smtp-posting-user "@" wl-local-domain))
 ))
 
-(setq wl-default-folder "%INBOX")
+
+(setq wl-default-folder "%inbox_jon")
 (setq wl-default-spec "%")
 (setq wl-folder-check-async t)
 
