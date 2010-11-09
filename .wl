@@ -14,7 +14,7 @@
  elmo-imap4-use-cache t
  wl-ask-range nil
 
- elmo-message-fetch-confirm t
+ elmo-message-fetch-confirm nil
  elmo-message-fetch-threshold 2500000
  wl-from (concat user-full-name " <" user-mail-address ">")
 
@@ -332,7 +332,7 @@ wl-ignored-forwarded-headers (concat
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
      ("Mail-Reply-To" . user-mail-address)
-     (wl-fcc . "%sent_jjg")
+     ("Fcc" . (concat "%sent:" wl-smtp-posting-user "/login:993"))
     )
     ("l"
      (wl-smtp-posting-user . "lists")
@@ -340,7 +340,7 @@ wl-ignored-forwarded-headers (concat
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
      ("Mail-Reply-To" . user-mail-address)
-     ("Fcc" . "%sent_l")
+     ("Fcc" . (concat "%sent:" wl-smtp-posting-user "/login:993"))
     )
     ("j"
      (wl-smtp-posting-user . "jonathan")
@@ -348,7 +348,7 @@ wl-ignored-forwarded-headers (concat
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
      ("Mail-Reply-To" . user-mail-address)
-     (wl-fcc . "%sent")
+     ("Fcc" . "%sent")
     )
     ))
 
@@ -358,15 +358,14 @@ wl-ignored-forwarded-headers (concat
        '(
           (
 
-           ( and (string-match ".*hivemind.*\\|.*lists.*\\|.*spam" wl-draft-parent-folder) )
-;;           ( and (string-match ".*hivemind.*\\|.*lists.*\\|.*spam.*" wl-draft-parent-folder) )
+           ( and (string-match ".*hivemind\\|.*lists\\|.*spam" wl-draft-parent-folder) )
             (template . "l")
             (bottom . "\nCheers,\nJonathan\n--\n")
             (bottom-file . ".signature")
             )
 
           (
-           (  and (string-match "%*jjg" wl-draft-parent-folder) )
+           (  and (string-match ".*jjg.*" wl-draft-parent-folder) )
             (template . "g")
             (bottom . "\nCheers,\nJonathan\n--\n")
             (bottom-file . ".signature")
