@@ -9,7 +9,7 @@
 
 (setq
 
- ;; Cache settings - I read mail as IMAP on the server itself
+ ;; Cache settings
  wl-plugged t
  elmo-imap4-use-cache t
  wl-ask-range nil
@@ -17,6 +17,8 @@
  elmo-message-fetch-confirm nil
  elmo-message-fetch-threshold 2500000
  wl-from (concat user-full-name " <" user-mail-address ">")
+
+ wl-summary-always-sticky-folder-list t
 
  ;; Settings mostly from emacs-fu, or inspired by the post at:
  ;; http://emacs-fu.blogspot.com/2009/06/e-mail-with-wanderlust.html
@@ -117,7 +119,7 @@ wl-ignored-forwarded-headers (concat
 (add-hook 'mail-citation-hook 'mu-cite-original)
 (setq mu-cite-prefix-format '("> "))
 (setq mu-cite-cited-prefix-regexp nil)
-(setq mu-cite-top-format '("On " date "," from " wrote:\n\n"))
+(setq mu-cite-top-format '("On " date ", " from " wrote:\n\n"))
 
 
 ;;(add-to-list 'load-path "/usr/share/emacs23/site-lisp/mu-cite/")
@@ -316,7 +318,8 @@ wl-ignored-forwarded-headers (concat
 
 
 ;;See who I sent mail to when looking at the sent folder
-(setq wl-summary-showto-folder-regexp "^\\%sent$")
+(setq wl-summary-showto-folder-regexp ".*sent.*" )
+;;(setq wl-summary-showto-folder-regexp "^\\%sent$")
 
 ;;For Ubuntu 10.10 - can't get GNUTLS to talk to my dovecot imapd
 (setq ssl-program-name "openssl")
