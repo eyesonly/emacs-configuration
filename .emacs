@@ -943,6 +943,7 @@ fun)))
 (setq wl-local-domain "groll.co.za")
 (setq wl-message-id-domain "groll.co.za!!")
 
+
 ;;for sending mails from home only - home is with an X windows emacs
 (cond
  ((string-match "f" jjgnox)
@@ -955,8 +956,9 @@ fun)))
 ))
 
 
+
 (setq wl-default-folder "%inbox_jon")
-(setq wl-default-spec "%")
+;;(setq wl-default-spec "%")
 (setq wl-folder-check-async t)
 
 (autoload 'wl-user-agent-compose "wl-draft" nil t)
