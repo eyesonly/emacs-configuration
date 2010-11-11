@@ -1,8 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
 
-(setq user-mail-address (concat  ".*@" wl-local-domain))
-
-
 ;;My Mail mode hook, I like auto fill and M-Tab for bbdb complete gets caught by window manager
 (defun my-mail-mode-hook ()
   (local-set-key (kbd "C-c t") 'bbdb-complete-name)
@@ -321,100 +318,9 @@ wl-ignored-forwarded-headers (concat
 
 
 ;;See who I sent mail to when looking at any folder (rather than my name)
- (setq wl-summary-showto-folder-regexp ".*")
-
-;; (defun wl-summary-jjg-from (from)
-;;   (let ((to (elmo-message-entity-field entity 'to)))
-;;   (if (and (wl-address-user-mail-address-p from) to)
-;;   ;; (if (and (user-full-name-p from) to)
-;;       (wl-summary-default-from from)
-;;     (wl-summary-default-from to))))
-
-;; (defun wl-address-user-jjg-address-p (address)
-;;   "Judge whether ADDRESS is user's or not."
-;;   (if wl-user-mail-address-regexp
-;;       (string-match wl-user-mail-address-regexp
-;;                     (wl-address-header-extract-address address))
-;;     (member (downcase (wl-address-header-extract-address address))
-;;             (or (mapcar 'downcase wl-user-mail-address-list)
-;;                 (list (downcase
-;;                        (wl-address-header-extract-address
-;;                         wl-from)))))))
-
-
-;; (defun wl-summary-jjg-from (from)
-;;   "Instance of `wl-summary-from-function'.
-;; Ordinarily returns the sender name. Returns recipient names if (1)
-;; summary's folder name matches with `wl-summary-showto-folder-regexp'
-;; and (2) sender address is yours.
-
-;; See also variable `wl-use-petname'."
-
-;;   (let ((translator (if wl-use-petname
-;;                         (lambda (string)
-;;                           (or (funcall wl-summary-get-petname-function string)
-;;                               (car (std11-extract-address-components string))
-;;                               string))
-;;                       #'identity))
-;;         to ng)
-;;     (or (and (eq major-mode 'wl-summary-mode)
-;;              (stringp wl-summary-showto-folder-regexp)
-;;              (string-match wl-summary-showto-folder-regexp
-;;                            (wl-summary-buffer-folder-name))
-;;              (wl-address-user-jjg-address-p from)
-;;              (cond
-;;               ((setq to (elmo-message-entity-field wl-message-entity 'to))
-;;                (concat "To:" (mapconcat translator to ",")))
-;;               ((setq ng (elmo-message-entity-field wl-message-entity
-;;                                                    'newsgroups))
-;;                (concat "Ng:" ng))))
-;;         (funcall translator from))))
-
-;; See also variable `wl-use-petname'."
-;;   (let ((translator (if wl-use-petname
-;;                         (lambda (string)
-;;                           (or (funcall wl-summary-get-petname-function string)
-;;                               (car (std11-extract-address-components string))
-;;                               string))
-;;                       #'identity))
-;;         to ng)
-;;     (or (and (eq major-mode 'wl-summary-mode)
-;;              (stringp wl-summary-showto-folder-regexp)
-;;              (string-match wl-summary-showto-folder-regexp
-;;                            (wl-summary-buffer-folder-name))
-;;              (wl-address-user-mail-address-p from)
-;;              (cond
-;;               ((setq to (elmo-message-entity-field wl-message-entity 'to))
-;;                (concat "To:" (mapconcat translator to ",")))
-;;               ((setq ng (elmo-message-entity-field wl-message-entity
-;;                                                    'newsgroups))
-;;                (concat "Ng:" ng))))
-;;         (funcall translator from))))
-
-;; (defun wl-summary-jjg-from (from)
-;; ;;  (let ((from (elmo-message-entity-field entity 'to)))
-;;   (if (string-match "Jonathan Groll" (from))
-;;  (concat "To")
-;; ))
-  ;; (if (and (string-match "Jonathan Groll" from) to)
-  ;;     (concat "From JJG")
-  ;;   (concat "ToJonathan Groll"))))
-;; (defun wl-summary-bush-from (from)
-;;   (let ((to (elmo-message-entity-field entity 'to)))
-;;   (if (and (wl-address-user-mail-address-p from) to)
-;;       (wl-summary-default-from from)
-;;     (bbdb-wl-from-func from))))
-;;    (bbdb-wl-from-func from))))
-;;(message wl-address-user-mail-address-p)
-;;;(setq wl-summary-from-function 'wl-summary-jjg-from)
-
-
-;; (setq wl-summary-from-function 'bbdb-wl-from-func)
+ (setq user-mail-address (concat  ".*@" wl-local-domain))
+ (setq wl-summary-showto-folder-regexp ".*sent.*")
 ;; (setq wl-summary-from-function 'wl-summary-default-from)
-;; (setq wl-summary-get-petname-function 'bbdb-wl-get-petname)
-;;(setq wl-summary-showto-folder-regexp "\\s.*" )
-;;(setq wl-summary-showto-folder-regexp "\\.*sent*\\|sent*\\|^\\%sent:jjg/login:993$" )
-;;(setq wl-summary-showto-folder-regexp "^\\%sent$")
 
 ;;For Ubuntu 10.10 - can't get GNUTLS to talk to my dovecot imapd
 (setq ssl-program-name "openssl")
