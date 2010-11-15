@@ -317,10 +317,12 @@ wl-ignored-forwarded-headers (concat
 (global-set-key  (kbd "C-c C-x t") 'bbdb-complete-name)
 
 
-;;See who I sent mail to when looking at any folder (rather than my name)
- (setq user-mail-address (concat  ".*@" wl-local-domain))
- (setq wl-summary-showto-folder-regexp ".*sent.*")
-;; (setq wl-summary-from-function 'wl-summary-default-from)
+;;See who I sent mail to when looking at the sent folders (rather than my name)
+(defun jjg-add-domain (list-element)
+  (concat list-element "@" wl-local-domain))
+(setq wl-user-mail-address-list (mapcar 'jjg-add-domain '("lists" "jjg" "jonathan")))
+(setq wl-summary-showto-folder-regexp ".*sent.*")
+(setq wl-summary-from-function 'wl-summary-default-from)
 
 ;;For Ubuntu 10.10 - can't get GNUTLS to talk to my dovecot imapd
 (setq ssl-program-name "openssl")
