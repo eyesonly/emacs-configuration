@@ -952,7 +952,7 @@ fun)))
 (setq wl-smtp-authenticate-type "plain")
 (setq wl-smtp-posting-user "jjg")
 (setq wl-smtp-posting-server "mail.groll.co.za")
-;;(setq user-mail-address (concat wl-smtp-posting-user "@" wl-local-domain))
+(setq user-mail-address (concat wl-smtp-posting-user "@" wl-local-domain))
 ))
 
 
