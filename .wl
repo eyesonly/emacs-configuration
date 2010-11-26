@@ -90,16 +90,16 @@ wl-ignored-forwarded-headers (concat
 ;; Default behaviour where I define my own mailing lists may be better
 ;; Invert behaviour of with and without argument replies.
 ;; just the author
-(setq wl-draft-reply-without-argument-list
-      '(("Reply-To" ("Reply-To") nil nil)
-        ("Mail-Reply-To" ("Mail-Reply-To") nil nil)
-        ("From" ("From") nil nil)))
+;; ;; (setq wl-draft-reply-without-argument-list
+;; ;;       '(("Reply-To" ("Reply-To") nil nil)
+;; ;;         ("Mail-Reply-To" ("Mail-Reply-To") nil nil)
+;; ;;         ("From" ("From") nil nil)))
 
-(setq wl-draft-reply-with-argument-list
-      '(("Followup-To" nil nil ("Followup-To"))
-        ("Mail-Followup-To" ("Mail-Followup-To") nil ("Newsgroups"))
-        ("Reply-To" ("Reply-To") ("To" "Cc" "From") ("Newsgroups"))
-        ("From" ("From") ("To" "Cc") ("Newsgroups"))))
+;; ;; (setq wl-draft-reply-with-argument-list
+;; ;;       '(("Followup-To" nil nil ("Followup-To"))
+;; ;;         ("Mail-Followup-To" ("Mail-Followup-To") nil ("Newsgroups"))
+;; ;;         ("Reply-To" ("Reply-To") ("To" "Cc" "From") ("Newsgroups"))
+;; ;;         ("From" ("From") ("To" "Cc") ("Newsgroups"))))
 
 
 ;;from http://www.emacswiki.org/emacs/WlFaq
@@ -136,26 +136,26 @@ wl-ignored-forwarded-headers (concat
 ;;       mu-cite-prefix-format (quote (">")) ; default to >, no questions asked, rather than name
 ;;       )
 
-(add-hook
- 'wl-init-hook
- '(lambda ()
-    ;; Add support for (signature . "filename")
-    (unless (assq 'signature wl-draft-config-sub-func-alist)
-      (wl-append wl-draft-config-sub-func-alist
-                 '((signature . wl-draft-config-sub-signature))))
+;; ;; (add-hook
+;; ;;  'wl-init-hook
+;; ;;  '(lambda ()
+;; ;;     ;; Add support for (signature . "filename")
+;; ;;     (unless (assq 'signature wl-draft-config-sub-func-alist)
+;; ;;       (wl-append wl-draft-config-sub-func-alist
+;; ;;                  '((signature . wl-draft-config-sub-signature))))
 
-    (defun mime-edit-insert-signature (&optional arg)
-      "Redefine to insert a signature file directly, not as a tag."
-      (interactive "P")
-      (insert-signature arg))
-    ))
+;; ;;     (defun mime-edit-insert-signature (&optional arg)
+;; ;;       "Redefine to insert a signature file directly, not as a tag."
+;; ;;       (interactive "P")
+;; ;;       (insert-signature arg))
+;; ;;     ))
 
-(defun wl-draft-config-sub-signature (content)
-  "Insert the signature at the end of the MIME message."
-  (let ((signature-insert-at-eof nil)
-        (signature-file-name content))
-    (goto-char (mime-edit-content-end))
-    (insert-signature)))
+;; ;; (defun wl-draft-config-sub-signature (content)
+;; ;;   "Insert the signature at the end of the MIME message."
+;; ;;   (let ((signature-insert-at-eof nil)
+;; ;;         (signature-file-name content))
+;; ;;     (goto-char (mime-edit-content-end))
+;; ;;     (insert-signature)))
 ;;}
 
 ;;Get BBDB workiing
@@ -186,7 +186,7 @@ wl-ignored-forwarded-headers (concat
 (add-hook 'wl-mail-send-pre-hook 'djcb-wl-draft-subject-check)
 (add-hook 'wl-mail-send-pre-hook 'djcb-wl-draft-attachment-check)
 
-                                        ;Auto add signature on draft edit
+;Auto add signature on draft edit
 (remove-hook 'wl-draft-send-hook 'wl-draft-config-exec)
 (add-hook 'wl-mail-setup-hook 'wl-draft-config-exec)
                                         ;Stop mime errors when sending to AOL/others?
@@ -345,7 +345,7 @@ wl-ignored-forwarded-headers (concat
      (user-mail-address . (concat wl-smtp-posting-user "@" wl-local-domain))
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
-     ("Mail-Reply-To" . user-mail-address)
+;;     ("Mail-Reply-To" . user-mail-address)
      ("Fcc" . (concat "%sent:" wl-smtp-posting-user "/login:993"))
     )
     ("j"
@@ -382,6 +382,6 @@ wl-ignored-forwarded-headers (concat
            (  and (string-match "1" "1") )
             (template . "j")
             (bottom . "\nCheers,\nJJG\n--\n")
-            (bottom-file . ".signature")
+            (bottom-file . ".signature2")
             )
 ))
