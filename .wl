@@ -55,7 +55,7 @@
    )
 
  ;; my own (jjg) settings from reading the info pages
- wl-insert-mail-reply-to t
+;; wl-insert-mail-reply-to t
 
  ;; from: http://emacs-fu.blogspot.com/2009/09/wanderlust-tips-and-tricks.html
  wl-forward-subject-prefix "Fwd: "   ;; use "Fwd: " not "Forward: "
@@ -100,6 +100,38 @@ wl-ignored-forwarded-headers (concat
 ;; ;;         ("Mail-Followup-To" ("Mail-Followup-To") nil ("Newsgroups"))
 ;; ;;         ("Reply-To" ("Reply-To") ("To" "Cc" "From") ("Newsgroups"))
 ;; ;;         ("From" ("From") ("To" "Cc") ("Newsgroups"))))
+
+
+;;from 13.7.1 of the info
+(setq wl-subscribed-mailing-list
+      '("hivemind@hivemind.net"
+        "clug-tech@clug.org.za"
+        "clug-chat@clug.org.za"
+        "The hivemind <hivemind@hivemind.net>"
+        ;; "ml@xxxxxxxxxxx" ...
+        ))
+
+
+
+     (defun wl-mailing-list-addresses ()
+       (let (list-addrs)
+         (dolist (to (mapcar
+                       (lambda (addr)
+                            (nth 1 (std11-extract-address-components addr)))
+                        (wl-parse-addresses
+                           (wl-concat-list
+                               (elmo-multiple-fields-body-list (list "To" "Cc"))
+                                  ","))))
+           (when (elmo-string-matched-member to wl-subscribed-mailing-list t)
+             (setq list-addrs (cons to list-addrs))))
+         (nreverse list-addrs)))
+
+     (setq wl-draft-reply-with-argument-list
+           '((wl-mailing-list-addresses . (wl-mailing-list-addresses nil nil))
+             ("Reply-To" . (("Reply-To") nil nil))
+             ("Mail-Reply-To" . (("Reply-To") nil nil))
+             ("From" . (("From") nil nil))))
+
 
 
 ;;from http://www.emacswiki.org/emacs/WlFaq
@@ -337,7 +369,8 @@ wl-ignored-forwarded-headers (concat
      (user-mail-address . (concat wl-smtp-posting-user "@" wl-local-domain))
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
-     ("Mail-Reply-To" . user-mail-address)
+;;     ("Mail-Reply-To" . user-mail-address)
+     ("Reply-To" . user-mail-address)
      ("Fcc" . (concat "%sent:" wl-smtp-posting-user "/login:993"))
     )
     ("l"
@@ -345,7 +378,8 @@ wl-ignored-forwarded-headers (concat
      (user-mail-address . (concat wl-smtp-posting-user "@" wl-local-domain))
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
-;;     ("Mail-Reply-To" . user-mail-address)
+;;     ("Mail-Reply-To" . "")
+;;     ("Reply-To" . user-mail-address)
      ("Fcc" . (concat "%sent:" wl-smtp-posting-user "/login:993"))
     )
     ("j"
@@ -353,7 +387,8 @@ wl-ignored-forwarded-headers (concat
      (user-mail-address . (concat wl-smtp-posting-user "@" wl-local-domain))
      (wl-from . (concat user-full-name  " <" user-mail-address ">"))
      ("From" . wl-from)
-     ("Mail-Reply-To" . user-mail-address)
+;;     ("Mail-Reply-To" . user-mail-address)
+     ("Reply-To" . user-mail-address)
      ("Fcc" . "%sent")
     )
     ))
