@@ -90,47 +90,47 @@ wl-ignored-forwarded-headers (concat
 ;; Default behaviour where I define my own mailing lists may be better
 ;; Invert behaviour of with and without argument replies.
 ;; just the author
-;; ;; (setq wl-draft-reply-without-argument-list
-;; ;;       '(("Reply-To" ("Reply-To") nil nil)
-;; ;;         ("Mail-Reply-To" ("Mail-Reply-To") nil nil)
-;; ;;         ("From" ("From") nil nil)))
+(setq wl-draft-reply-without-argument-list
+      '(("Reply-To" ("Reply-To") nil nil)
+        ("Mail-Reply-To" ("Mail-Reply-To") nil nil)
+        ("From" ("From") nil nil)))
 
-;; ;; (setq wl-draft-reply-with-argument-list
-;; ;;       '(("Followup-To" nil nil ("Followup-To"))
-;; ;;         ("Mail-Followup-To" ("Mail-Followup-To") nil ("Newsgroups"))
-;; ;;         ("Reply-To" ("Reply-To") ("To" "Cc" "From") ("Newsgroups"))
-;; ;;         ("From" ("From") ("To" "Cc") ("Newsgroups"))))
-
-
-;;from 13.7.1 of the info
-(setq wl-subscribed-mailing-list
-      '("hivemind@hivemind.net"
-        "clug-tech@clug.org.za"
-        "clug-chat@clug.org.za"
-        "The hivemind <hivemind@hivemind.net>"
-        ;; "ml@xxxxxxxxxxx" ...
-        ))
+;; (setq wl-draft-reply-with-argument-list
+;;       '(("Followup-To" nil nil ("Followup-To"))
+;;         ("Mail-Followup-To" ("Mail-Followup-To") nil ("Newsgroups"))
+;;         ("Reply-To" ("Reply-To") ("To" "Cc" "From") ("Newsgroups"))
+;;         ("From" ("From") ("To" "Cc") ("Newsgroups"))))
 
 
+;; ;; ;;from 13.7.1 of the info
+;; ;; (setq wl-subscribed-mailing-list
+;; ;;       '("hivemind@hivemind.net"
+;; ;;         "clug-tech@clug.org.za"
+;; ;;         "clug-chat@clug.org.za"
+;; ;;         "The hivemind <hivemind@hivemind.net>"
+;; ;;         ;; "ml@xxxxxxxxxxx" ...
+;; ;;         ))
 
-     (defun wl-mailing-list-addresses ()
-       (let (list-addrs)
-         (dolist (to (mapcar
-                       (lambda (addr)
-                            (nth 1 (std11-extract-address-components addr)))
-                        (wl-parse-addresses
-                           (wl-concat-list
-                               (elmo-multiple-fields-body-list (list "To" "Cc"))
-                                  ","))))
-           (when (elmo-string-matched-member to wl-subscribed-mailing-list t)
-             (setq list-addrs (cons to list-addrs))))
-         (nreverse list-addrs)))
 
-     (setq wl-draft-reply-with-argument-list
-           '((wl-mailing-list-addresses . (wl-mailing-list-addresses nil nil))
-             ("Reply-To" . (("Reply-To") nil nil))
-             ("Mail-Reply-To" . (("Reply-To") nil nil))
-             ("From" . (("From") nil nil))))
+
+;; ;;      (defun wl-mailing-list-addresses ()
+;; ;;        (let (list-addrs)
+;; ;;          (dolist (to (mapcar
+;; ;;                        (lambda (addr)
+;; ;;                             (nth 1 (std11-extract-address-components addr)))
+;; ;;                         (wl-parse-addresses
+;; ;;                            (wl-concat-list
+;; ;;                                (elmo-multiple-fields-body-list (list "To" "Cc"))
+;; ;;                                   ","))))
+;; ;;            (when (elmo-string-matched-member to wl-subscribed-mailing-list t)
+;; ;;              (setq list-addrs (cons to list-addrs))))
+;; ;;          (nreverse list-addrs)))
+
+;; ;;      (setq wl-draft-reply-with-argument-list
+;; ;;            '((wl-mailing-list-addresses . (wl-mailing-list-addresses nil nil))
+;; ;;              ("Reply-To" . (("Reply-To") nil nil))
+;; ;;              ("Mail-Reply-To" . (("Reply-To") nil nil))
+;; ;;              ("From" . (("From") nil nil))))
 
 
 
