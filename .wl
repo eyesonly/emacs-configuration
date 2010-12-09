@@ -251,7 +251,7 @@ wl-ignored-forwarded-headers (concat
      (set-alist 'mime-content-types "text" (cdr text))))
 
 ;; from: http://www.emacswiki.org/emacs/WlFormatFlowed
-;; Reading/writing fill flowed
+;; Reading format=flowed
 (autoload 'fill-flowed "flow-fill")
 (add-hook 'mime-display-text/plain-hook
           (lambda ()
@@ -261,7 +261,10 @@ wl-ignored-forwarded-headers (concat
             ;;                                   (mime-entity-content-type entity)))))
             (visual-line-mode)
             (fill-flowed)))
-;; (mime-edit-insert-tag "text" "plain" "; format=flowed")
+;;writing format=flowed
+;;(setq mime-edit-insert-tag "text" "plain" "; format=flowed")
+;;(mime-edit-insert-tag "text" "plain" "; format = flowed")
+;; (eval-after-load "mime-edit" '(unless (functionp 'mime-edit-insert-text-file) (defun mime-edit-insert-text-file (file) "Insert a text file. Charset is automatically obtained from the `charsets-mime-charset-alist'." (interactive "fInsert file as MIME text part: \n") (let ((type "text") (subtype "plain") (parameters (concat "\nContent-Disposition: attachment; filename=" (std11-wrap-as-quoted-string (file-name-nondirectory file))))) (mime-edit-insert-tag type subtype parameters) (insert-file-contents file))) (add-hook 'mime-edit-load-hook '(lambda () (define-key mime-edit-mode-entity-map "i" 'mime-edit-insert-text-file))) )) (Eval-after-load "mime-edit" '(unless (functionp' mime-edit-insert-text-file) (defun mime-edit-insert-text-file (file) "Insert a text file. Charset is automatically obtained from the `charsets-mime-charset-alist '." (interactive "fInsert file as MIME text part: \ n") (let ((type "text") (subtype "plain") (parameters (concat "\ nContent -Disposition: attachment; filename = "(std11-wrap-as-quoted-string (file-name-nondirectory file ))))) (mime-edit-insert-tag type subtype parameters) (insert-file-contents file) )) (add-hook 'mime-edit-load-hook' (lambda () (define-key mime-edit-mode-entity-map "i" 'mime-edit-insert-text-file)))))
 
 
 ;; from http://www.huoc.org/hacks/dotemacs/wlrc.el
@@ -390,6 +393,7 @@ wl-ignored-forwarded-headers (concat
 ;;     ("Mail-Reply-To" . user-mail-address)
      ("Reply-To" . user-mail-address)
      ("Fcc" . "%sent")
+;;     ("Content-Type" . "text/plain; charset=UTF-8; format=flowed")
     )
     ))
 
