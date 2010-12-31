@@ -18,7 +18,7 @@
  elmo-message-fetch-threshold 2500000
  wl-from (concat user-full-name " <" user-mail-address ">")
 
-;; wl-summary-always-sticky-folder-list t
+ wl-summary-always-sticky-folder-list t
 
  ;; Settings mostly from emacs-fu, or inspired by the post at:
  ;; http://emacs-fu.blogspot.com/2009/06/e-mail-with-wanderlust.html
