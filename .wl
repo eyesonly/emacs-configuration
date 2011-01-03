@@ -144,7 +144,7 @@ wl-ignored-forwarded-headers (concat
 (setq wl-summary-line-format "%n%T%P %D.%M %h:%m %t[%20(%c%f%)] %s")
 ;;(setq wl-summary-line-format "%n%T%P %D/%M %h:%m %t%[%20(%c %f%) %] %s")
 ;;(setq wl-summary-line-format "%n%T%P %D/%M (%W) %h:%m %t%[%25(%c %f%) %] %s")
-(setq wl-summary-width 79)
+(setq wl-summary-width nil)
 
 ;; from http://osdir.com/ml/mail.wanderlust.general/2008-05/msg00005.html
 (autoload 'mu-cite-original "mu-cite" nil t)
