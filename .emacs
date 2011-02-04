@@ -1006,6 +1006,22 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 
 
 ;;----------------------------------------------------------------------------
+;; ERC
+;;----------------------------------------------------------------------------
+
+;; timestamps on the left
+ (setq erc-timestamp-only-if-changed-flag nil
+          erc-timestamp-format "%H:%M "
+          erc-fill-prefix "      "
+          erc-insert-timestamp-function 'erc-insert-timestamp-left)
+
+;;quit and part reasons
+  (setq erc-part-reason-various-alist
+        '(("Le café est trop fort" erc-part-reason-zippy)
+          ("Doit aller et creuser une tombe" erc-part-reason-normal)
+          ("home" "Gone home !")
+          ("^$" "Jonathan doesn't have a good reason")))
+;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
 ;;----------------------------------------------------------------------------
 ;;Load customization file
