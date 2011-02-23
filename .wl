@@ -15,7 +15,7 @@
  wl-ask-range nil
 
  elmo-message-fetch-confirm nil
- elmo-message-fetch-threshold 2500000
+ elmo-message-fetch-threshold nil
  wl-from (concat user-full-name " <" user-mail-address ">")
 
  wl-summary-always-sticky-folder-list t
