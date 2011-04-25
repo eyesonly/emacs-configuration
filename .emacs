@@ -1021,6 +1021,21 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
           ("Doit aller et creuser une tombe" erc-part-reason-normal)
           ("home" "Gone home !")
           ("^$" "Jonathan doesn't have a good reason")))
+
+;;----------------------------------------------------------------------------
+;; Colour theming
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path "~/lisp/emacs-color-theme-solarized")
+(require 'color-theme-solarized)
+
+;; (add-to-list 'load-path "/path/to/color-theme.el/file")
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-solarized-light)))
+
+
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
 ;;----------------------------------------------------------------------------
