@@ -1040,6 +1040,14 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 ))
 
 ;;----------------------------------------------------------------------------
+;; Twitter - http://www.emacswiki.org/emacs-en/TwitteringMode
+;;----------------------------------------------------------------------------
+
+    (add-to-list 'load-path "~/lisp/twittering-mode")
+    (require 'twittering-mode)
+
+
+;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
 ;;----------------------------------------------------------------------------
 ;;Load customization file
