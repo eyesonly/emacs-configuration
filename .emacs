@@ -1043,9 +1043,18 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 ;; Twitter - http://www.emacswiki.org/emacs-en/TwitteringMode
 ;;----------------------------------------------------------------------------
 
-    (add-to-list 'load-path "~/lisp/twittering-mode")
-    (require 'twittering-mode)
+(add-to-list 'load-path "~/lisp/twittering-mode")
+(require 'twittering-mode)
+(setq twittering-use-master-password t)
+(setq twittering-number-of-tweets-on-retrieval '100)
 
+;;----------------------------------------------------------------------------
+;; w3m integration - http://www.emacswiki.org/emacs/emacs-w3m
+;;----------------------------------------------------------------------------
+ (setq browse-url-browser-function 'w3m-browse-url)
+ (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+ ;; optional keyboard short-cut
+ (global-set-key "\C-xm" 'browse-url-at-point)
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
