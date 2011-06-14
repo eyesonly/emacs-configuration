@@ -1025,6 +1025,9 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 ;;----------------------------------------------------------------------------
 ;; Colour theming
 ;;----------------------------------------------------------------------------
+(cond
+ ((string-match "f" jjgnox)
+
 (add-to-list 'load-path "~/lisp/emacs-color-theme-solarized")
 (require 'color-theme-solarized)
 
@@ -1034,7 +1037,7 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
   '(progn
      (color-theme-initialize)
      (color-theme-solarized-light)))
-
+))
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
