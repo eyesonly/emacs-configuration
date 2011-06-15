@@ -1048,6 +1048,14 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 (setq twittering-use-master-password t)
 (setq twittering-number-of-tweets-on-retrieval '100)
 
+(setq twittering-timer-interval 300)         ; Update your timeline each 300 seconds (5 minutes)
+(setq twittering-url-show-status nil)        ; Keeps the echo area from showing all the http processes
+
+
+(cond
+ ((string-match "f" jjgnox)
+(setq twittering-icon-mode t)                ; Show icons
+))
 ;;----------------------------------------------------------------------------
 ;; w3m integration - http://www.emacswiki.org/emacs/emacs-w3m
 ;;----------------------------------------------------------------------------
