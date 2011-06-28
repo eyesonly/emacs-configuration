@@ -711,7 +711,9 @@ fun)))
 (require 'tail)
 
 ;;emacs-w3m
-(add-to-list 'load-path "/home/jonathan/lisp/w3m-cvs/share/emacs/site-lisp/w3m/")
+;; ;;(add-to-list 'load-path "/home/jonathan/lisp/w3m-cvs/share/emacs/site-lisp/w3m/")
+;;(add-to-list 'load-path "/home/jonathan/lisp/w3m-cvs")
+
 (require 'w3m-load)
 (require 'mime-w3m)
 
@@ -1063,6 +1065,20 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
  (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
  ;; optional keyboard short-cut
  (global-set-key "\C-xm" 'browse-url-at-point)
+
+;;----------------------------------------------------------------------------
+;; google reader - http://emacspeak.blogspot.com/2007/03/emacs-client-for-google-services.html
+;; rather use google.com/reader/m
+;;----------------------------------------------------------------------------
+
+;; (add-to-list 'load-path "~/lisp/emacspeak/lisp/g-client")
+;; ;;(add-to-list 'load-path "~/lisp/emacspeak/g-client")
+;; (load-library "g-loaddefs")
+;; ;;(load-library "g")
+;; (setq g-html-handler 'w3m-buffer)
+;; (setq max-lisp-eval-depth 1000)
+;; (autoload 'w3m-buffer "w3m")
+
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)

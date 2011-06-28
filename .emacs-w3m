@@ -34,7 +34,7 @@
  w3m-coding-system-priority-list (list w3m-default-coding-system)
  w3m-use-cookies t
  w3m-treat-image-size nil;; [emacs-w3m:10567] vertically worded webpages
- w3m-home-page "http://localhost:8080/index/lasttime?sort=mtime"
+ w3m-home-page "http://google.com/reader/m"
  w3m-use-title-buffer-name t
 ;; w3m-toggle-inline-images-permanently nil
  w3m-confirm-leaving-secure-page nil

@@ -38,7 +38,7 @@
  '(pydb-many-windows t)
  '(rails-tags-command "ctags-exuberant -e -a --Ruby-kinds=-f -o %s -R %s --etags-include=/var/lib/gems/1.8/TAGS")
  '(rails-ws:default-server-type "webrick")
- '(rcirc-server-alist (quote (("us.atrum.org" nil nil) ("irc.freenode.net" :channels ("#rcirc")))))
+ '(rcirc-server-alist (quote (("us.atrum.org" :nick "eyesonly" :channels ("#clug") nil nil) ("irc.freenode.net" :channels ("#rcirc")))))
  '(rdebug-many-windows nil)
  '(ruby-electric-expand-delimiters-list nil))
 (custom-set-faces
