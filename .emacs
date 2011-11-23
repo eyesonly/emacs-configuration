@@ -1071,14 +1071,42 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 ;; rather use google.com/reader/m
 ;;----------------------------------------------------------------------------
 
-;; (add-to-list 'load-path "~/lisp/emacspeak/lisp/g-client")
-;; ;;(add-to-list 'load-path "~/lisp/emacspeak/g-client")
-;; (load-library "g-loaddefs")
-;; ;;(load-library "g")
+;; ;;(add-to-list 'load-path "~/lisp/emacspeak/lisp/g-client")
+;; (add-to-list 'load-path "~/lisp/g-client")
+;; (load-library "g")
 ;; (setq g-html-handler 'w3m-buffer)
 ;; (setq max-lisp-eval-depth 1000)
 ;; (autoload 'w3m-buffer "w3m")
 
+;;----------------------------------------------------------------------------
+;; google region or word at point, from a post by Thamer Mahmoud
+;; (and Deniz Dogan) to help-gnu-emacs
+;;----------------------------------------------------------------------------
+(defun tma-word-or-region-at-point ()
+ "Return the word or region at point."
+ (if mark-active
+     (buffer-substring (region-beginning) (region-end))
+   (word-at-point)))
+
+(defun tma-interactive-with-default ()
+ "Allow a user to enter a search word or phrase, but give a sane default."
+  (list (let* ((default-entry (tma-word-or-region-at-point))
+                (input (read-string
+                        (format "Search%s: "
+                                (if (string= default-entry "")
+                                    ""
+                                  (format " (default %s)" default-entry))))))
+           (if (string= input "")
+               (if (string= default-entry "")
+                   (error "User must provide word or region.")
+default-entry)       input))))
+
+(defun google (word)
+ "Use google to search for word or region."
+ (interactive (tma-interactive-with-default))
+ (browse-url (concat "http://www.google.com/search?q=" word)))
+
+(global-set-key (kbd "C-c g") 'google)
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
