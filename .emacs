@@ -831,6 +831,23 @@ fun)))
 (add-hook 'find-file-hooks 'my-tramp-header-line-function)
 (add-hook 'dired-mode-hook 'my-tramp-header-line-function)
 
+;;----------------------------------------------------------------------------
+;; From help-gnu-emacs - Tassilo Horn 10.01.12 - Open via tramp if no permission
+;;----------------------------------------------------------------------------
+(defun th-find-file-sudo (file)
+ "Opens FILE with root privileges."
+ (interactive "F")
+ (set-buffer (find-file (concat "/sudo::" file))))
+
+(defadvice find-file (around th-find-file activate)
+ "Open FILENAME using tramp's sudo method if it's read-only."
+ (if (and (not (file-writable-p (ad-get-arg 0)))
+           (not (file-remote-p (ad-get-arg 0)))
+           (y-or-n-p (concat "File "
+                             (ad-get-arg 0)
+                             " is read-only.  Open it as root? ")))
+     (th-find-file-sudo (ad-get-arg 0))
+   ad-do-it))
 
 ;;----------------------------------------------------------------------------
 ;; Maximise "frame" at start - fine under linux; too large under aquamacs
@@ -992,7 +1009,6 @@ bbdb-complete-name-allow-cycling t ;; cycle through matches
 bbbd-message-caching-enabled t ;; be fast
 bbdb-use-alternate-names t ;; use AKA
 bbdb-elided-display t ;; single-line addresses
-
 ;; auto-create addresses from mail
 bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 ;; bbdb-ignore-some-messages-alist ;; don't ask about fake addresses
@@ -1124,3 +1140,8 @@ default-entry)       input))))
 ;; Allow for uppercase/downcase of region which is otherwise disabled
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+
+;; my own custom keyboard shortcuts
+ (global-set-key "\C-xt" 'twittering-mode)
+

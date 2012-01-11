@@ -1,3 +1,3 @@
 jjg: Jonathan J. Groll : groll co za
 has_one { :blog => "http://bloggroll.com" }
-Soupçon is French for a small amount only morceau.
+Sent from my computer device which runs on free software
