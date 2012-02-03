@@ -1145,7 +1145,3 @@ default-entry)       input))))
 ;; my own custom keyboard shortcuts
  (global-set-key "\C-xt" 'twittering-mode)
 
-;;----------------------------------------------------------------------------
-;; Epubmode
-;;----------------------------------------------------------------------------
-;;(add-to-list 'load-path "~/lisp/epubmode/epubmode.el")
