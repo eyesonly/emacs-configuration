@@ -20,6 +20,21 @@
 ;;  )
 ;; )
 
+;;from http://caisah.info/emacs-for-python/
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+("marmalade" . "http://marmalade-repo.org/packages/")
+("melpa" . "http://melpa.milkbox.net/packages/")))
+
+;; from http://stackoverflow.com/questions/21064916/auto-install-emacs-packages-with-melpa
+;; (if (not (package-installed-p 'use-package))
+;;     (progn
+;;       (package-refresh-contents)
+;;       (package-install 'use-package)))
+
+;; (require 'use-package)
+;; (use-package w3m)
+
 ;;----------------------------------------------------------------------------
 ;; Emacs 23: will need ruby elisp packages to be loaded
 ;; (Emacs 22 on Ubuntu doesn't need this as it gets it from path.el)
@@ -140,19 +155,19 @@
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
                                      interpreter-mode-alist))
 
-;; Ruby-Interpreter:
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (inf-ruby-keys)
-             ))
+;; Ruby-Interpreter: (commented out upon 24 upgrade with 14.10)
+;; (autoload 'run-ruby "inf-ruby"
+;;   "Run an inferior Ruby process")
+;; (autoload 'inf-ruby-keys "inf-ruby"
+;;   "Set local key defs for inf-ruby in ruby-mode")
+;; (add-hook 'ruby-mode-hook
+;;           '(lambda ()
+;;              (inf-ruby-keys)
+;;              ))
 
-;; If you get a failure loading ruby electric on Ubuntu, install the ruby-elisp pkg
- (require 'ruby-electric)
- (ruby-electric-mode t)
+;; If you get a failure loading ruby electric on Ubuntu, install the ruby-elisp pkg (commented out upon 24 upgrade with 14.10)
+ ;; (require 'ruby-electric)
+ ;; (ruby-electric-mode t)
 
 ;;ruby block doesn't seem to do much C-M n to go forward a block in ruby.el is better?
 ;;ruby block
@@ -315,9 +330,10 @@
          try-expand-dabbrev))
 
   (setq load-path (cons "~/lisp/snippet" load-path))
-  (setq load-path (cons "~/lisp/emacs-rails-0.5.99.5" load-path))
+;;  (commented out upon 24 upgrade with 14.10)
+;;  (setq load-path (cons "~/lisp/emacs-rails-0.5.99.5" load-path))
+;;  (require 'rails)
   (setq load-path (cons "~/lisp/find-recursive" load-path))
-  (require 'rails)
 ;;   (setq rails-use-mongrel t)
 
  ;; make #! scripts executable after saving them
@@ -711,11 +727,9 @@ fun)))
 (require 'tail)
 
 ;;emacs-w3m
-;; ;;(add-to-list 'load-path "/home/jonathan/lisp/w3m-cvs/share/emacs/site-lisp/w3m/")
-;;(add-to-list 'load-path "/home/jonathan/lisp/w3m-cvs")
-
-(require 'w3m-load)
-(require 'mime-w3m)
+;; (add-to-list 'load-path "/home/jonathan/lisp/w3m-cvs/share/emacs/site-lisp/w3m/")
+;; (require 'w3m-load)
+;; (require 'mime-w3m)
 
 ;;org mode
 (require 'org-install)
@@ -831,23 +845,6 @@ fun)))
 (add-hook 'find-file-hooks 'my-tramp-header-line-function)
 (add-hook 'dired-mode-hook 'my-tramp-header-line-function)
 
-;;----------------------------------------------------------------------------
-;; From help-gnu-emacs - Tassilo Horn 10.01.12 - Open via tramp if no permission
-;;----------------------------------------------------------------------------
-(defun th-find-file-sudo (file)
- "Opens FILE with root privileges."
- (interactive "F")
- (set-buffer (find-file (concat "/sudo::" file))))
-
-(defadvice find-file (around th-find-file activate)
- "Open FILENAME using tramp's sudo method if it's read-only."
- (if (and (not (file-writable-p (ad-get-arg 0)))
-           (not (file-remote-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
-     (th-find-file-sudo (ad-get-arg 0))
-   ad-do-it))
 
 ;;----------------------------------------------------------------------------
 ;; Maximise "frame" at start - fine under linux; too large under aquamacs
@@ -860,12 +857,12 @@ fun)))
 ))
 
 ;;maximize frame function for darwin - by Nurullah Akkaya on help-gnu-emacs
-(defun na-resize-frame-big ()
-  "Set size"
-  (interactive)
-  (set-frame-width (selected-frame) 178)
-  (set-frame-height (selected-frame) 50 )
-  (set-frame-position (selected-frame) 0 1))
+;; (defun na-resize-frame-big ()
+;;   "Set size"
+;;   (interactive)
+;;   (set-frame-width (selected-frame) 178)
+;;   (set-frame-height (selected-frame) 50 )
+;;   (set-frame-position (selected-frame) 0 1))
 
 ;;----------------------------------------------------------------------------
 ;; Hardware specific keybindings
@@ -1009,6 +1006,7 @@ bbdb-complete-name-allow-cycling t ;; cycle through matches
 bbbd-message-caching-enabled t ;; be fast
 bbdb-use-alternate-names t ;; use AKA
 bbdb-elided-display t ;; single-line addresses
+
 ;; auto-create addresses from mail
 bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 ;; bbdb-ignore-some-messages-alist ;; don't ask about fake addresses
@@ -1043,86 +1041,29 @@ bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
 ;;----------------------------------------------------------------------------
 ;; Colour theming
 ;;----------------------------------------------------------------------------
-(cond
- ((string-match "f" jjgnox)
+;; (add-to-list 'load-path "~/lisp/zenburn-emacs")
+;; (require 'zenburn-theme)
 
-(add-to-list 'load-path "~/lisp/emacs-color-theme-solarized")
-(require 'color-theme-solarized)
-
-;; (add-to-list 'load-path "/path/to/color-theme.el/file")
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-solarized-light)))
-))
-
-;;----------------------------------------------------------------------------
-;; Twitter - http://www.emacswiki.org/emacs-en/TwitteringMode
-;;----------------------------------------------------------------------------
-
-(add-to-list 'load-path "~/lisp/twittering-mode")
-(require 'twittering-mode)
-(setq twittering-use-master-password t)
-(setq twittering-number-of-tweets-on-retrieval '100)
-
-(setq twittering-timer-interval 300)         ; Update your timeline each 300 seconds (5 minutes)
-(setq twittering-url-show-status nil)        ; Keeps the echo area from showing all the http processes
+;; ;; (add-to-list 'load-path "/path/to/color-theme.el/file")
+;; (require 'color-theme)
+;; (eval-after-load "color-theme"
+;;   '(progn
+;;      (color-theme-initialize)
+;;      ;; (color-theme-zenburn)
+;; ))
 
 
-(cond
- ((string-match "f" jjgnox)
-(setq twittering-icon-mode t)                ; Show icons
-))
-;;----------------------------------------------------------------------------
-;; w3m integration - http://www.emacswiki.org/emacs/emacs-w3m
-;;----------------------------------------------------------------------------
- (setq browse-url-browser-function 'w3m-browse-url)
- (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
- ;; optional keyboard short-cut
- (global-set-key "\C-xm" 'browse-url-at-point)
 
-;;----------------------------------------------------------------------------
-;; google reader - http://emacspeak.blogspot.com/2007/03/emacs-client-for-google-services.html
-;; rather use google.com/reader/m
-;;----------------------------------------------------------------------------
+;; (add-to-list 'load-path "~/lisp/emacs-color-theme-solarized")
+;; (require 'color-theme-solarized)
 
-;; ;;(add-to-list 'load-path "~/lisp/emacspeak/lisp/g-client")
-;; (add-to-list 'load-path "~/lisp/g-client")
-;; (load-library "g")
-;; (setq g-html-handler 'w3m-buffer)
-;; (setq max-lisp-eval-depth 1000)
-;; (autoload 'w3m-buffer "w3m")
+;; ;; (add-to-list 'load-path "/path/to/color-theme.el/file")
+;; (require 'color-theme)
+;; (eval-after-load "color-theme"
+;;   '(progn
+;;      (color-theme-initialize)
+;;      (color-theme-solarized-light)))
 
-;;----------------------------------------------------------------------------
-;; google region or word at point, from a post by Thamer Mahmoud
-;; (and Deniz Dogan) to help-gnu-emacs
-;;----------------------------------------------------------------------------
-(defun tma-word-or-region-at-point ()
- "Return the word or region at point."
- (if mark-active
-     (buffer-substring (region-beginning) (region-end))
-   (word-at-point)))
-
-(defun tma-interactive-with-default ()
- "Allow a user to enter a search word or phrase, but give a sane default."
-  (list (let* ((default-entry (tma-word-or-region-at-point))
-                (input (read-string
-                        (format "Search%s: "
-                                (if (string= default-entry "")
-                                    ""
-                                  (format " (default %s)" default-entry))))))
-           (if (string= input "")
-               (if (string= default-entry "")
-                   (error "User must provide word or region.")
-default-entry)       input))))
-
-(defun google (word)
- "Use google to search for word or region."
- (interactive (tma-interactive-with-default))
- (browse-url (concat "http://www.google.com/search?q=" word)))
-
-(global-set-key (kbd "C-c g") 'google)
 
 ;;----------------------------------------------------------------------------
 ;; I keep customization in a separate file (aquamacs is different)
@@ -1140,8 +1081,3 @@ default-entry)       input))))
 ;; Allow for uppercase/downcase of region which is otherwise disabled
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-
-;; my own custom keyboard shortcuts
- (global-set-key "\C-xt" 'twittering-mode)
-
